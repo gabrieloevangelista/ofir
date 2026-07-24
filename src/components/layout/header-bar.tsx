@@ -166,7 +166,7 @@ export function HeaderBar({ cidades, totalResults }: { cidades: string[]; totalR
           <Button
             variant="outline"
             className={cn("hidden sm:flex rounded-none h-9 px-4 items-center gap-2 font-medium transition-colors", isAuthenticated ? "border-primary text-primary hover:bg-primary/5" : "")}
-            onClick={isAuthenticated ? logout : login}
+            onClick={isAuthenticated ? logout : () => login()}
           >
             {isAuthenticated ? <LogOut className="size-4" /> : <LogIn className="size-4" />}
             {isAuthenticated ? "Sair" : "Entrar"}

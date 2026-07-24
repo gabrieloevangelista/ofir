@@ -167,7 +167,7 @@ export function SidebarFilters({ cidades, className, onApplyMobile }: SidebarFil
                   <CommandGroup>
                     <CommandItem
                       value="todas-cidades"
-                      onSelect={(currentValue) => {
+                      onSelect={() => {
                         updateParams({ cidade: null })
                         setOpenCity(false)
                       }}
@@ -188,7 +188,7 @@ export function SidebarFilters({ cidades, className, onApplyMobile }: SidebarFil
                         <CommandItem
                           key={c}
                           value={c}
-                          onSelect={(currentValue) => {
+                          onSelect={() => {
                             updateParams({ cidade: c })
                             setOpenCity(false)
                           }}

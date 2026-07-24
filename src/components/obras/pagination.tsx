@@ -49,7 +49,7 @@ export function Pagination({
       }
     }
 
-    for (let i of range) {
+    for (const i of range) {
       if (l !== undefined) {
         if (i - l === 2) {
           rangeWithDots.push(l + 1)

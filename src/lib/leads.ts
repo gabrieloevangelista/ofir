@@ -53,6 +53,12 @@ export async function createLead(
   const supabase = createClient()
   const { obraId, nome, email, telefone, mensagem } = parsed.data
 
+  const file = formData.get("projetos") as File | null
+  let projetoUrl: string | null = null
+  if (file && file.name && file.size > 0) {
+    projetoUrl = `/uploads/projects/${file.name}`
+  }
+
   const { error } = await supabase.from("leads").insert({
     obra_id: obraId,
     nome,
@@ -60,6 +66,7 @@ export async function createLead(
     telefone: telefone || null,
     mensagem: mensagem || null,
     origem: "orcamento_mao_de_obra",
+    projeto_url: projetoUrl,
   })
 
   if (error) {

@@ -180,7 +180,7 @@ export async function getObras(filtros: ObraFiltros = {}) {
 
   if (filtros.categoria && filtros.categoria !== "todas") {
     if (["residencial", "comercial", "misto"].includes(filtros.categoria)) {
-      query = query.eq("categoria", filtros.categoria as any)
+      query = query.eq("categoria", filtros.categoria as ObraWithConstrutora["categoria"])
     }
   }
 
@@ -205,7 +205,7 @@ export async function getObras(filtros: ObraFiltros = {}) {
     console.error("Supabase error:", error)
   }
 
-  let baseData = ((data ?? []) as ObraWithConstrutora[])
+  const baseData = ((data ?? []) as ObraWithConstrutora[])
     .filter(o => o.estado === "SP" || o.estado === "PR")
 
   let result = baseData.map(enhanceObraImages)

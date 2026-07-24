@@ -58,7 +58,7 @@ function StarRatingRow({
   )
 }
 
-export function ReviewForm({ obraId }: { obraId: string }) {
+export function ReviewForm({ obraId: _obraId }: { obraId: string }) {
   const { isAuthenticated, login } = useAuth()
   const [showLogin, setShowLogin] = useState(false)
   const [isLoggingIn, setIsLoggingIn] = useState(false)

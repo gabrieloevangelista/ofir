@@ -1,6 +1,6 @@
 "use client"
 
-import { useActionState, useState } from "react"
+import { useActionState, useState, useEffect } from "react"
 import { useFormStatus } from "react-dom"
 import { CheckCircle2, Loader2, HardHat, Lock, LogIn, Eye, EyeOff, Paperclip } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -24,20 +24,51 @@ function SubmitButton() {
 
 export function InteresseForm({ obraId }: { obraId: string }) {
   const [state, formAction] = useActionState(createLead, initialState)
-  const { isAuthenticated, login } = useAuth()
+  const { isAuthenticated, user, login } = useAuth()
   const [showLogin, setShowLogin] = useState(false)
   const [isLoggingIn, setIsLoggingIn] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
   const [isRegistering, setIsRegistering] = useState(false)
 
+  useEffect(() => {
+    if (state.status === "success") {
+      const nomeVal = user?.nome || "Gabriel Evangelista"
+      const emailVal = user?.email || "gabriel@ofir.com.br"
+      const telefoneVal = user?.telefone || "(41) 99999-9999"
+
+      const servicoDropdown = document.getElementById("servico") as HTMLSelectElement
+      const servicoVal = servicoDropdown?.value || "Construção Integral"
+
+      const padraoDropdown = document.getElementById("padrao") as HTMLSelectElement
+      const padraoVal = padraoDropdown?.value || "Médio Padrão"
+
+      const mensagemTextarea = document.getElementById("mensagem") as HTMLTextAreaElement
+      const mensagemVal = mensagemTextarea?.value || "Sem detalhes adicionais"
+
+      const text = `Olá! Nova solicitação de Mão de Obra via OFIR:\n\n` +
+        `👤 Solicitante: ${nomeVal}\n` +
+        `📧 E-mail: ${emailVal}\n` +
+        `📞 Telefone: ${telefoneVal}\n\n` +
+        `🏗️ Serviço Desejado: ${servicoVal}\n` +
+        `💎 Padrão Pretendido: ${padraoVal}\n` +
+        `📝 Detalhes: ${mensagemVal}\n\n` +
+        `📁 Projeto Anexado: [Disponível no Painel do Construtor /admin]`;
+
+      const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+      window.open(whatsappUrl, "_blank");
+    }
+  }, [state.status, user])
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoggingIn(true)
-    // Simulate network delay for login
+    const nameInput = (document.getElementById("auth-name") as HTMLInputElement)?.value || "Gabriel Evangelista"
+    const emailInput = (document.getElementById("auth-email") as HTMLInputElement)?.value || "gabriel@ofir.com.br"
+    const phoneInput = "(41) 99999-9999" // Mock/fallback
     setTimeout(() => {
       setIsLoggingIn(false)
-      login()
+      login({ nome: nameInput, email: emailInput, telefone: phoneInput })
     }, 1200)
   }
 
@@ -143,34 +174,24 @@ export function InteresseForm({ obraId }: { obraId: string }) {
     <form action={formAction} className="flex flex-col gap-4 animate-in fade-in duration-300">
       <input type="hidden" name="obraId" value={obraId} />
 
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="nome" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-          Nome Completo
-        </Label>
-        <Input id="nome" name="nome" placeholder="Seu nome completo" required className="bg-secondary/10 rounded-none" />
-        {state.fieldErrors?.nome ? (
-          <p className="text-xs text-destructive">{state.fieldErrors.nome}</p>
-        ) : null}
-      </div>
-
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="email" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-            E-mail de Contato
-          </Label>
-          <Input id="email" name="email" type="email" placeholder="nome@email.com" required className="bg-secondary/10 rounded-none" />
-          {state.fieldErrors?.email ? (
-            <p className="text-xs text-destructive">{state.fieldErrors.email}</p>
-          ) : null}
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="telefone" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-            Telefone / WhatsApp
-          </Label>
-          <Input id="telefone" name="telefone" placeholder="(00) 00000-0000" className="bg-secondary/10 rounded-none" />
+      <div className="bg-secondary/20 border border-border p-4 flex flex-col gap-1 text-xs text-muted-foreground">
+        <span className="font-semibold text-foreground uppercase tracking-wider text-[10px]">Dados de Contato (OFIR ID)</span>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-1.5">
+          <div>
+            Nome: <strong className="text-foreground block sm:inline">{user?.nome}</strong>
+          </div>
+          <div>
+            E-mail: <strong className="text-foreground block sm:inline">{user?.email}</strong>
+          </div>
+          <div>
+            Telefone: <strong className="text-foreground block sm:inline">{user?.telefone}</strong>
+          </div>
         </div>
       </div>
+
+      <input type="hidden" name="nome" value={user?.nome || ""} />
+      <input type="hidden" name="email" value={user?.email || ""} />
+      <input type="hidden" name="telefone" value={user?.telefone || ""} />
 
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="servico" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">

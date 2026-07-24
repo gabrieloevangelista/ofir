@@ -42,6 +42,7 @@ export type Database = {
           nome: string
           obra_id: string
           origem: string | null
+          projeto_url: string | null
           telefone: string | null
         }
         Insert: {
@@ -52,6 +53,7 @@ export type Database = {
           nome: string
           obra_id: string
           origem?: string | null
+          projeto_url?: string | null
           telefone?: string | null
         }
         Update: {
@@ -62,6 +64,7 @@ export type Database = {
           nome?: string
           obra_id?: string
           origem?: string | null
+          projeto_url?: string | null
           telefone?: string | null
         }
         Relationships: [

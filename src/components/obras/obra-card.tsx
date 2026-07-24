@@ -24,7 +24,7 @@ export function ObraCard({
   if (modoExibicao === "lista") {
     return (
       <Link
-        href={`/obras/${obra.slug}`}
+        href={`/sup/${obra.slug}`}
         className="group/link block h-full focus-visible:outline-none"
       >
         <article className="flex flex-col sm:flex-row overflow-hidden rounded-none bg-card border border-border shadow-none transition-all duration-200 hover:border-primary focus-visible:ring-2 focus-visible:ring-ring">
@@ -132,7 +132,7 @@ export function ObraCard({
 
   return (
     <Link
-      href={`/obras/${obra.slug}`}
+      href={`/sup/${obra.slug}`}
       className="group/link block h-full focus-visible:outline-none"
     >
       <article className="flex h-full flex-col overflow-hidden rounded-none bg-card border border-border shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:border-primary focus-visible:ring-2 focus-visible:ring-ring">

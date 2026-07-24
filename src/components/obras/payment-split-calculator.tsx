@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ShieldCheck, Scale, Wallet, Info, Sliders } from "lucide-react"
+import { ShieldCheck, Wallet, Info, Sliders } from "lucide-react"
 import { formatCurrencyBRL } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"

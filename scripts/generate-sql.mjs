@@ -4,7 +4,6 @@ import { randomUUID } from 'crypto';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const REAL_CONTRACTORS = [
     "MPD Engenharia", "MUDARE Construtora", "Peak Engenharia", "TECSA Construtora", "WGi Construtora", "Mariano Construtora & Engenharia", "Diase Construtora", "Cazzabella", "Yellowbrick Houses", "Build Incorporadora", "VIDE Construtora", "Neoin Construção", "Zcardin Engenharia", "Haus Incorporadora", "M2A Engenharia", "MVS Engenharia", "RFM Construtora", "Baggio Schiavon Engenharia", "Constrac Engenharia", "Construtora São José", "Adolpho Lindenberg", "Albuquerque Takaoka", "JHSF Engenharia", "ROC Engenharia", "Racional Engenharia", "Planeta Engenharia", "FBS Construtora", "Casaviva", "Construtora Gaia", "HOSS Construtora", "Lumiar Construtora", "Hernandez Construtora", "Fratta Construtora", "A3 Construtora", "Holos Construtora", "Pedra Forte Construtora", "Fonseca & Mercadante", "Apogeu Construtora", "Exata Construtora", "MAC Construtora", "LAR Construtora", "Fibra Experts", "Bratke Collet Engenharia", "Engeplan Engenharia", "Alpha Lar Construtora", "Alp Construções", "Prisma Engenharia", "Vértice Engenharia", "FPF Engenharia", "Haganá Engenharia", "JCM Engenharia", "F2 Engenharia", "MBR Engenharia", "GJS Construções", "WDS Engenharia", "FCK Engenharia", "3M Construtora", "A6 Construções"
