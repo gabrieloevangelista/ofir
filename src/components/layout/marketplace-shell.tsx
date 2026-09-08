@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
+import { SidebarFilters } from "@/components/layout/sidebar-filters"
 
 interface MarketplaceShellProps {
-  sidebar: (props: { collapsed: boolean; onToggleCollapse: () => void }) => React.ReactNode
+  cidades: string[]
   children: React.ReactNode
 }
 
-export function MarketplaceShell({ sidebar, children }: MarketplaceShellProps) {
+export function MarketplaceShell({ cidades, children }: MarketplaceShellProps) {
   const [collapsed, setCollapsed] = useState(false)
   const [mounted, setMounted] = useState(false)
 
@@ -39,10 +40,11 @@ export function MarketplaceShell({ sidebar, children }: MarketplaceShellProps) {
           )}
         >
           <div className="rounded-xl border border-border bg-card shadow-sm transition-all duration-300">
-            {sidebar({
-              collapsed: mounted ? collapsed : false,
-              onToggleCollapse: handleToggleCollapse,
-            })}
+            <SidebarFilters
+              cidades={cidades}
+              collapsed={mounted ? collapsed : false}
+              onToggleCollapse={handleToggleCollapse}
+            />
           </div>
         </div>
 

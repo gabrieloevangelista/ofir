@@ -1,7 +1,6 @@
 import { getCidadesDisponiveis, getObrasPaginadas } from "@/lib/obras"
 import { ObraGrid } from "@/components/obras/obra-grid"
 import { Pagination } from "@/components/obras/pagination"
-import { SidebarFilters } from "@/components/layout/sidebar-filters"
 import { HeaderBar } from "@/components/layout/header-bar"
 import { MarketplaceShell } from "@/components/layout/marketplace-shell"
 import type { ObraFiltros } from "@/types/obra"
@@ -38,15 +37,7 @@ export default async function HomePage({
   ])
 
   return (
-    <MarketplaceShell
-      sidebar={({ collapsed, onToggleCollapse }) => (
-        <SidebarFilters
-          cidades={cidades}
-          collapsed={collapsed}
-          onToggleCollapse={onToggleCollapse}
-        />
-      )}
-    >
+    <MarketplaceShell cidades={cidades}>
       <HeaderBar cidades={cidades} totalResults={total} />
       <ObraGrid obras={obras} />
       <Pagination
