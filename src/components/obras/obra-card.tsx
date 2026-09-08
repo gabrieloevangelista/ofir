@@ -39,9 +39,9 @@ export function ObraCard({
         href={`/sup/${obra.slug}`}
         className="group/link block h-full focus-visible:outline-none"
       >
-        <article className="flex h-full flex-col overflow-hidden rounded-xl bg-card border border-border shadow-xs transition-all duration-200 hover:-translate-y-1 hover:shadow-md hover:border-primary/50 focus-visible:ring-2 focus-visible:ring-ring">
+        <article className="flex h-full flex-col overflow-hidden rounded-none bg-card border border-border shadow-none transition-all duration-150 hover:border-primary focus-visible:ring-2 focus-visible:ring-ring">
           {/* Cover Image Container */}
-          <div className="relative aspect-[16/10] overflow-hidden bg-muted">
+          <div className="relative aspect-[16/10] overflow-hidden bg-muted rounded-none">
             {obra.cover_image_url ? (
               <Image
                 src={obra.cover_image_url}
@@ -59,7 +59,7 @@ export function ObraCard({
 
             {/* Standard badge top right */}
             <div className="absolute top-3 right-3 z-10">
-              <span className="inline-flex items-center rounded-md bg-background/90 backdrop-blur-xs px-2.5 py-1 text-xs font-semibold text-foreground shadow-xs border border-border/50">
+              <span className="inline-flex items-center rounded-none bg-background/95 px-2.5 py-1 text-xs font-semibold text-foreground shadow-none border border-border">
                 {formatPadraoLabel(padrao)}
               </span>
             </div>
@@ -68,7 +68,7 @@ export function ObraCard({
           {/* Firm Profile Header with Logo Avatar */}
           <div className="p-5 pb-0">
             <div className="flex items-start gap-3.5">
-              <div className="relative size-12 rounded-lg border border-border bg-card overflow-hidden shrink-0 shadow-sm -mt-9 z-10">
+              <div className="relative size-12 rounded-none border border-border bg-card overflow-hidden shrink-0 shadow-none -mt-9 z-10">
                 <Image
                   src={logoUrl}
                   alt={empresaNome}
@@ -113,7 +113,7 @@ export function ObraCard({
                   <Badge
                     key={tag}
                     variant="secondary"
-                    className="text-xs font-medium text-muted-foreground bg-secondary/70 hover:bg-secondary rounded-md px-2 py-0.5 border border-border/40"
+                    className="text-xs font-medium text-muted-foreground bg-secondary/70 hover:bg-secondary rounded-none px-2 py-0.5 border border-border/60 shadow-none"
                   >
                     {tag}
                   </Badge>
@@ -138,7 +138,7 @@ export function ObraCard({
                   </span>
                   {!isAuthenticated && (
                     <div className="absolute inset-0 flex items-center justify-start">
-                      <span className="text-xs font-semibold text-primary bg-background/90 px-1.5 py-0.5 rounded flex items-center gap-1 shadow-xs border border-primary/20">
+                      <span className="text-xs font-semibold text-primary bg-background/95 px-1.5 py-0.5 rounded-none flex items-center gap-1 shadow-none border border-primary/20">
                         <Lock className="size-3" /> Login para ver
                       </span>
                     </div>
@@ -152,7 +152,7 @@ export function ObraCard({
                   type="button"
                   onClick={handleContactClick}
                   title="Contatar fornecedor diretamente"
-                  className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-secondary hover:bg-primary/10 text-foreground hover:text-primary border border-border/80 text-xs font-semibold transition-all shadow-xs"
+                  className="inline-flex items-center gap-1.5 h-9 px-3 rounded-none bg-secondary hover:bg-primary/10 text-foreground hover:text-primary border border-border text-xs font-semibold transition-all shadow-none"
                 >
                   <MessageCircle className="size-3.5 text-primary" />
                   <span>Contatar</span>
@@ -160,7 +160,7 @@ export function ObraCard({
 
                 <div
                   title="Ver perfil completo"
-                  className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-xs group-hover/link:translate-x-0.5 transition-transform shrink-0"
+                  className="flex size-9 items-center justify-center rounded-none bg-primary text-primary-foreground shadow-none group-hover/link:translate-x-0.5 transition-transform shrink-0"
                 >
                   <ArrowRight className="size-4" />
                 </div>

@@ -10,8 +10,8 @@ export function ObraGrid({
 }) {
   if (obras.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border py-20 px-4 text-center bg-card/50">
-        <div className="flex size-12 items-center justify-center rounded-full bg-secondary text-muted-foreground">
+      <div className="flex flex-col items-center justify-center gap-3 rounded-none border border-dashed border-border py-20 px-4 text-center bg-card/50 shadow-none">
+        <div className="flex size-12 items-center justify-center rounded-none bg-secondary text-muted-foreground shadow-none">
           <SearchX className="size-6" />
         </div>
         <h3 className="font-heading text-xl font-bold text-foreground">

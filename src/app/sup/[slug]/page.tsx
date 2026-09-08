@@ -74,25 +74,25 @@ export default async function ObraDetailPage({
       </Link>
 
       {galeria.length > 0 ? (
-        <div className="mb-8 grid grid-cols-1 gap-2 overflow-hidden rounded-2xl h-[260px] sm:h-[360px] sm:grid-cols-4 sm:grid-rows-2 shadow-xs border border-border">
-          <div className="relative h-full w-full overflow-hidden sm:col-span-2 sm:row-span-2">
+        <div className="mb-8 grid grid-cols-1 gap-2 overflow-hidden rounded-none h-[260px] sm:h-[360px] sm:grid-cols-4 sm:grid-rows-2 shadow-none border border-border">
+          <div className="relative h-full w-full overflow-hidden sm:col-span-2 sm:row-span-2 rounded-none">
             <Image
               src={galeria[0]}
               alt={obra.nome}
               fill
               priority
               sizes="(min-width: 640px) 50vw, 100vw"
-              className="object-cover"
+              className="object-cover rounded-none"
             />
           </div>
           {galeria.slice(1, 3).map((url, i) => (
-            <div key={url} className="relative h-full w-full overflow-hidden hidden sm:block sm:col-span-2">
+            <div key={url} className="relative h-full w-full overflow-hidden hidden sm:block sm:col-span-2 rounded-none">
               <Image
                 src={url}
                 alt={`${obra.nome} - foto ${i + 2}`}
                 fill
                 sizes="50vw"
-                className="object-cover"
+                className="object-cover rounded-none"
               />
             </div>
           ))}
@@ -104,10 +104,10 @@ export default async function ObraDetailPage({
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <StatusBadge status={obra.status} />
-              <Badge variant="outline" className="rounded-md text-xs font-medium px-2.5 py-1">
+              <Badge variant="outline" className="rounded-none text-xs font-medium px-2.5 py-1 shadow-none">
                 {formatCategoriaLabel(obra.categoria)}
               </Badge>
-              <span className="inline-flex items-center rounded-md border border-border bg-secondary/60 px-2.5 py-1 text-xs font-semibold text-foreground shadow-xs">
+              <span className="inline-flex items-center rounded-none border border-border bg-secondary/60 px-2.5 py-1 text-xs font-semibold text-foreground shadow-none">
                 {formatPadraoLabel(padrao)}
               </span>
             </div>
@@ -157,7 +157,7 @@ export default async function ObraDetailPage({
               </h2>
               <div className="mt-3 flex flex-wrap gap-2">
                 {obra.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary" className="text-xs font-medium bg-secondary text-secondary-foreground rounded-md px-2.5 py-1 border border-border/40">
+                  <Badge key={tag} variant="secondary" className="text-xs font-medium bg-secondary text-secondary-foreground rounded-none px-2.5 py-1 border border-border/40 shadow-none">
                     {tag}
                   </Badge>
                 ))}
@@ -174,7 +174,7 @@ export default async function ObraDetailPage({
             {obra.reviews && obra.reviews.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                 {obra.reviews.map((review) => (
-                  <Card key={review.id} className="rounded-xl shadow-xs border-border">
+                  <Card key={review.id} className="rounded-none shadow-none border-border">
                     <CardContent className="p-5 flex flex-col justify-between h-full gap-4">
                       <div className="flex flex-col gap-3">
                         <div className="flex items-center justify-between">
@@ -228,7 +228,7 @@ export default async function ObraDetailPage({
 
         {/* Right Sticky Sidebar with Contact CTAs & Lead Form */}
         <div className="lg:col-span-1">
-          <Card className="sticky top-24 border-border shadow-md rounded-xl">
+          <Card className="sticky top-24 border-border shadow-none rounded-none">
             <CardHeader className="pb-4">
               <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Valor Estimado m²</span>
               {obra.preco_a_partir ? <PricingDisplay preco_a_partir={obra.preco_a_partir} /> : null}
@@ -239,7 +239,7 @@ export default async function ObraDetailPage({
                 href={whatsAppHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm py-3 shadow-xs transition-colors"
+                className="w-full flex items-center justify-center gap-2 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm py-3 shadow-none transition-colors"
               >
                 <MessageCircle className="size-4" />
                 <span>Conversar no WhatsApp</span>
@@ -248,7 +248,7 @@ export default async function ObraDetailPage({
               {contato.telefone && (
                 <a
                   href={`tel:${contato.telefone.replace(/\D/g, "")}`}
-                  className="w-full flex items-center justify-center gap-2 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground font-semibold text-sm py-2.5 border border-border transition-colors"
+                  className="w-full flex items-center justify-center gap-2 rounded-none bg-secondary hover:bg-secondary/80 text-foreground font-semibold text-sm py-2.5 border border-border transition-colors shadow-none"
                 >
                   <Phone className="size-4 text-primary" />
                   <span>Ligar: {contato.telefone}</span>

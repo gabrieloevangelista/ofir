@@ -15,7 +15,7 @@ const initialState: LeadFormState = { status: "idle" }
 function SubmitButton() {
   const { pending } = useFormStatus()
   return (
-    <Button type="submit" disabled={pending} className="w-full gap-1.5 py-5 font-semibold text-sm rounded-none">
+    <Button type="submit" disabled={pending} className="w-full gap-1.5 py-5 font-semibold text-sm rounded-none shadow-none">
       {pending ? <Loader2 className="size-4 animate-spin" /> : <HardHat className="size-4 shrink-0" />}
       {pending ? "Enviando Solicitação..." : "Solicitar Orçamento de Mão de Obra"}
     </Button>
@@ -60,24 +60,30 @@ export function InteresseForm({ obraId }: { obraId: string }) {
     }
   }, [state.status, user])
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoggingIn(true)
-    const nameInput = (document.getElementById("auth-name") as HTMLInputElement)?.value || "Gabriel Evangelista"
-    const emailInput = (document.getElementById("auth-email") as HTMLInputElement)?.value || "gabriel@ofir.com.br"
-    const phoneInput = "(41) 99999-9999" // Mock/fallback
+
+    const formData = new FormData(e.currentTarget)
+    const email = formData.get("email") as string
+    const nome = formData.get("nome") as string || email.split("@")[0]
+    const telefone = formData.get("telefone") as string || "(41) 99999-9999"
+
     setTimeout(() => {
+      login({ nome, email, telefone })
       setIsLoggingIn(false)
-      login({ nome: nameInput, email: emailInput, telefone: phoneInput })
-    }, 1200)
+      setShowLogin(false)
+    }, 600)
   }
 
   if (state.status === "success") {
     return (
-      <div className="flex flex-col items-center gap-2.5 rounded-none border border-emerald-500/20 bg-emerald-500/10 p-6 text-center">
-        <CheckCircle2 className="size-10 text-emerald-500" />
-        <p className="font-heading text-lg font-semibold text-foreground">Solicitação Enviada!</p>
-        <p className="text-sm leading-relaxed text-muted-foreground">{state.message}</p>
+      <div className="flex flex-col items-center gap-3 border border-border bg-card p-6 text-center rounded-none shadow-none">
+        <CheckCircle2 className="size-8 text-primary" />
+        <h4 className="font-heading text-lg font-bold text-foreground">Solicitação Enviada!</h4>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          {state.message || "A construtora credenciada recebeu seus dados e entrará em contato em breve via WhatsApp ou e-mail."}
+        </p>
       </div>
     )
   }
@@ -85,68 +91,73 @@ export function InteresseForm({ obraId }: { obraId: string }) {
   if (!isAuthenticated) {
     if (showLogin) {
       return (
-        <form onSubmit={handleLogin} className="flex flex-col gap-4 animate-in fade-in zoom-in-95 duration-200">
-          <div className="flex flex-col items-center text-center gap-2 mb-2">
-            <div className="size-10 bg-primary/10 text-primary flex items-center justify-center rounded-full mb-1">
-              <Lock className="size-5" />
-            </div>
-            <h3 className="font-heading text-lg font-bold">{isRegistering ? "Criar Conta OFIR" : "Acesso à Plataforma"}</h3>
-            <p className="text-xs text-muted-foreground">
-              {isRegistering 
-                ? "Cadastre-se para solicitar orçamentos e gerenciar seus fornecedores." 
-                : "Entre com sua conta OFIR para solicitar orçamentos e contatar fornecedores."}
-            </p>
+        <form onSubmit={handleLoginSubmit} className="flex flex-col gap-3 p-4 border border-border bg-card rounded-none shadow-none animate-in fade-in">
+          <div className="flex items-center justify-between border-b border-border/80 pb-2">
+            <span className="font-heading text-sm font-bold text-foreground">
+              {isRegistering ? "Criar Conta na OFIR" : "Entrar com OFIR ID"}
+            </span>
+            <button
+              type="button"
+              onClick={() => setShowLogin(false)}
+              className="text-xs text-muted-foreground hover:text-foreground"
+            >
+              Cancelar
+            </button>
           </div>
-          
+
           {isRegistering && (
-            <div className="flex flex-col gap-1.5">
-              <Label htmlFor="auth-name" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                Nome Completo
-              </Label>
-              <Input id="auth-name" type="text" placeholder="Seu nome" required className="bg-secondary/10 rounded-none" />
+            <div className="space-y-1">
+              <Label htmlFor="nome" className="text-xs">Seu Nome Completo</Label>
+              <Input id="nome" name="nome" placeholder="Ex: Gabriel Evangelista" required className="h-9 text-sm rounded-none shadow-none" />
             </div>
           )}
-          
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="auth-email" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-              E-mail
-            </Label>
-            <Input id="auth-email" type="email" placeholder="nome@email.com" required className="bg-secondary/10 rounded-none" />
+
+          <div className="space-y-1">
+            <Label htmlFor="email" className="text-xs">Seu E-mail</Label>
+            <Input id="email" name="email" type="email" placeholder="seu@email.com" required className="h-9 text-sm rounded-none shadow-none" />
           </div>
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="auth-pass" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-              Senha
-            </Label>
+
+          {isRegistering && (
+            <div className="space-y-1">
+              <Label htmlFor="telefone" className="text-xs">WhatsApp / Telefone</Label>
+              <Input id="telefone" name="telefone" type="tel" placeholder="(41) 99999-9999" required className="h-9 text-sm rounded-none shadow-none" />
+            </div>
+          )}
+
+          <div className="space-y-1">
+            <Label htmlFor="password" className="text-xs">Sua Senha</Label>
             <div className="relative">
-              <Input 
-                id="auth-pass" 
-                type={showPassword ? "text" : "password"} 
-                placeholder="••••••••" 
-                required 
-                className="bg-secondary/10 rounded-none pr-10" 
+              <Input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                required
+                className="h-9 text-sm pr-9 rounded-none shadow-none"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
                 {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
               </button>
             </div>
           </div>
-          <Button type="submit" disabled={isLoggingIn} className="w-full gap-1.5 py-5 font-semibold text-sm rounded-none mt-2">
-            {isLoggingIn ? <Loader2 className="size-4 animate-spin" /> : <LogIn className="size-4 shrink-0" />}
-            {isLoggingIn 
-              ? (isRegistering ? "Cadastrando..." : "Autenticando...") 
-              : (isRegistering ? "Criar Minha Conta" : "Entrar na minha conta")}
+
+          <Button type="submit" disabled={isLoggingIn} className="w-full gap-2 rounded-none mt-2 h-9 text-xs shadow-none">
+            {isLoggingIn ? <Loader2 className="size-4 animate-spin" /> : <LogIn className="size-4" />}
+            {isRegistering ? "Concluir Cadastro & Prosseguir" : "Acessar e Continuar"}
           </Button>
-          
-          <div className="flex items-center justify-between mt-2">
-            <Button type="button" variant="ghost" onClick={() => setIsRegistering(!isRegistering)} className="text-xs rounded-none text-muted-foreground hover:text-foreground">
-              {isRegistering ? "Já tenho uma conta" : "Criar uma conta"}
-            </Button>
-            <Button type="button" variant="ghost" onClick={() => setShowLogin(false)} className="text-xs rounded-none text-muted-foreground hover:text-foreground">
-              Cancelar
+
+          <div className="text-center pt-2 border-t border-border/80">
+            <Button
+              variant="link"
+              type="button"
+              onClick={() => setIsRegistering(!isRegistering)}
+              className="text-xs text-muted-foreground hover:text-foreground p-0 h-auto"
+            >
+              {isRegistering ? "Já tem uma conta? Entrar" : "Não tem conta? Cadastre-se em 30s"}
             </Button>
           </div>
         </form>
@@ -154,7 +165,7 @@ export function InteresseForm({ obraId }: { obraId: string }) {
     }
 
     return (
-      <div className="flex flex-col items-center gap-4 text-center py-6 px-4 border border-border bg-card">
+      <div className="flex flex-col items-center gap-4 text-center py-6 px-4 border border-border bg-card rounded-none shadow-none">
         <Lock className="size-8 text-muted-foreground mb-1" />
         <div>
           <h3 className="font-heading text-base font-bold text-foreground">Login Necessário</h3>
@@ -162,7 +173,7 @@ export function InteresseForm({ obraId }: { obraId: string }) {
             Para solicitar orçamentos diretos com os melhores fornecedores e engenheiros da plataforma OFIR, você precisa ter uma conta ativa.
           </p>
         </div>
-        <Button onClick={() => setShowLogin(true)} className="w-full gap-2 rounded-none mt-2">
+        <Button onClick={() => setShowLogin(true)} className="w-full gap-2 rounded-none mt-2 shadow-none">
           <LogIn className="size-4" />
           Fazer Login / Cadastrar
         </Button>
@@ -174,17 +185,26 @@ export function InteresseForm({ obraId }: { obraId: string }) {
     <form action={formAction} className="flex flex-col gap-4 animate-in fade-in duration-300">
       <input type="hidden" name="obraId" value={obraId} />
 
-      <div className="bg-secondary/20 border border-border p-4 flex flex-col gap-1 text-xs text-muted-foreground">
-        <span className="font-semibold text-foreground uppercase tracking-wider text-[10px]">Dados de Contato (OFIR ID)</span>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-1.5">
-          <div>
-            Nome: <strong className="text-foreground block sm:inline">{user?.nome}</strong>
+      {/* Dados de Contato com layout vertical que não colide colunas */}
+      <div className="bg-secondary/30 border border-border p-3.5 flex flex-col gap-2 rounded-none shadow-none text-xs text-muted-foreground">
+        <div className="flex items-center justify-between border-b border-border/60 pb-1.5">
+          <span className="font-semibold text-foreground uppercase tracking-wider text-[10px]">
+            Dados de Contato (OFIR ID)
+          </span>
+          <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">Conta Verificada</span>
+        </div>
+        <div className="space-y-1.5 pt-0.5">
+          <div className="flex flex-wrap items-baseline gap-1 text-xs">
+            <span className="text-muted-foreground">Nome:</span>
+            <strong className="text-foreground font-semibold">{user?.nome}</strong>
           </div>
-          <div>
-            E-mail: <strong className="text-foreground block sm:inline">{user?.email}</strong>
+          <div className="flex flex-wrap items-baseline gap-1 text-xs">
+            <span className="text-muted-foreground">E-mail:</span>
+            <strong className="text-foreground font-semibold break-all">{user?.email}</strong>
           </div>
-          <div>
-            Telefone: <strong className="text-foreground block sm:inline">{user?.telefone}</strong>
+          <div className="flex flex-wrap items-baseline gap-1 text-xs">
+            <span className="text-muted-foreground">Telefone:</span>
+            <strong className="text-foreground font-semibold">{user?.telefone}</strong>
           </div>
         </div>
       </div>
@@ -237,7 +257,7 @@ export function InteresseForm({ obraId }: { obraId: string }) {
           name="mensagem"
           placeholder="Descreva o tamanho do imóvel, prazos desejados ou especificidades da mão de obra..."
           rows={3}
-          className="bg-secondary/10 rounded-none"
+          className="bg-secondary/10 rounded-none shadow-none"
         />
       </div>
 
@@ -245,7 +265,7 @@ export function InteresseForm({ obraId }: { obraId: string }) {
         <p className="text-sm text-destructive font-medium">{state.message}</p>
       ) : null}
 
-      <div className="flex flex-col gap-1.5 border border-dashed border-border bg-secondary/5 p-4 items-center justify-center text-center">
+      <div className="flex flex-col gap-1.5 border border-dashed border-border bg-secondary/5 p-4 items-center justify-center text-center rounded-none shadow-none">
         <Paperclip className="size-5 text-muted-foreground mb-1" />
         <Label htmlFor="projetos" className="text-xs font-semibold text-foreground cursor-pointer hover:underline">
           Anexar Projetos (Plantas, PDF, Imagens)

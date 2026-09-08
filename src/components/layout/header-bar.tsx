@@ -56,7 +56,7 @@ export function HeaderBar({ cidades, totalResults }: { cidades: string[]; totalR
       {/* Top row with Title and Mobile Trigger / Desktop Sort */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary mb-1.5">
+          <div className="inline-flex items-center gap-2 rounded-none bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary mb-1.5 border border-primary/20">
             <Building2 className="size-3.5" />
             <span>{totalResults} {totalResults === 1 ? "empresa credenciada" : "empresas credenciadas"}</span>
           </div>
@@ -73,13 +73,13 @@ export function HeaderBar({ cidades, totalResults }: { cidades: string[]; totalR
           <Sheet open={openMobile} onOpenChange={setOpenMobile}>
             <SheetTrigger
               render={
-                <Button variant="outline" className="lg:hidden gap-2 rounded-lg h-10 text-sm font-medium">
+                <Button variant="outline" className="lg:hidden gap-2 rounded-none h-10 text-sm font-medium shadow-none">
                   <SlidersHorizontal className="size-4 text-primary" />
                   <span>Filtros</span>
                 </Button>
               }
             />
-            <SheetContent side="left" className="w-full sm:max-w-md overflow-y-auto p-4 rounded-r-2xl">
+            <SheetContent side="left" className="w-full sm:max-w-md overflow-y-auto p-4 rounded-none shadow-none">
               <SheetHeader className="mb-2">
                 <SheetTitle className="text-left font-heading text-lg">Filtros de Busca</SheetTitle>
               </SheetHeader>
@@ -93,16 +93,16 @@ export function HeaderBar({ cidades, totalResults }: { cidades: string[]; totalR
               Exibir:
             </span>
             <Select value={limit} onValueChange={handleLimitChange}>
-              <SelectTrigger className="w-[4.8rem] rounded-lg bg-card border-border/80 text-sm h-10 px-3 shadow-xs">
+              <SelectTrigger className="w-[4.8rem] rounded-none bg-card border-border/80 text-sm h-10 px-3 shadow-none">
                 <SelectValue placeholder="10" />
               </SelectTrigger>
-              <SelectContent className="rounded-xl border-border shadow-lg">
-                <SelectItem value="10" className="text-sm">10</SelectItem>
-                <SelectItem value="50" className="text-sm">50</SelectItem>
-                <SelectItem value="100" className="text-sm">100</SelectItem>
-                <SelectItem value="200" className="text-sm">200</SelectItem>
-                <SelectItem value="500" className="text-sm">500</SelectItem>
-                <SelectItem value="1000" className="text-sm">1000</SelectItem>
+              <SelectContent className="rounded-none border-border shadow-none">
+                <SelectItem value="10" className="text-sm rounded-none">10</SelectItem>
+                <SelectItem value="50" className="text-sm rounded-none">50</SelectItem>
+                <SelectItem value="100" className="text-sm rounded-none">100</SelectItem>
+                <SelectItem value="200" className="text-sm rounded-none">200</SelectItem>
+                <SelectItem value="500" className="text-sm rounded-none">500</SelectItem>
+                <SelectItem value="1000" className="text-sm rounded-none">1000</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -114,13 +114,13 @@ export function HeaderBar({ cidades, totalResults }: { cidades: string[]; totalR
               Ordenar:
             </span>
             <Select value={ordenar} onValueChange={handleSortChange}>
-              <SelectTrigger className="w-[12rem] rounded-lg bg-card border-border/80 text-sm h-10 shadow-xs">
+              <SelectTrigger className="w-[12rem] rounded-none bg-card border-border/80 text-sm h-10 shadow-none">
                 <SelectValue placeholder="Ordenar por" />
               </SelectTrigger>
-              <SelectContent className="rounded-xl border-border shadow-lg">
-                <SelectItem value="recentes" className="text-sm">Mais Recentes</SelectItem>
-                <SelectItem value="menor_preco" className="text-sm">Menor Orçamento / m²</SelectItem>
-                <SelectItem value="maior_preco" className="text-sm">Maior Orçamento / m²</SelectItem>
+              <SelectContent className="rounded-none border-border shadow-none">
+                <SelectItem value="recentes" className="text-sm rounded-none">Mais Recentes</SelectItem>
+                <SelectItem value="menor_preco" className="text-sm rounded-none">Menor Orçamento / m²</SelectItem>
+                <SelectItem value="maior_preco" className="text-sm rounded-none">Maior Orçamento / m²</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -129,7 +129,7 @@ export function HeaderBar({ cidades, totalResults }: { cidades: string[]; totalR
           <Button
             variant="outline"
             className={cn(
-              "rounded-lg h-10 px-4 text-sm font-medium transition-colors shadow-xs",
+              "rounded-none h-10 px-4 text-sm font-medium transition-colors shadow-none",
               isAuthenticated ? "border-primary/50 text-primary hover:bg-primary/10" : "hover:bg-secondary"
             )}
             onClick={isAuthenticated ? logout : () => login()}

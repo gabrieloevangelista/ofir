@@ -65,11 +65,11 @@ export function ContactDialog({ obra, open, onOpenChange }: ContactDialogProps) 
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-lg p-0 overflow-hidden rounded-2xl border-border">
+      <DialogContent className="sm:max-w-lg p-0 overflow-hidden rounded-none border-border shadow-none">
         {/* Header with supplier branding */}
         <div className="bg-secondary/40 border-b border-border/80 p-5 pb-4">
           <div className="flex items-center gap-3">
-            <div className="relative size-12 rounded-xl border border-border bg-card overflow-hidden shrink-0 shadow-xs">
+            <div className="relative size-12 rounded-none border border-border bg-card overflow-hidden shrink-0 shadow-none">
               {obra.construtoras?.logo_url ? (
                 <Image
                   src={obra.construtoras.logo_url}
@@ -104,9 +104,9 @@ export function ContactDialog({ obra, open, onOpenChange }: ContactDialogProps) 
 
         <div className="p-5 pt-3 space-y-4">
           {/* Quick Direct WhatsApp CTA */}
-          <div className="p-3.5 rounded-xl border border-emerald-600/30 bg-emerald-50/50 dark:bg-emerald-950/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="p-3.5 rounded-none border border-emerald-600/30 bg-emerald-50/50 dark:bg-emerald-950/20 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-none">
             <div className="flex items-center gap-3">
-              <div className="flex size-10 items-center justify-center rounded-full bg-emerald-600 text-white shrink-0 shadow-xs">
+              <div className="flex size-10 items-center justify-center rounded-none bg-emerald-600 text-white shrink-0 shadow-none">
                 <MessageCircle className="size-5" />
               </div>
               <div>
@@ -122,7 +122,7 @@ export function ContactDialog({ obra, open, onOpenChange }: ContactDialogProps) 
               href={whatsAppLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-2.5 transition-colors shadow-xs shrink-0"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-2.5 transition-colors shadow-none shrink-0"
             >
               <span>Abrir WhatsApp</span>
             </a>
@@ -130,8 +130,8 @@ export function ContactDialog({ obra, open, onOpenChange }: ContactDialogProps) 
 
           {/* Quick Phone or Message Form */}
           {enviado ? (
-            <div className="py-6 text-center space-y-2 rounded-xl bg-card border border-border/80 p-4">
-              <div className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary mx-auto">
+            <div className="py-6 text-center space-y-2 rounded-none bg-card border border-border/80 p-4 shadow-none">
+              <div className="flex size-12 items-center justify-center rounded-none bg-primary/10 text-primary mx-auto">
                 <CheckCircle2 className="size-6" />
               </div>
               <h4 className="font-heading text-base font-bold text-foreground">
@@ -144,7 +144,7 @@ export function ContactDialog({ obra, open, onOpenChange }: ContactDialogProps) 
                 variant="outline"
                 size="sm"
                 onClick={() => handleClose(false)}
-                className="mt-3 text-xs rounded-lg"
+                className="mt-3 text-xs rounded-none shadow-none"
               >
                 Concluir
               </Button>
@@ -172,7 +172,7 @@ export function ContactDialog({ obra, open, onOpenChange }: ContactDialogProps) 
                     value={nome}
                     onChange={(e) => setNome(e.target.value)}
                     placeholder="Ex: Roberto Silva"
-                    className="h-9 text-sm rounded-lg"
+                    className="h-9 text-sm rounded-none shadow-none border-border"
                   />
                 </div>
                 <div className="space-y-1">
@@ -182,7 +182,7 @@ export function ContactDialog({ obra, open, onOpenChange }: ContactDialogProps) 
                     value={telefone}
                     onChange={(e) => setTelefone(e.target.value)}
                     placeholder="(11) 99999-9999"
-                    className="h-9 text-sm rounded-lg"
+                    className="h-9 text-sm rounded-none shadow-none border-border"
                   />
                 </div>
               </div>
@@ -193,7 +193,7 @@ export function ContactDialog({ obra, open, onOpenChange }: ContactDialogProps) 
                   rows={3}
                   value={mensagem}
                   onChange={(e) => setMensagem(e.target.value)}
-                  className="text-sm rounded-lg resize-none"
+                  className="text-sm rounded-none resize-none shadow-none border-border"
                 />
               </div>
 
@@ -206,7 +206,7 @@ export function ContactDialog({ obra, open, onOpenChange }: ContactDialogProps) 
                 <Button
                   type="submit"
                   disabled={enviando}
-                  className="gap-2 rounded-lg text-xs font-semibold px-4 h-9 shadow-xs"
+                  className="gap-2 rounded-none text-xs font-semibold px-4 h-9 shadow-none"
                 >
                   <Send className="size-3.5" />
                   {enviando ? "Enviando..." : "Enviar Mensagem"}

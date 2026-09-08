@@ -80,7 +80,7 @@ export function Pagination({
           size="sm"
           disabled={paginaAtual <= 1}
           onClick={() => handlePageChange(paginaAtual - 1)}
-          className="rounded-lg gap-1.5 text-sm px-3 h-9 font-medium shadow-xs"
+          className="rounded-none gap-1.5 text-sm px-3 h-9 font-medium shadow-none"
         >
           <ChevronLeft className="size-4" />
           Anterior
@@ -101,9 +101,9 @@ export function Pagination({
                 type="button"
                 onClick={() => handlePageChange(p as number)}
                 className={cn(
-                  "size-9 text-sm font-semibold rounded-lg border transition-all flex items-center justify-center",
+                  "size-9 text-sm font-semibold rounded-none border transition-all flex items-center justify-center shadow-none",
                   p === paginaAtual
-                    ? "bg-primary text-primary-foreground border-primary font-bold shadow-xs"
+                    ? "bg-primary text-primary-foreground border-primary font-bold shadow-none"
                     : "bg-card border-border/80 hover:bg-secondary text-muted-foreground hover:text-foreground"
                 )}
               >
@@ -118,7 +118,7 @@ export function Pagination({
           size="sm"
           disabled={paginaAtual >= totalPaginas}
           onClick={() => handlePageChange(paginaAtual + 1)}
-          className="rounded-lg gap-1.5 text-sm px-3 h-9 font-medium shadow-xs"
+          className="rounded-none gap-1.5 text-sm px-3 h-9 font-medium shadow-none"
         >
           Próximo
           <ChevronRight className="size-4" />
