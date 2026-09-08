@@ -67,22 +67,22 @@ export function Pagination({
   const visiblePages = getVisiblePages()
 
   return (
-    <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-border pt-6">
-      <div className="text-xs text-muted-foreground font-medium">
+    <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-border/70 pt-6">
+      <div className="text-sm text-muted-foreground font-medium">
         Mostrando <span className="font-bold text-foreground">{startItem}</span> a{" "}
         <span className="font-bold text-foreground">{endItem}</span> de{" "}
         <span className="font-bold text-foreground">{totalItems}</span> empresas
       </div>
 
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-2">
         <Button
           variant="outline"
           size="sm"
           disabled={paginaAtual <= 1}
           onClick={() => handlePageChange(paginaAtual - 1)}
-          className="rounded-none gap-1 text-xs px-2.5 h-8"
+          className="rounded-lg gap-1.5 text-sm px-3 h-9 font-medium shadow-xs"
         >
-          <ChevronLeft className="size-3.5" />
+          <ChevronLeft className="size-4" />
           Anterior
         </Button>
 
@@ -90,7 +90,7 @@ export function Pagination({
           {visiblePages.map((p, i) => {
             if (p === "...") {
               return (
-                <span key={`dots-${i}`} className="text-muted-foreground text-xs px-1 font-medium">
+                <span key={`dots-${i}`} className="text-muted-foreground text-sm px-1.5 font-medium">
                   ...
                 </span>
               )
@@ -101,10 +101,10 @@ export function Pagination({
                 type="button"
                 onClick={() => handlePageChange(p as number)}
                 className={cn(
-                  "size-8 text-xs font-semibold rounded-none border transition-colors flex items-center justify-center",
+                  "size-9 text-sm font-semibold rounded-lg border transition-all flex items-center justify-center",
                   p === paginaAtual
-                    ? "bg-primary text-primary-foreground border-primary font-bold"
-                    : "bg-card border-border hover:bg-secondary/50 text-muted-foreground hover:text-foreground"
+                    ? "bg-primary text-primary-foreground border-primary font-bold shadow-xs"
+                    : "bg-card border-border/80 hover:bg-secondary text-muted-foreground hover:text-foreground"
                 )}
               >
                 {p}
@@ -118,10 +118,10 @@ export function Pagination({
           size="sm"
           disabled={paginaAtual >= totalPaginas}
           onClick={() => handlePageChange(paginaAtual + 1)}
-          className="rounded-none gap-1 text-xs px-2.5 h-8"
+          className="rounded-lg gap-1.5 text-sm px-3 h-9 font-medium shadow-xs"
         >
           Próximo
-          <ChevronRight className="size-3.5" />
+          <ChevronRight className="size-4" />
         </Button>
       </div>
     </div>

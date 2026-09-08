@@ -27,6 +27,9 @@ import {
   Layers,
   Wrench,
   ChevronsUpDown,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Sliders,
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -39,6 +42,8 @@ interface SidebarFiltersProps {
   cidades: string[]
   className?: string
   onApplyMobile?: () => void
+  collapsed?: boolean
+  onToggleCollapse?: () => void
 }
 
 const ETAPAS_OBRA = [
@@ -57,7 +62,13 @@ const ETAPAS_OBRA = [
   { id: "reformas", label: "Reformas & Ampliações", icon: Wrench },
 ]
 
-export function SidebarFilters({ cidades, className, onApplyMobile }: SidebarFiltersProps) {
+export function SidebarFilters({
+  cidades,
+  className,
+  onApplyMobile,
+  collapsed = false,
+  onToggleCollapse,
+}: SidebarFiltersProps) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -65,6 +76,8 @@ export function SidebarFilters({ cidades, className, onApplyMobile }: SidebarFil
 
   const [busca, setBusca] = useState(searchParams.get("busca") ?? "")
   const [openCity, setOpenCity] = useState(false)
+  const [openCollapsedSearch, setOpenCollapsedSearch] = useState(false)
+  const [openCollapsedPadrao, setOpenCollapsedPadrao] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const updateParams = useCallback(
@@ -95,11 +108,15 @@ export function SidebarFilters({ cidades, className, onApplyMobile }: SidebarFil
   }, [busca, updateParams])
 
   const cidade = searchParams.get("cidade") ?? ""
-  const status = searchParams.get("status") ?? "todos"
   const categoria = searchParams.get("categoria") ?? "todas"
   const padrao = searchParams.get("padrao") ?? "todos"
 
-  const hasActiveFilters = Boolean(cidade || (status && status !== "todos") || (categoria && categoria !== "todas") || (padrao && padrao !== "todos") || busca)
+  const hasActiveFilters = Boolean(
+    cidade ||
+    (categoria && categoria !== "todas") ||
+    (padrao && padrao !== "todos") ||
+    busca
+  )
 
   const handleReset = () => {
     setBusca("")
@@ -109,37 +126,318 @@ export function SidebarFilters({ cidades, className, onApplyMobile }: SidebarFil
     if (onApplyMobile) onApplyMobile()
   }
 
+  // =========================================================================
+  // RENDER: COLLAPSED RAIL MODE (Minimizado apenas com ícones)
+  // =========================================================================
+  if (collapsed) {
+    return (
+      <aside className={cn("flex flex-col items-center py-4 px-2 w-full text-foreground gap-5", className)}>
+        {/* Top Logo & Expand Button */}
+        <div className="flex flex-col items-center gap-3 w-full border-b border-border pb-3">
+          <Link
+            href="/"
+            title="Página Inicial OFIR"
+            className="flex size-10 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold shadow-sm hover:opacity-90 transition-opacity"
+          >
+            <Building className="size-5" />
+          </Link>
+
+          {onToggleCollapse && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onToggleCollapse}
+              title="Expandir barra lateral"
+              className="size-9 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/70 transition-colors"
+            >
+              <PanelLeftOpen className="size-5" />
+            </Button>
+          )}
+        </div>
+
+        {/* Action icons stack */}
+        <div className="flex flex-col items-center gap-2 w-full">
+          {/* Quick Search Popover */}
+          <Popover open={openCollapsedSearch} onOpenChange={setOpenCollapsedSearch}>
+            <PopoverTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  title="Buscar por nome ou especialidade"
+                  className={cn(
+                    "relative size-10 rounded-lg transition-colors",
+                    busca ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary/70"
+                  )}
+                />
+              }
+            >
+              <Search className="size-4" />
+              {busca && <span className="absolute top-2 right-2 size-2 rounded-full bg-primary" />}
+            </PopoverTrigger>
+            <PopoverContent side="right" align="start" className="w-72 p-3 rounded-xl shadow-lg border-border">
+              <div className="space-y-2">
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Buscar Construtora
+                </label>
+                <div className="relative">
+                  <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    value={busca}
+                    onChange={(e) => setBusca(e.target.value)}
+                    placeholder="Nome, especialidade..."
+                    className="pl-9 pr-8 h-9 text-sm rounded-lg"
+                    autoFocus
+                  />
+                  {busca && (
+                    <button
+                      type="button"
+                      onClick={() => setBusca("")}
+                      className="absolute top-1/2 right-2.5 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    >
+                      <X className="size-3.5" />
+                    </button>
+                  )}
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
+
+          {/* Location / Cidade Popover */}
+          <Popover open={openCity} onOpenChange={setOpenCity}>
+            <PopoverTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  title={cidade ? `Local: ${cidade}` : "Filtrar por Condomínio / Cidade"}
+                  className={cn(
+                    "relative size-10 rounded-lg transition-colors",
+                    cidade ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary/70"
+                  )}
+                />
+              }
+            >
+              <MapPin className="size-4" />
+              {cidade && <span className="absolute top-2 right-2 size-2 rounded-full bg-primary" />}
+            </PopoverTrigger>
+            <PopoverContent side="right" align="start" className="w-80 p-0 rounded-xl shadow-lg border-border">
+              <Command>
+                <CommandInput placeholder="Buscar condomínio ou cidade..." className="h-10 text-sm" />
+                <CommandList className="max-h-72">
+                  <CommandEmpty>Nenhum local encontrado.</CommandEmpty>
+                  <CommandGroup>
+                    <CommandItem
+                      value="todas-cidades"
+                      onSelect={() => {
+                        updateParams({ cidade: null })
+                        setOpenCity(false)
+                      }}
+                      className="cursor-pointer text-sm py-2"
+                    >
+                      Todos os Condomínios e Cidades
+                      <Check className={cn("ml-auto size-4", !cidade ? "opacity-100" : "opacity-0")} />
+                    </CommandItem>
+                  </CommandGroup>
+                  {LOCAIS_AGRUPADOS.map((grupo) => (
+                    <CommandGroup key={grupo.regiao} heading={grupo.regiao}>
+                      {grupo.locais.map((c) => (
+                        <CommandItem
+                          key={c}
+                          value={c}
+                          onSelect={() => {
+                            updateParams({ cidade: c })
+                            setOpenCity(false)
+                          }}
+                          className="cursor-pointer text-sm py-2"
+                        >
+                          {c}
+                          <Check className={cn("ml-auto size-4", cidade === c ? "opacity-100" : "opacity-0")} />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  ))}
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+
+          {/* Standard / Padrão Popover */}
+          <Popover open={openCollapsedPadrao} onOpenChange={setOpenCollapsedPadrao}>
+            <PopoverTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  title={padrao !== "todos" ? `Padrão: ${padrao}` : "Padrão de Construção"}
+                  className={cn(
+                    "relative size-10 rounded-lg transition-colors",
+                    padrao !== "todos" ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary/70"
+                  )}
+                />
+              }
+            >
+              <Crown className="size-4" />
+              {padrao !== "todos" && <span className="absolute top-2 right-2 size-2 rounded-full bg-primary" />}
+            </PopoverTrigger>
+            <PopoverContent side="right" align="start" className="w-56 p-2 rounded-xl shadow-lg border-border">
+              <div className="space-y-1">
+                <div className="px-2 py-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  Padrão de Construção
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    updateParams({ padrao: padrao === "alto" ? null : "alto" })
+                    setOpenCollapsedPadrao(false)
+                  }}
+                  className={cn(
+                    "w-full flex items-center justify-between px-2.5 py-2 text-sm rounded-lg transition-colors text-left",
+                    padrao === "alto" ? "bg-primary/15 text-primary font-semibold" : "hover:bg-secondary/60 text-foreground"
+                  )}
+                >
+                  <div className="flex items-center gap-2">
+                    <Crown className="size-4 text-primary" />
+                    <span>Alto Padrão</span>
+                  </div>
+                  {padrao === "alto" && <Check className="size-4 text-primary" />}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    updateParams({ padrao: padrao === "medio" ? null : "medio" })
+                    setOpenCollapsedPadrao(false)
+                  }}
+                  className={cn(
+                    "w-full flex items-center justify-between px-2.5 py-2 text-sm rounded-lg transition-colors text-left",
+                    padrao === "medio" ? "bg-primary/15 text-primary font-semibold" : "hover:bg-secondary/60 text-foreground"
+                  )}
+                >
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="size-4 text-muted-foreground" />
+                    <span>Médio Padrão</span>
+                  </div>
+                  {padrao === "medio" && <Check className="size-4 text-primary" />}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    updateParams({ padrao: padrao === "baixo" ? null : "baixo" })
+                    setOpenCollapsedPadrao(false)
+                  }}
+                  className={cn(
+                    "w-full flex items-center justify-between px-2.5 py-2 text-sm rounded-lg transition-colors text-left",
+                    padrao === "baixo" ? "bg-primary/15 text-primary font-semibold" : "hover:bg-secondary/60 text-foreground"
+                  )}
+                >
+                  <div className="flex items-center gap-2">
+                    <Leaf className="size-4 text-muted-foreground" />
+                    <span>Baixo Padrão</span>
+                  </div>
+                  {padrao === "baixo" && <Check className="size-4 text-primary" />}
+                </button>
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
+
+        {/* Separator */}
+        <div className="w-8 border-b border-border my-1" />
+
+        {/* Etapas Icons Rail */}
+        <div className="flex flex-col items-center gap-1.5 w-full overflow-y-auto max-h-[460px] scrollbar-none">
+          {ETAPAS_OBRA.map((item) => {
+            const IconComp = item.icon
+            const isSelected = categoria === item.id || (item.id === "todas" && !categoria)
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => updateParams({ categoria: item.id })}
+                title={item.label}
+                className={cn(
+                  "flex size-10 items-center justify-center rounded-lg transition-all",
+                  isSelected
+                    ? "bg-primary text-primary-foreground shadow-sm font-semibold"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/70"
+                )}
+              >
+                <IconComp className="size-4.5 shrink-0" />
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Reset filters button if active */}
+        {hasActiveFilters && (
+          <div className="mt-auto pt-3 border-t border-border w-full flex justify-center">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleReset}
+              title="Limpar todos os filtros"
+              className="size-9 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary/70 transition-colors"
+            >
+              <RotateCcw className="size-4" />
+            </Button>
+          </div>
+        )}
+      </aside>
+    )
+  }
+
+  // =========================================================================
+  // RENDER: EXPANDED MODE (Barra lateral completa)
+  // =========================================================================
   return (
-    <aside className={cn("flex flex-col gap-6 w-full text-foreground rounded-none", className)}>
-      {/* Brand Header */}
+    <aside className={cn("flex flex-col gap-6 w-full text-foreground p-5", className)}>
+      {/* Brand & Collapse Header */}
       <div className="flex items-center justify-between border-b border-border pb-4">
-        <Link href="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
-          <div className="flex size-8 items-center justify-center bg-primary text-primary-foreground font-bold shadow-none rounded-none text-sm">
-            ✦
+        <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
+          <div className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold shadow-sm">
+            <Building className="size-5" />
           </div>
           <div>
-            <span className="font-heading text-xl font-bold tracking-widest text-foreground block leading-none">
+            <span className="font-heading text-xl font-bold tracking-tight text-foreground block leading-none">
               OFIR
+            </span>
+            <span className="text-[11px] font-medium text-muted-foreground tracking-wide block mt-1">
+              Marketplace de Obras
             </span>
           </div>
         </Link>
-        {hasActiveFilters && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleReset}
-            title="Limpar todos os filtros"
-            className="size-7 rounded-none text-muted-foreground hover:text-foreground"
-          >
-            <RotateCcw className="size-3.5" />
-          </Button>
-        )}
+
+        <div className="flex items-center gap-1">
+          {hasActiveFilters && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleReset}
+              title="Limpar todos os filtros"
+              className="size-8 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary/70 transition-colors"
+            >
+              <RotateCcw className="size-4" />
+            </Button>
+          )}
+
+          {onToggleCollapse && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onToggleCollapse}
+              title="Recolher barra lateral"
+              className="size-8 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/70 transition-colors"
+            >
+              <PanelLeftClose className="size-4.5" />
+            </Button>
+          )}
+        </div>
       </div>
 
-      {/* 1. Condomínio / Cidade / Região Filter FIRST */}
+      {/* 1. Condomínio / Cidade / Região Filter */}
       {cidades.length > 0 && (
-        <div className="space-y-1.5 border-b border-border pb-5">
-          <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+        <div className="space-y-2 border-b border-border pb-5">
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
             <MapPin className="size-3.5 text-primary shrink-0" />
             Condomínio / Cidade / Região
           </label>
@@ -150,19 +448,21 @@ export function SidebarFilters({ cidades, className, onApplyMobile }: SidebarFil
                   variant="outline"
                   role="combobox"
                   aria-expanded={openCity}
-                  className="w-full justify-between bg-card border-border rounded-none shadow-none font-medium text-foreground hover:bg-secondary/40 text-xs px-3 h-10"
+                  className="w-full justify-between bg-card border-border rounded-lg shadow-sm font-medium text-foreground hover:bg-secondary/40 text-sm px-3 h-10"
                 />
               }
             >
-              {cidade && cidade !== "todas-cidades"
-                ? cidade
-                : "Todos os Condomínios e Cidades"}
+              <span className="truncate">
+                {cidade && cidade !== "todas-cidades"
+                  ? cidade
+                  : "Todos os Condomínios e Cidades"}
+              </span>
               <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
             </PopoverTrigger>
-            <PopoverContent className="w-full p-0 rounded-none border-border" align="start">
+            <PopoverContent className="w-[280px] sm:w-[320px] p-0 rounded-xl border-border shadow-lg" align="start">
               <Command>
-                <CommandInput placeholder="Buscar condomínio ou cidade..." className="h-9 text-xs" />
-                <CommandList>
+                <CommandInput placeholder="Buscar condomínio ou cidade..." className="h-10 text-sm" />
+                <CommandList className="max-h-72">
                   <CommandEmpty>Nenhum local encontrado.</CommandEmpty>
                   <CommandGroup>
                     <CommandItem
@@ -171,7 +471,7 @@ export function SidebarFilters({ cidades, className, onApplyMobile }: SidebarFil
                         updateParams({ cidade: null })
                         setOpenCity(false)
                       }}
-                      className="rounded-none cursor-pointer text-xs"
+                      className="cursor-pointer text-sm py-2"
                     >
                       Todos os Condomínios e Cidades
                       <Check
@@ -183,7 +483,7 @@ export function SidebarFilters({ cidades, className, onApplyMobile }: SidebarFil
                     </CommandItem>
                   </CommandGroup>
                   {LOCAIS_AGRUPADOS.map((grupo) => (
-                    <CommandGroup key={grupo.regiao} heading={`📍 ${grupo.regiao}`}>
+                    <CommandGroup key={grupo.regiao} heading={grupo.regiao}>
                       {grupo.locais.map((c) => (
                         <CommandItem
                           key={c}
@@ -192,7 +492,7 @@ export function SidebarFilters({ cidades, className, onApplyMobile }: SidebarFil
                             updateParams({ cidade: c })
                             setOpenCity(false)
                           }}
-                          className="rounded-none cursor-pointer text-xs"
+                          className="cursor-pointer text-sm py-2"
                         >
                           {c}
                           <Check
@@ -213,8 +513,9 @@ export function SidebarFilters({ cidades, className, onApplyMobile }: SidebarFil
       )}
 
       {/* 2. Search Input */}
-      <div className="space-y-1.5">
-        <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+      <div className="space-y-2 border-b border-border pb-5">
+        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+          <Search className="size-3.5 text-primary shrink-0" />
           Buscar Construtora / Empresa
         </label>
         <div className="relative">
@@ -222,8 +523,8 @@ export function SidebarFilters({ cidades, className, onApplyMobile }: SidebarFil
           <Input
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
-            placeholder="Construtora, engenharia, arquiteto..."
-            className="pl-9 pr-8 bg-card border-border text-sm placeholder:text-muted-foreground/70 rounded-none"
+            placeholder="Ex: Construtora, engenharia, arquiteto..."
+            className="pl-9 pr-8 bg-card border-border text-sm placeholder:text-muted-foreground/70 rounded-lg h-10 shadow-sm"
           />
           {busca && (
             <button
@@ -231,54 +532,54 @@ export function SidebarFilters({ cidades, className, onApplyMobile }: SidebarFil
               onClick={() => setBusca("")}
               className="absolute top-1/2 right-2.5 -translate-y-1/2 text-muted-foreground hover:text-foreground"
             >
-              <X className="size-3.5" />
+              <X className="size-4" />
             </button>
           )}
         </div>
       </div>
 
       {/* 3. Padrão de Construção Filter Cards */}
-      <div className="space-y-2">
+      <div className="space-y-2.5 border-b border-border pb-5">
         <div className="flex items-center justify-between">
-          <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-            <SlidersHorizontal className="size-3 text-primary" />
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+            <Sliders className="size-3.5 text-primary" />
             Padrão de Construção
           </label>
           {padrao !== "todos" && (
             <button
               type="button"
               onClick={() => updateParams({ padrao: null })}
-              className="text-[10px] text-primary hover:underline font-semibold"
+              className="text-xs text-primary hover:underline font-semibold"
             >
               Limpar
             </button>
           )}
         </div>
 
-        <div className="grid grid-cols-1 gap-1.5">
+        <div className="grid grid-cols-1 gap-2">
           {/* Alto Padrão */}
           <button
             type="button"
             onClick={() => updateParams({ padrao: padrao === "alto" ? null : "alto" })}
             className={cn(
-              "flex items-center justify-between border p-2.5 text-left transition-all duration-150 rounded-none group",
+              "flex items-center justify-between border p-3 text-left transition-all rounded-lg group shadow-xs",
               padrao === "alto"
-                ? "border-amber-500 bg-amber-500/10 text-amber-900 dark:text-amber-300 font-semibold"
-                : "border-border bg-card hover:bg-secondary/40"
+                ? "border-primary bg-primary/10 text-primary font-semibold"
+                : "border-border/80 bg-card hover:bg-secondary/60 text-foreground"
             )}
           >
             <div className="flex items-center gap-2.5">
               <div
                 className={cn(
-                  "flex size-7 items-center justify-center rounded-none transition-colors",
-                  padrao === "alto" ? "bg-amber-500 text-white" : "bg-amber-500/10 text-amber-600 group-hover:bg-amber-500 group-hover:text-white"
+                  "flex size-8 items-center justify-center rounded-md transition-colors",
+                  padrao === "alto" ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground group-hover:bg-primary/20 group-hover:text-primary"
                 )}
               >
-                <Crown className="size-3.5 shrink-0" />
+                <Crown className="size-4 shrink-0" />
               </div>
-              <span className="font-heading text-xs font-semibold text-foreground">Alto Padrão</span>
+              <span className="text-sm font-semibold">Alto Padrão</span>
             </div>
-            {padrao === "alto" && <Check className="size-3.5 text-amber-500" />}
+            {padrao === "alto" && <Check className="size-4 text-primary" />}
           </button>
 
           {/* Médio Padrão */}
@@ -286,24 +587,24 @@ export function SidebarFilters({ cidades, className, onApplyMobile }: SidebarFil
             type="button"
             onClick={() => updateParams({ padrao: padrao === "medio" ? null : "medio" })}
             className={cn(
-              "flex items-center justify-between border p-2.5 text-left transition-all duration-150 rounded-none group",
+              "flex items-center justify-between border p-3 text-left transition-all rounded-lg group shadow-xs",
               padrao === "medio"
-                ? "border-slate-600 bg-slate-500/10 text-slate-900 dark:text-slate-200 font-semibold"
-                : "border-border bg-card hover:bg-secondary/40"
+                ? "border-primary bg-primary/10 text-primary font-semibold"
+                : "border-border/80 bg-card hover:bg-secondary/60 text-foreground"
             )}
           >
             <div className="flex items-center gap-2.5">
               <div
                 className={cn(
-                  "flex size-7 items-center justify-center rounded-none transition-colors",
-                  padrao === "medio" ? "bg-slate-700 text-white" : "bg-slate-500/10 text-slate-600 group-hover:bg-slate-700 group-hover:text-white"
+                  "flex size-8 items-center justify-center rounded-md transition-colors",
+                  padrao === "medio" ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground group-hover:bg-primary/20 group-hover:text-primary"
                 )}
               >
-                <Sparkles className="size-3.5 shrink-0" />
+                <Sparkles className="size-4 shrink-0" />
               </div>
-              <span className="font-heading text-xs font-semibold text-foreground">Médio Padrão</span>
+              <span className="text-sm font-semibold">Médio Padrão</span>
             </div>
-            {padrao === "medio" && <Check className="size-3.5 text-slate-600" />}
+            {padrao === "medio" && <Check className="size-4 text-primary" />}
           </button>
 
           {/* Baixo Padrão */}
@@ -311,60 +612,60 @@ export function SidebarFilters({ cidades, className, onApplyMobile }: SidebarFil
             type="button"
             onClick={() => updateParams({ padrao: padrao === "baixo" ? null : "baixo" })}
             className={cn(
-              "flex items-center justify-between border p-2.5 text-left transition-all duration-150 rounded-none group",
+              "flex items-center justify-between border p-3 text-left transition-all rounded-lg group shadow-xs",
               padrao === "baixo"
-                ? "border-emerald-500 bg-emerald-500/10 text-emerald-900 dark:text-emerald-300 font-semibold"
-                : "border-border bg-card hover:bg-secondary/40"
+                ? "border-primary bg-primary/10 text-primary font-semibold"
+                : "border-border/80 bg-card hover:bg-secondary/60 text-foreground"
             )}
           >
             <div className="flex items-center gap-2.5">
               <div
                 className={cn(
-                  "flex size-7 items-center justify-center rounded-none transition-colors",
-                  padrao === "baixo" ? "bg-emerald-600 text-white" : "bg-emerald-500/10 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white"
+                  "flex size-8 items-center justify-center rounded-md transition-colors",
+                  padrao === "baixo" ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground group-hover:bg-primary/20 group-hover:text-primary"
                 )}
               >
-                <Leaf className="size-3.5 shrink-0" />
+                <Leaf className="size-4 shrink-0" />
               </div>
-              <span className="font-heading text-xs font-semibold text-foreground">Baixo Padrão</span>
+              <span className="text-sm font-semibold">Baixo Padrão</span>
             </div>
-            {padrao === "baixo" && <Check className="size-3.5 text-emerald-600" />}
+            {padrao === "baixo" && <Check className="size-4 text-primary" />}
           </button>
         </div>
       </div>
 
       {/* 4. Etapas Desmembradas da Obra */}
-      <div className="space-y-2">
-        <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+      <div className="space-y-2.5">
+        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+          <Layers className="size-3.5 text-primary" />
           Etapas Desmembradas da Obra
         </label>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1.5">
           {ETAPAS_OBRA.map((item) => {
             const IconComp = item.icon
-            const isSelected = categoria === item.id
+            const isSelected = categoria === item.id || (item.id === "todas" && !categoria)
             return (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => updateParams({ categoria: item.id })}
                 className={cn(
-                  "flex items-center justify-between border px-3 py-2 text-xs transition-all text-left rounded-none",
+                  "flex items-center justify-between border px-3 py-2.5 text-sm transition-all text-left rounded-lg",
                   isSelected
-                    ? "border-primary bg-primary/10 text-primary font-semibold"
-                    : "border-border/50 bg-card hover:bg-secondary/50 text-muted-foreground hover:text-foreground"
+                    ? "border-primary bg-primary/10 text-primary font-semibold shadow-xs"
+                    : "border-transparent bg-secondary/30 hover:bg-secondary/70 text-foreground hover:text-foreground"
                 )}
               >
-                <div className="flex items-center gap-2">
-                  <IconComp className="size-3.5 shrink-0" />
-                  <span className="text-[11px] font-medium">{item.label}</span>
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <IconComp className={cn("size-4 shrink-0", isSelected ? "text-primary" : "text-muted-foreground")} />
+                  <span className="text-xs font-medium truncate">{item.label}</span>
                 </div>
-                {isSelected && <Check className="size-3.5 text-primary" />}
+                {isSelected && <Check className="size-3.5 text-primary shrink-0 ml-1" />}
               </button>
             )
           })}
         </div>
       </div>
-
     </aside>
   )
 }

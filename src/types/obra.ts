@@ -21,6 +21,14 @@ export type Review = {
   date: string
 }
 
+export type ContatoFornecedor = {
+  whatsapp: string
+  telefone: string
+  email: string
+  responsavel?: string
+  cidadeAtendimento?: string
+}
+
 export type ObraWithConstrutora = Obra & {
   construtoras: Pick<Construtora, "id" | "nome" | "logo_url"> | null
   supplier_rating?: {
@@ -28,6 +36,7 @@ export type ObraWithConstrutora = Obra & {
     count: number
   }
   reviews?: Review[]
+  contato?: ContatoFornecedor
 }
 
 export type ObraFiltros = {
@@ -40,4 +49,3 @@ export type ObraFiltros = {
   pagina?: number
   modoExibicao?: "grid" | "lista"
 }
-

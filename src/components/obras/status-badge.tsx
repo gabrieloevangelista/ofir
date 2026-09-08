@@ -5,9 +5,9 @@ import type { Database } from "@/types/database.types"
 type ObraStatus = Database["public"]["Enums"]["obra_status"]
 
 const STATUS_CLASSES: Record<ObraStatus, string> = {
-  lancamento: "bg-status-lancamento text-status-lancamento-foreground",
-  em_obras: "bg-status-em-obras text-status-em-obras-foreground",
-  pronto_para_morar: "bg-status-pronto text-status-pronto-foreground",
+  lancamento: "bg-primary/10 text-primary border-primary/20",
+  em_obras: "bg-secondary text-foreground border-border",
+  pronto_para_morar: "bg-foreground/5 text-foreground border-border/80",
 }
 
 export function StatusBadge({
@@ -20,7 +20,7 @@ export function StatusBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-none px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase shadow-none border border-black/10",
+        "inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold tracking-wide uppercase shadow-xs border",
         STATUS_CLASSES[status],
         className
       )}
