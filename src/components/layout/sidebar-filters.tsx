@@ -512,31 +512,6 @@ export function SidebarFilters({
         </div>
       )}
 
-      {/* 2. Search Input */}
-      <div className="space-y-2 border-b border-border pb-5">
-        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-          <Search className="size-3.5 text-primary shrink-0" />
-          Buscar Construtora / Empresa
-        </label>
-        <div className="relative">
-          <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            value={busca}
-            onChange={(e) => setBusca(e.target.value)}
-            placeholder="Ex: Construtora, engenharia, arquiteto..."
-            className="pl-9 pr-8 bg-card border-border text-sm placeholder:text-muted-foreground/70 rounded-none h-10 shadow-none"
-          />
-          {busca && (
-            <button
-              type="button"
-              onClick={() => setBusca("")}
-              className="absolute top-1/2 right-2.5 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            >
-              <X className="size-4" />
-            </button>
-          )}
-        </div>
-      </div>
 
       {/* 3. Padrão de Construção Filter Cards */}
       <div className="space-y-2.5 border-b border-border pb-5">

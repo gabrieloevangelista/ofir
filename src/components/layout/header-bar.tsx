@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { SlidersHorizontal, ArrowUpDown, LogIn, LogOut, Building2 } from "lucide-react"
+import { SlidersHorizontal, ArrowUpDown, LogIn, LogOut, Building2, Search, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/contexts/auth-context"
 import {
@@ -29,6 +30,37 @@ export function HeaderBar({ cidades, totalResults }: { cidades: string[]; totalR
   const [openMobile, setOpenMobile] = useState(false)
   const { isAuthenticated, login, logout } = useAuth()
 
+  const [busca, setBusca] = useState(searchParams.get("busca") ?? "")
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    setBusca(searchParams.get("busca") ?? "")
+  }, [searchParams])
+
+  const handleSearchChange = (value: string) => {
+    setBusca(value)
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString())
+      if (value.trim()) {
+        params.set("busca", value.trim())
+      } else {
+        params.delete("busca")
+      }
+      params.delete("pagina") // Reset to page 1 on new search
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+    }, 300)
+  }
+
+  const handleClearSearch = () => {
+    setBusca("")
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    const params = new URLSearchParams(searchParams.toString())
+    params.delete("busca")
+    params.delete("pagina")
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+  }
+
   const ordenar = searchParams.get("ordenar") ?? "recentes"
   const limit = searchParams.get("limit") ?? "10"
 
@@ -52,16 +84,16 @@ export function HeaderBar({ cidades, totalResults }: { cidades: string[]; totalR
   }
 
   return (
-    <div className="flex flex-col gap-4 border-b border-border/70 pb-6 mb-8">
-      {/* Top row with Title and Mobile Trigger / Desktop Sort */}
+    <div className="flex flex-col gap-5 border-b border-border/70 pb-6 mb-8">
+      {/* Top row with Title and Mobile Trigger / Controls */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-none bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary mb-1.5 border border-primary/20">
+          <div className="inline-flex items-center gap-2 rounded-none bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary mb-1.5 border border-primary/20 shadow-none">
             <Building2 className="size-3.5" />
             <span>{totalResults} {totalResults === 1 ? "empresa credenciada" : "empresas credenciadas"}</span>
           </div>
           <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            Construtoras, Engenharia & Arquitetura
+            Encontre a mão de obra para construir seu sonho
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
             Empresas verificadas e orçamentos médios por m² para sua obra.
@@ -137,6 +169,29 @@ export function HeaderBar({ cidades, totalResults }: { cidades: string[]; totalR
             {isAuthenticated ? <LogOut className="size-4 mr-2" /> : <LogIn className="size-4 mr-2" />}
             {isAuthenticated ? "Sair" : "Entrar"}
           </Button>
+        </div>
+      </div>
+
+      {/* Barra de Pesquisa Fixa abaixo do Título do Painel */}
+      <div className="w-full mt-1">
+        <div className="relative flex items-center w-full">
+          <Search className="pointer-events-none absolute left-3.5 size-4 text-muted-foreground" />
+          <Input
+            value={busca}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            placeholder="Buscar por construtora, arquiteto, especialidade, condomínio ou cidade..."
+            className="h-11 w-full pl-10 pr-10 text-sm bg-card border-border/80 text-foreground placeholder:text-muted-foreground/70 rounded-none shadow-none focus-visible:border-primary"
+          />
+          {busca && (
+            <button
+              type="button"
+              onClick={handleClearSearch}
+              className="absolute right-3 text-muted-foreground hover:text-foreground transition-colors p-1"
+              title="Limpar busca"
+            >
+              <X className="size-4" />
+            </button>
+          )}
         </div>
       </div>
     </div>
