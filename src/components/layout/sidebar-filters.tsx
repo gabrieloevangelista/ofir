@@ -356,7 +356,7 @@ export function SidebarFilters({
                 onClick={() => updateParams({ categoria: item.id })}
                 title={item.label}
                 className={cn(
-                  "flex size-10 items-center justify-center rounded-none transition-all shadow-none",
+                  "flex size-10 items-center justify-center rounded-none transition-[color,background-color,border-color,box-shadow,transform] shadow-none",
                   isSelected
                     ? "bg-primary text-primary-foreground font-semibold"
                     : "text-muted-foreground hover:text-foreground hover:bg-secondary/70"

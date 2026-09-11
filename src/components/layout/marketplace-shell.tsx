@@ -35,11 +35,11 @@ export function MarketplaceShell({ cidades, children }: MarketplaceShellProps) {
         {/* Desktop Collapsible Sidebar Container */}
         <div
           className={cn(
-            "hidden lg:block lg:sticky lg:top-6 self-start shrink-0 transition-all duration-300 ease-in-out",
+            "hidden lg:block lg:sticky lg:top-6 self-start shrink-0 transition-[color,background-color,border-color,box-shadow,transform] duration-300 ease-in-out",
             collapsed ? "w-[76px]" : "w-[300px]"
           )}
         >
-          <div className="rounded-none border border-border bg-card shadow-none transition-all duration-300">
+          <div className="rounded-none border border-border bg-card shadow-none transition-[color,background-color,border-color,box-shadow,transform] duration-300">
             <SidebarFilters
               cidades={cidades}
               collapsed={mounted ? collapsed : false}
