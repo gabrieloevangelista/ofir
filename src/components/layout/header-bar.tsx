@@ -172,28 +172,6 @@ export function HeaderBar({ cidades, totalResults }: { cidades: string[]; totalR
         </div>
       </div>
 
-      {/* Barra de Pesquisa Fixa abaixo do Título do Painel */}
-      <div className="w-full mt-1">
-        <div className="relative flex items-center w-full">
-          <Search className="pointer-events-none absolute left-3.5 size-4 text-muted-foreground" />
-          <Input
-            value={busca}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            placeholder="Buscar por construtora, arquiteto, especialidade, condomínio ou cidade..."
-            className="h-11 w-full pl-10 pr-10 text-sm bg-card border-border/80 text-foreground placeholder:text-muted-foreground/70 rounded-none shadow-none focus-visible:border-primary"
-          />
-          {busca && (
-            <button
-              type="button"
-              onClick={handleClearSearch}
-              className="absolute right-3 text-muted-foreground hover:text-foreground transition-colors p-1"
-              title="Limpar busca"
-            >
-              <X className="size-4" />
-            </button>
-          )}
-        </div>
-      </div>
     </div>
   )
 }

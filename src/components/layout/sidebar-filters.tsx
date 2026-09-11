@@ -156,51 +156,6 @@ export function SidebarFilters({
 
         {/* Action icons stack */}
         <div className="flex flex-col items-center gap-2 w-full">
-          {/* Quick Search Popover */}
-          <Popover open={openCollapsedSearch} onOpenChange={setOpenCollapsedSearch}>
-            <PopoverTrigger
-              render={
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  title="Buscar por nome ou especialidade"
-                  className={cn(
-                    "relative size-10 rounded-none transition-colors shadow-none",
-                    busca ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary/70"
-                  )}
-                />
-              }
-            >
-              <Search className="size-4" />
-              {busca && <span className="absolute top-2 right-2 size-2 rounded-none bg-primary" />}
-            </PopoverTrigger>
-            <PopoverContent side="right" align="start" className="w-72 p-3 rounded-none shadow-none border-border">
-              <div className="space-y-2">
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Buscar Construtora
-                </label>
-                <div className="relative">
-                  <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    value={busca}
-                    onChange={(e) => setBusca(e.target.value)}
-                    placeholder="Nome, especialidade..."
-                    className="pl-9 pr-8 h-9 text-sm rounded-none shadow-none border-border"
-                    autoFocus
-                  />
-                  {busca && (
-                    <button
-                      type="button"
-                      onClick={() => setBusca("")}
-                      className="absolute top-1/2 right-2.5 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                    >
-                      <X className="size-3.5" />
-                    </button>
-                  )}
-                </div>
-              </div>
-            </PopoverContent>
-          </Popover>
 
           {/* Location / Cidade Popover */}
           <Popover open={openCity} onOpenChange={setOpenCity}>

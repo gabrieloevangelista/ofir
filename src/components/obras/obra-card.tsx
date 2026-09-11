@@ -64,7 +64,7 @@ export function ObraCard({
           description={obra.descricao_curta || "Fornecedor de alto padrão focado em qualidade e excelência."}
           stats={stats}
           actionLabel="Contatar"
-          onActionClick={(e) => handleContactClick(e as any)}
+          onActionClick={() => handleContactClick()}
         />
       </div>
 
