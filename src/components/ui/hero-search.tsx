@@ -1,6 +1,8 @@
 'use client'
 
 import * as React from 'react'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion, useReducedMotion, type Variants } from 'motion/react'
 import { Search } from 'lucide-react'
 import Balancer from 'react-wrap-balancer'
@@ -22,6 +24,7 @@ export interface Hero09Props {
   bottomText?: string
   animation?: 'none' | 'subtle'
   variant?: 'standard' | 'compact'
+  suggestions?: string[]
 }
 
 const variantStyles = {
@@ -107,7 +110,10 @@ export function HeroSearch({
   bottomText,
   animation = 'none',
   variant = 'standard',
+  suggestions = [],
 }: Readonly<Hero09Props>) {
+  const router = useRouter()
+  const [searchTerm, setSearchTerm] = useState('')
   const reduce = useReducedMotion()
   const animate = animation === 'subtle' && !reduce
   const vs = variantStyles[variant]
@@ -135,9 +141,20 @@ export function HeroSearch({
     </p>
   )
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!searchTerm.trim()) {
+      router.push('/')
+      return
+    }
+    const params = new URLSearchParams()
+    params.set('busca', searchTerm)
+    router.push(`/?${params.toString()}`)
+  }
+
   const searchElement = (
     <form
-      onSubmit={(e) => e.preventDefault()}
+      onSubmit={handleSearch}
       className="bg-background focus-within:ring-ring/40 mx-auto flex w-full max-w-lg items-center gap-2 rounded-full border p-1.5 shadow-sm transition focus-within:ring-2"
     >
       <div className="text-muted-foreground pl-3">
@@ -146,8 +163,18 @@ export function HeroSearch({
       <Input
         aria-label={searchPlaceholder}
         placeholder={searchPlaceholder}
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        list={suggestions.length > 0 ? "hero-search-suggestions" : undefined}
         className="h-9 flex-1 border-0 bg-transparent p-0 shadow-none focus-visible:ring-0 dark:bg-transparent"
       />
+      {suggestions.length > 0 && (
+        <datalist id="hero-search-suggestions">
+          {suggestions.map((s, i) => (
+            <option key={i} value={s} />
+          ))}
+        </datalist>
+      )}
       <Button type="submit" className="shrink-0 rounded-full px-5">
         {searchButtonText}
       </Button>

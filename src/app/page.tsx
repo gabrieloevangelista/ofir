@@ -45,12 +45,14 @@ export default async function HomePage({
         description="Plataforma de alta relevância para contratação de empresas de engenharia e escritórios de arquitetura de alto padrão."
         searchPlaceholder="Buscar obras por nome, cidade ou construtora..."
         searchButtonText="Buscar"
-        heroImage="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop"
-        heroAlt="Arquitetura de alto padrão"
-        bottomTitle="Obras"
-        bottomTitleLine2="projetadas para impressionar."
-        bottomText="Um catálogo exclusivo de propriedades e projetos de alto padrão."
+        heroImage=""
+        heroAlt=""
+        bottomTitle=""
         animation="subtle"
+        suggestions={Array.from(new Set([
+          ...obras.map(o => o.construtoras?.nome).filter(Boolean),
+          ...obras.map(o => o.nome).filter(Boolean)
+        ])) as string[]}
       />
       <MarketplaceShell cidades={cidades}>
         <HeaderBar cidades={cidades} totalResults={total} />

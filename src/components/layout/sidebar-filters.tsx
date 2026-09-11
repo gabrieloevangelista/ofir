@@ -114,7 +114,6 @@ export function SidebarFilters({
   const hasActiveFilters = Boolean(
     cidade ||
     (categoria && categoria !== "todas") ||
-    (padrao && padrao !== "todos") ||
     busca
   )
 
@@ -262,83 +261,7 @@ export function SidebarFilters({
             </PopoverContent>
           </Popover>
 
-          {/* Standard / Padrão Popover */}
-          <Popover open={openCollapsedPadrao} onOpenChange={setOpenCollapsedPadrao}>
-            <PopoverTrigger
-              render={
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  title={padrao !== "todos" ? `Padrão: ${padrao}` : "Padrão de Construção"}
-                  className={cn(
-                    "relative size-10 rounded-none transition-colors shadow-none",
-                    padrao !== "todos" ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary/70"
-                  )}
-                />
-              }
-            >
-              <Crown className="size-4" />
-              {padrao !== "todos" && <span className="absolute top-2 right-2 size-2 rounded-none bg-primary" />}
-            </PopoverTrigger>
-            <PopoverContent side="right" align="start" className="w-56 p-2 rounded-none shadow-none border-border">
-              <div className="space-y-1">
-                <div className="px-2 py-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                  Padrão de Construção
-                </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    updateParams({ padrao: padrao === "alto" ? null : "alto" })
-                    setOpenCollapsedPadrao(false)
-                  }}
-                  className={cn(
-                    "w-full flex items-center justify-between px-2.5 py-2 text-sm rounded-none transition-colors text-left",
-                    padrao === "alto" ? "bg-primary/15 text-primary font-semibold" : "hover:bg-secondary/60 text-foreground"
-                  )}
-                >
-                  <div className="flex items-center gap-2">
-                    <Crown className="size-4 text-primary" />
-                    <span>Alto Padrão</span>
-                  </div>
-                  {padrao === "alto" && <Check className="size-4 text-primary" />}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    updateParams({ padrao: padrao === "medio" ? null : "medio" })
-                    setOpenCollapsedPadrao(false)
-                  }}
-                  className={cn(
-                    "w-full flex items-center justify-between px-2.5 py-2 text-sm rounded-none transition-colors text-left",
-                    padrao === "medio" ? "bg-primary/15 text-primary font-semibold" : "hover:bg-secondary/60 text-foreground"
-                  )}
-                >
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="size-4 text-muted-foreground" />
-                    <span>Médio Padrão</span>
-                  </div>
-                  {padrao === "medio" && <Check className="size-4 text-primary" />}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    updateParams({ padrao: padrao === "baixo" ? null : "baixo" })
-                    setOpenCollapsedPadrao(false)
-                  }}
-                  className={cn(
-                    "w-full flex items-center justify-between px-2.5 py-2 text-sm rounded-none transition-colors text-left",
-                    padrao === "baixo" ? "bg-primary/15 text-primary font-semibold" : "hover:bg-secondary/60 text-foreground"
-                  )}
-                >
-                  <div className="flex items-center gap-2">
-                    <Leaf className="size-4 text-muted-foreground" />
-                    <span>Baixo Padrão</span>
-                  </div>
-                  {padrao === "baixo" && <Check className="size-4 text-primary" />}
-                </button>
-              </div>
-            </PopoverContent>
-          </Popover>
+
         </div>
 
         {/* Separator */}
@@ -513,101 +436,7 @@ export function SidebarFilters({
       )}
 
 
-      {/* 3. Padrão de Construção Filter Cards */}
-      <div className="space-y-2.5 border-b border-border pb-5">
-        <div className="flex items-center justify-between">
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-            <Sliders className="size-3.5 text-primary" />
-            Padrão de Construção
-          </label>
-          {padrao !== "todos" && (
-            <button
-              type="button"
-              onClick={() => updateParams({ padrao: null })}
-              className="text-xs text-primary hover:underline font-semibold"
-            >
-              Limpar
-            </button>
-          )}
-        </div>
 
-        <div className="grid grid-cols-1 gap-2">
-          {/* Alto Padrão */}
-          <button
-            type="button"
-            onClick={() => updateParams({ padrao: padrao === "alto" ? null : "alto" })}
-            className={cn(
-              "flex items-center justify-between border p-3 text-left transition-all rounded-none group shadow-none",
-              padrao === "alto"
-                ? "border-primary bg-primary/10 text-primary font-semibold"
-                : "border-border/80 bg-card hover:bg-secondary/60 text-foreground"
-            )}
-          >
-            <div className="flex items-center gap-2.5">
-              <div
-                className={cn(
-                  "flex size-8 items-center justify-center rounded-none transition-colors",
-                  padrao === "alto" ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground group-hover:bg-primary/20 group-hover:text-primary"
-                )}
-              >
-                <Crown className="size-4 shrink-0" />
-              </div>
-              <span className="text-sm font-semibold">Alto Padrão</span>
-            </div>
-            {padrao === "alto" && <Check className="size-4 text-primary" />}
-          </button>
-
-          {/* Médio Padrão */}
-          <button
-            type="button"
-            onClick={() => updateParams({ padrao: padrao === "medio" ? null : "medio" })}
-            className={cn(
-              "flex items-center justify-between border p-3 text-left transition-all rounded-none group shadow-none",
-              padrao === "medio"
-                ? "border-primary bg-primary/10 text-primary font-semibold"
-                : "border-border/80 bg-card hover:bg-secondary/60 text-foreground"
-            )}
-          >
-            <div className="flex items-center gap-2.5">
-              <div
-                className={cn(
-                  "flex size-8 items-center justify-center rounded-none transition-colors",
-                  padrao === "medio" ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground group-hover:bg-primary/20 group-hover:text-primary"
-                )}
-              >
-                <Sparkles className="size-4 shrink-0" />
-              </div>
-              <span className="text-sm font-semibold">Médio Padrão</span>
-            </div>
-            {padrao === "medio" && <Check className="size-4 text-primary" />}
-          </button>
-
-          {/* Baixo Padrão */}
-          <button
-            type="button"
-            onClick={() => updateParams({ padrao: padrao === "baixo" ? null : "baixo" })}
-            className={cn(
-              "flex items-center justify-between border p-3 text-left transition-all rounded-none group shadow-none",
-              padrao === "baixo"
-                ? "border-primary bg-primary/10 text-primary font-semibold"
-                : "border-border/80 bg-card hover:bg-secondary/60 text-foreground"
-            )}
-          >
-            <div className="flex items-center gap-2.5">
-              <div
-                className={cn(
-                  "flex size-8 items-center justify-center rounded-none transition-colors",
-                  padrao === "baixo" ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground group-hover:bg-primary/20 group-hover:text-primary"
-                )}
-              >
-                <Leaf className="size-4 shrink-0" />
-              </div>
-              <span className="text-sm font-semibold">Baixo Padrão</span>
-            </div>
-            {padrao === "baixo" && <Check className="size-4 text-primary" />}
-          </button>
-        </div>
-      </div>
 
       {/* 4. Etapas Desmembradas da Obra */}
       <div className="space-y-2.5">

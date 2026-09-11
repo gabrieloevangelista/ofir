@@ -119,22 +119,6 @@ export function Topbar({ cidades }: { cidades: string[] }) {
 
           <div className="flex flex-wrap items-center gap-2">
             <Select
-              value={padrao}
-              onValueChange={(value) => updateParams({ padrao: value as string })}
-            >
-              <SelectTrigger className="min-w-[9.5rem] bg-card border-border/80 text-foreground">
-                <SelectValue placeholder="Padrão" />
-              </SelectTrigger>
-              <SelectContent>
-                {PADRAO_OPTIONS.map((opt) => (
-                  <SelectItem key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <Select
               value={categoria}
               onValueChange={(value) => updateParams({ categoria: value as string })}
             >

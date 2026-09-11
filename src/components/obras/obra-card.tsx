@@ -39,7 +39,6 @@ export function ObraCard({
   }
 
   const stats = [
-    { label: "Padrão", value: formatPadraoLabel(padrao) },
     { label: "Local", value: formatLocalizacao(obra.cidade, obra.estado) }
   ]
   
