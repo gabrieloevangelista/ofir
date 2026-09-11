@@ -39,7 +39,7 @@ export function MarketplaceShell({ cidades, children }: MarketplaceShellProps) {
             collapsed ? "w-[76px]" : "w-[300px]"
           )}
         >
-          <div className="rounded-none border border-border bg-card shadow-none transition-all duration-300">
+          <div className="rounded-2xl border-none bg-background shadow-sm transition-all duration-300">
             <SidebarFilters
               cidades={cidades}
               collapsed={mounted ? collapsed : false}

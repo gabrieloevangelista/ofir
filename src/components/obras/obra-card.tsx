@@ -1,14 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { MapPin, Building2, ArrowRight, Star, Lock, MessageCircle } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { formatValorMetroQuadrado, formatLocalizacao, getObraPadrao, formatPadraoLabel, cn } from "@/lib/utils"
+import { useRouter } from "next/navigation"
+import { formatValorMetroQuadrado, formatLocalizacao, getObraPadrao, formatPadraoLabel } from "@/lib/utils"
 import type { ObraWithConstrutora } from "@/types/obra"
 import { useAuth } from "@/contexts/auth-context"
 import { ContactDialog } from "./contact-dialog"
+import { PropertyCard } from "@/components/ui/property-card"
 
 export function ObraCard({
   obra,
@@ -19,6 +17,7 @@ export function ObraCard({
   modoExibicao?: "grid" | "lista"
 }) {
   const { isAuthenticated } = useAuth()
+  const router = useRouter()
   const [contactOpen, setContactOpen] = useState(false)
 
   const logoUrl =
@@ -27,148 +26,48 @@ export function ObraCard({
   const empresaNome = obra.construtoras?.nome || obra.nome
   const padrao = getObraPadrao(obra.preco_a_partir)
 
-  const handleContactClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
+  const handleContactClick = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
     setContactOpen(true)
   }
 
+  const navigateToDetails = () => {
+    router.push(`/sup/${obra.slug}`)
+  }
+
+  const stats = [
+    { label: "Padrão", value: formatPadraoLabel(padrao) },
+    { label: "Local", value: formatLocalizacao(obra.cidade, obra.estado) }
+  ]
+  
+  if (obra.supplier_rating) {
+    stats.push({ label: "Avaliação", value: obra.supplier_rating.score.toFixed(1) })
+  }
+
+  const priceValue = isAuthenticated 
+    ? (obra.preco_a_partir ? formatValorMetroQuadrado(obra.preco_a_partir) : "Sob Consulta")
+    : "🔒"
+  const pricePeriod = isAuthenticated ? "/ m²" : "Login para ver"
+
   return (
     <>
-      <Link
-        href={`/sup/${obra.slug}`}
-        className="group/link block h-full focus-visible:outline-none"
-      >
-        <article className="flex h-full flex-col overflow-hidden rounded-none bg-card border border-border shadow-none transition-all duration-150 hover:border-primary focus-visible:ring-2 focus-visible:ring-ring">
-          {/* Cover Image Container */}
-          <div className="relative aspect-[16/10] overflow-hidden bg-muted rounded-none">
-            {obra.cover_image_url ? (
-              <Image
-                src={obra.cover_image_url}
-                alt={empresaNome}
-                fill
-                priority={priority}
-                sizes="(min-width: 1280px) 25vw, (min-width: 640px) 45vw, 90vw"
-                className="object-cover transition-transform duration-500 ease-out group-hover/link:scale-105"
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                <Building2 className="size-10" />
-              </div>
-            )}
-
-            {/* Standard badge top right */}
-            <div className="absolute top-3 right-3 z-10">
-              <span className="inline-flex items-center rounded-none bg-background/95 px-2.5 py-1 text-xs font-semibold text-foreground shadow-none border border-border">
-                {formatPadraoLabel(padrao)}
-              </span>
-            </div>
-          </div>
-
-          {/* Firm Profile Header with Logo Avatar */}
-          <div className="p-5 pb-0">
-            <div className="flex items-start gap-3.5">
-              <div className="relative size-12 rounded-none border border-border bg-card overflow-hidden shrink-0 shadow-none -mt-9 z-10">
-                <Image
-                  src={logoUrl}
-                  alt={empresaNome}
-                  fill
-                  unoptimized
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex flex-col min-w-0 flex-1">
-                <h3 className="font-heading text-base sm:text-lg font-bold text-foreground truncate group-hover/link:text-primary transition-colors leading-tight">
-                  {empresaNome}
-                </h3>
-
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1">
-                    <MapPin className="size-3 text-primary shrink-0" />
-                    <span className="truncate">{formatLocalizacao(obra.cidade, obra.estado)}</span>
-                  </span>
-
-                  {obra.supplier_rating && (
-                    <span className="flex items-center gap-1 font-semibold text-foreground">
-                      <Star className="size-3 fill-amber-500 text-amber-500 shrink-0" />
-                      <span>{obra.supplier_rating.score.toFixed(1)}</span>
-                      <span className="font-normal text-muted-foreground">({obra.supplier_rating.count})</span>
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Description & Tags Container */}
-          <div className="flex flex-1 flex-col justify-between p-5 pt-3 gap-4">
-            <p className="line-clamp-2 text-sm text-muted-foreground leading-relaxed">
-              {obra.descricao_curta}
-            </p>
-
-            {/* Tags */}
-            {obra.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {obra.tags.slice(0, 3).map((tag) => (
-                  <Badge
-                    key={tag}
-                    variant="secondary"
-                    className="text-xs font-medium text-muted-foreground bg-secondary/70 hover:bg-secondary rounded-none px-2 py-0.5 border border-border/60 shadow-none"
-                  >
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            )}
-
-            {/* Pricing & CTA Row */}
-            <div className="pt-3 border-t border-border/70 flex items-center justify-between gap-3">
-              <div>
-                <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider block">
-                  Custo Médio / m²:
-                </span>
-                <div className="relative group inline-block mt-0.5">
-                  <span
-                    className={cn(
-                      "font-heading text-lg sm:text-xl font-bold text-foreground whitespace-nowrap block leading-tight select-none transition-all",
-                      !isAuthenticated && "blur-[5px]"
-                    )}
-                  >
-                    {formatValorMetroQuadrado(obra.preco_a_partir)}
-                  </span>
-                  {!isAuthenticated && (
-                    <div className="absolute inset-0 flex items-center justify-start">
-                      <span className="text-xs font-semibold text-primary bg-background/95 px-1.5 py-0.5 rounded-none flex items-center gap-1 shadow-none border border-primary/20">
-                        <Lock className="size-3" /> Login para ver
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Action Buttons: Contatar & Detalhes */}
-              <div className="flex items-center gap-2 shrink-0">
-                <button
-                  type="button"
-                  onClick={handleContactClick}
-                  title="Contatar fornecedor diretamente"
-                  className="inline-flex items-center gap-1.5 h-9 px-3 rounded-none bg-secondary hover:bg-primary/10 text-foreground hover:text-primary border border-border text-xs font-semibold transition-all shadow-none"
-                >
-                  <MessageCircle className="size-3.5 text-primary" />
-                  <span>Contatar</span>
-                </button>
-
-                <div
-                  title="Ver perfil completo"
-                  className="flex size-9 items-center justify-center rounded-none bg-primary text-primary-foreground shadow-none group-hover/link:translate-x-0.5 transition-transform shrink-0"
-                >
-                  <ArrowRight className="size-4" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-      </Link>
+      <div className="cursor-pointer h-full" onClick={navigateToDetails}>
+        <PropertyCard
+          className="h-full hover:border-primary/50 transition-colors"
+          imageUrl={obra.cover_image_url || logoUrl}
+          imageAlt={empresaNome}
+          title={empresaNome}
+          price={priceValue}
+          pricePeriod={pricePeriod}
+          description={obra.descricao_curta || "Fornecedor de alto padrão focado em qualidade e excelência."}
+          stats={stats}
+          actionLabel="Contatar"
+          onActionClick={(e) => handleContactClick(e as any)}
+        />
+      </div>
 
       <ContactDialog
         obra={obra}
