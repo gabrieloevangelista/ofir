@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { formatValorMetroQuadrado, formatLocalizacao, getObraPadrao, formatPadraoLabel } from "@/lib/utils"
 import type { ObraWithConstrutora } from "@/types/obra"
 import { useAuth } from "@/contexts/auth-context"
+import { useCotacao } from "@/contexts/cotacao-context"
 import { ContactDialog } from "./contact-dialog"
 import { PropertyCard } from "@/components/ui/property-card"
 
@@ -17,6 +18,7 @@ export function ObraCard({
   modoExibicao?: "grid" | "lista"
 }) {
   const { isAuthenticated } = useAuth()
+  const { isFavorito, toggleItem } = useCotacao()
   const router = useRouter()
   const [contactOpen, setContactOpen] = useState(false)
 
@@ -26,12 +28,20 @@ export function ObraCard({
   const empresaNome = obra.construtoras?.nome || obra.nome
   const padrao = getObraPadrao(obra.preco_a_partir)
 
+  const isFav = isFavorito(obra.id)
+
   const handleContactClick = (e?: React.MouseEvent) => {
     if (e) {
       e.preventDefault()
       e.stopPropagation()
     }
     setContactOpen(true)
+  }
+
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    toggleItem(obra)
   }
 
   const navigateToDetails = () => {
@@ -65,6 +75,8 @@ export function ObraCard({
           stats={stats}
           actionLabel="Contatar"
           onActionClick={() => handleContactClick()}
+          isFavorite={isFav}
+          onToggleFavorite={handleToggleFavorite}
         />
       </div>
 

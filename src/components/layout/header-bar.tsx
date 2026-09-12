@@ -2,11 +2,13 @@
 
 import { useState, useEffect, useRef } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { SlidersHorizontal, ArrowUpDown, LogIn, LogOut, Building2, Search, X } from "lucide-react"
+import Link from "next/link"
+import { SlidersHorizontal, ArrowUpDown, LogIn, LogOut, Building2, Search, X, Calculator, Heart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/contexts/auth-context"
+import { useCotacao } from "@/contexts/cotacao-context"
 import {
   Select,
   SelectContent,
@@ -29,6 +31,7 @@ export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades
   const searchParams = useSearchParams()
   const [openMobile, setOpenMobile] = useState(false)
   const { isAuthenticated, login, logout } = useAuth()
+  const { itemCount } = useCotacao()
 
   const [busca, setBusca] = useState(searchParams.get("busca") ?? "")
   const [isOpen, setIsOpen] = useState(false)
@@ -161,6 +164,26 @@ export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades
               </SelectContent>
             </Select>
           </div>
+
+          {/* Minha Cotação Button */}
+          <Link
+            href="/cotacao"
+            className={cn(
+              "inline-flex items-center gap-2 rounded-none h-10 px-3.5 text-sm font-semibold border transition-all shadow-none",
+              itemCount > 0
+                ? "bg-primary text-primary-foreground border-primary hover:bg-primary/90"
+                : "bg-card hover:bg-secondary/70 text-foreground border-border/80"
+            )}
+            title="Ver orçamento consolidado e fornecedores selecionados"
+          >
+            <Calculator className="size-4" />
+            <span>Minha Cotação</span>
+            {itemCount > 0 && (
+              <span className="flex items-center justify-center size-5 text-[11px] font-bold bg-white text-primary rounded-none">
+                {itemCount}
+              </span>
+            )}
+          </Link>
 
           {/* Auth Button */}
           <Button

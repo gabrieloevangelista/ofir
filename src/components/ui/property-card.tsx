@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Heart } from "lucide-react";
 
 // Define the structure for each stat to be displayed
 export interface Stat {
@@ -28,6 +29,10 @@ export interface PropertyCardProps extends React.HTMLAttributes<HTMLDivElement> 
   actionLabel: string;
   /** The function to call when the action button is clicked. */
   onActionClick?: () => void;
+  /** Whether this property is in favorites / quotation */
+  isFavorite?: boolean;
+  /** Function to toggle favorite / quotation */
+  onToggleFavorite?: (e: React.MouseEvent) => void;
 }
 
 const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
@@ -43,6 +48,8 @@ const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
       stats,
       actionLabel,
       onActionClick,
+      isFavorite = false,
+      onToggleFavorite,
       ...props
     },
     ref
@@ -51,7 +58,7 @@ const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
       <div
         ref={ref}
         className={cn(
-          "flex w-full flex-col overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm",
+          "flex w-full flex-col overflow-hidden rounded-none border border-border bg-card text-card-foreground shadow-none relative group",
           className
         )}
         {...props}
@@ -61,8 +68,37 @@ const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
           <img
             src={imageUrl}
             alt={imageAlt || title}
-            className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
+
+          {/* Favorite / Add to Quotation Badge Button */}
+          {onToggleFavorite && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onToggleFavorite(e);
+              }}
+              title={isFavorite ? "Remover da Cotação" : "Adicionar à Cotação"}
+              className={cn(
+                "absolute top-2.5 right-2.5 z-10 flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-none border transition-all shadow-sm",
+                isFavorite
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-background/90 hover:bg-background text-foreground border-border/80 backdrop-blur-sm"
+              )}
+            >
+              <Heart
+                className={cn(
+                  "size-3.5 transition-transform",
+                  isFavorite ? "fill-current text-primary-foreground scale-110" : "text-muted-foreground"
+                )}
+              />
+              <span className="text-[11px] uppercase tracking-wide">
+                {isFavorite ? "Cotado" : "Cotar"}
+              </span>
+            </button>
+          )}
         </div>
 
         {/* Card Content */}
@@ -78,7 +114,7 @@ const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
           {/* Stats Section */}
           <div className="my-4 grid grid-cols-2 gap-2 sm:gap-3">
             {stats.map((stat, index) => (
-              <div key={index} className="rounded-lg bg-muted/50 p-2.5 text-center flex flex-col justify-center">
+              <div key={index} className="rounded-none bg-muted/50 p-2.5 text-center flex flex-col justify-center border border-border/40">
                 <p className="text-[11px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider">{stat.label}</p>
                 <p className="text-sm sm:text-base font-bold text-foreground mt-0.5 line-clamp-1">{stat.value}</p>
               </div>
@@ -86,7 +122,7 @@ const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
           </div>
 
           {/* Action Button */}
-          <Button onClick={onActionClick} className="w-full">
+          <Button onClick={onActionClick} className="w-full rounded-none shadow-none">
             {actionLabel}
           </Button>
         </div>

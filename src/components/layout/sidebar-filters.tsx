@@ -91,7 +91,8 @@ export function SidebarFilters({
         }
       }
       startTransition(() => {
-        router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+        const targetPath = pathname === "/" ? pathname : "/"
+        router.push(`${targetPath}?${params.toString()}`)
       })
     },
     [pathname, router, searchParams, startTransition]
@@ -120,7 +121,7 @@ export function SidebarFilters({
   const handleReset = () => {
     setBusca("")
     startTransition(() => {
-      router.replace(pathname, { scroll: false })
+      router.push("/")
     })
     if (onApplyMobile) onApplyMobile()
   }
