@@ -31,7 +31,12 @@ export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades
   const { isAuthenticated, login, logout } = useAuth()
 
   const [busca, setBusca] = useState(searchParams.get("busca") ?? "")
+  const [isOpen, setIsOpen] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const filteredSuggestions = suggestions.filter(s => 
+    s.toLowerCase().includes(busca.toLowerCase())
+  ).slice(0, 8)
 
   useEffect(() => {
     setBusca(searchParams.get("busca") ?? "")
@@ -173,33 +178,35 @@ export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades
       </div>
 
       {/* Barra de Pesquisa Fixa abaixo do Título do Painel */}
-      <div className="w-full mt-1">
+      <div className="w-full mt-1 relative z-50">
         <form 
           className="relative flex items-center w-full"
           onSubmit={(e) => {
             e.preventDefault()
             handleSearchChange(busca)
+            setIsOpen(false)
           }}
         >
           <Search className="pointer-events-none absolute left-3.5 size-4 text-muted-foreground" />
           <Input
             value={busca}
-            onChange={(e) => handleSearchChange(e.target.value)}
+            onChange={(e) => {
+              handleSearchChange(e.target.value)
+              setIsOpen(true)
+            }}
+            onFocus={() => setIsOpen(true)}
+            onBlur={() => setTimeout(() => setIsOpen(false), 200)}
             placeholder="Buscar por construtora, arquiteto, especialidade, condomínio ou cidade..."
             className="h-11 w-full pl-10 pr-10 text-sm bg-card border-border/80 text-foreground placeholder:text-muted-foreground/70 rounded-none shadow-none focus-visible:border-primary"
-            list={suggestions.length > 0 ? "header-search-suggestions" : undefined}
+            autoComplete="off"
           />
-          {suggestions.length > 0 && (
-            <datalist id="header-search-suggestions">
-              {suggestions.map((s, i) => (
-                <option key={i} value={s} />
-              ))}
-            </datalist>
-          )}
           {busca && (
             <button
               type="button"
-              onClick={handleClearSearch}
+              onClick={() => {
+                handleClearSearch()
+                setIsOpen(false)
+              }}
               className="absolute right-3 text-muted-foreground hover:text-foreground transition-colors p-1"
               title="Limpar busca"
             >
@@ -207,6 +214,25 @@ export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades
             </button>
           )}
         </form>
+
+        {isOpen && busca.length >= 3 && filteredSuggestions.length > 0 && (
+          <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border shadow-md rounded-none max-h-64 overflow-y-auto">
+            {filteredSuggestions.map((s, i) => (
+              <div 
+                key={i} 
+                className="px-4 py-3 text-sm cursor-pointer hover:bg-secondary/70 hover:text-foreground text-muted-foreground transition-colors border-b border-border/40 last:border-0"
+                onClick={() => {
+                  setBusca(s)
+                  handleSearchChange(s)
+                  setIsOpen(false)
+                }}
+              >
+                <Search className="inline-block size-3.5 mr-2 opacity-50" />
+                {s}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
