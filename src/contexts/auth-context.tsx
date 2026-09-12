@@ -1,6 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect } from "react"
+import { AuthDialog } from "@/components/auth/auth-dialog"
 
 export type User = {
   nome: string
@@ -13,6 +14,8 @@ type AuthContextType = {
   user: User | null
   login: (userData?: User) => void
   logout: () => void
+  openLoginModal: () => void
+  closeLoginModal: () => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -26,12 +29,12 @@ const DEFAULT_MOCK_USER: User = {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState<User | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   // Opcional: Persistir o mock de login no sessionStorage para não perder ao recarregar a página
   useEffect(() => {
     const savedState = sessionStorage.getItem("mock_auth")
     if (savedState === "true") {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsAuthenticated(true)
       const savedUser = sessionStorage.getItem("mock_user")
       if (savedUser) {
@@ -46,6 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const activeUser = userData || DEFAULT_MOCK_USER
     setIsAuthenticated(true)
     setUser(activeUser)
+    setIsModalOpen(false)
     sessionStorage.setItem("mock_auth", "true")
     sessionStorage.setItem("mock_user", JSON.stringify(activeUser))
   }
@@ -57,9 +61,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     sessionStorage.removeItem("mock_user")
   }
 
+  const openLoginModal = () => setIsModalOpen(true)
+  const closeLoginModal = () => setIsModalOpen(false)
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, openLoginModal, closeLoginModal }}>
       {children}
+      <AuthDialog open={isModalOpen} onOpenChange={setIsModalOpen} />
     </AuthContext.Provider>
   )
 }

@@ -18,17 +18,23 @@ import {
   Layers,
   Ruler,
   AlertCircle,
-  Building
+  Building,
+  Lock,
+  LogIn,
+  UserCheck,
+  ShieldAlert
 } from "lucide-react"
 import { useCotacao, CotacaoItem } from "@/contexts/cotacao-context"
+import { useAuth } from "@/contexts/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { formatValorMetroQuadrado, formatCategoriaLabel, formatLocalizacao } from "@/lib/utils"
+import { formatValorMetroQuadrado, formatCategoriaLabel, formatLocalizacao, cn } from "@/lib/utils"
 
 export function CotacaoView() {
+  const { isAuthenticated, openLoginModal } = useAuth()
   const { items, removeItem, clearCotacao, totalPrecoM2, itemCount, calcularOrcamentoTotal } = useCotacao()
   const [areaM2, setAreaM2] = useState<number>(200)
   const [copied, setCopied] = useState(false)
@@ -36,10 +42,18 @@ export function CotacaoView() {
   const orcamentoTotal = calcularOrcamentoTotal(areaM2)
 
   const handlePrint = () => {
+    if (!isAuthenticated) {
+      openLoginModal()
+      return
+    }
     window.print()
   }
 
   const handleCopySummary = () => {
+    if (!isAuthenticated) {
+      openLoginModal()
+      return
+    }
     const lines = [
       `📋 *COTAÇÃO CONSOLIDADA — OFIR OBRAS*`,
       `Área estimada da obra: ${areaM2} m²`,
@@ -147,6 +161,33 @@ export function CotacaoView() {
         </div>
       </div>
 
+      {/* Non-authenticated Alert Banner */}
+      {!isAuthenticated && (
+        <div className="bg-primary/10 border border-primary/30 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-start gap-3">
+            <div className="size-9 bg-primary text-primary-foreground flex items-center justify-center shrink-0">
+              <Lock className="size-4.5" />
+            </div>
+            <div>
+              <h3 className="font-heading text-base font-bold text-foreground">
+                Preços e Orçamento Bloqueados
+              </h3>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Para visualizar os valores por m² e o orçamento consolidado dos fornecedores selecionados, faça login ou acesse com uma conta de teste.
+              </p>
+            </div>
+          </div>
+          <Button
+            type="button"
+            onClick={openLoginModal}
+            className="rounded-none font-semibold text-xs h-10 px-5 shadow-none shrink-0"
+          >
+            <UserCheck className="size-4 mr-2" />
+            Desbloquear Preços (Login Demo)
+          </Button>
+        </div>
+      )}
+
       {/* KPI & Budget Calculator Dashboard */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* KPI 1: Quantidade de Empresas */}
@@ -176,13 +217,26 @@ export function CotacaoView() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="font-heading text-3xl font-bold text-foreground">
-              R$ {totalPrecoM2.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-              <span className="text-sm font-normal text-muted-foreground"> / m²</span>
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Soma das taxas por metro quadrado
-            </p>
+            {isAuthenticated ? (
+              <>
+                <div className="font-heading text-3xl font-bold text-foreground">
+                  R$ {totalPrecoM2.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                  <span className="text-sm font-normal text-muted-foreground"> / m²</span>
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Soma das taxas por metro quadrado
+                </p>
+              </>
+            ) : (
+              <div onClick={openLoginModal} className="cursor-pointer">
+                <div className="font-heading text-2xl font-bold text-muted-foreground blur-[6px] select-none">
+                  R$ 3.850,00 / m²
+                </div>
+                <p className="text-xs text-primary font-bold mt-1 flex items-center gap-1">
+                  <Lock className="size-3" /> Login para liberar
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -195,12 +249,25 @@ export function CotacaoView() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="font-heading text-3xl font-bold text-primary">
-              R$ {orcamentoTotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-            </div>
-            <p className="text-xs text-primary/80 font-medium mt-1">
-              Para {areaM2} m² de área construída
-            </p>
+            {isAuthenticated ? (
+              <>
+                <div className="font-heading text-3xl font-bold text-primary">
+                  R$ {orcamentoTotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                </div>
+                <p className="text-xs text-primary/80 font-medium mt-1">
+                  Para {areaM2} m² de área construída
+                </p>
+              </>
+            ) : (
+              <div onClick={openLoginModal} className="cursor-pointer">
+                <div className="font-heading text-2xl font-bold text-primary blur-[6px] select-none">
+                  R$ 770.000,00
+                </div>
+                <p className="text-xs text-primary font-bold mt-1 flex items-center gap-1">
+                  <Lock className="size-3" /> Login para liberar
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -329,28 +396,52 @@ export function CotacaoView() {
                         <span className="text-[11px] uppercase tracking-wider text-muted-foreground block font-semibold">
                           Taxa Estimada
                         </span>
-                        <span className="font-heading text-base font-bold text-foreground">
-                          {item.preco_a_partir ? formatValorMetroQuadrado(item.preco_a_partir) : "Sob Consulta"}
-                          <span className="text-xs font-normal text-muted-foreground"> / m²</span>
-                        </span>
-                        {item.preco_a_partir ? (
-                          <span className="text-xs text-primary font-semibold block mt-0.5">
-                            Subtotal: R$ {subtotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-                          </span>
-                        ) : null}
+                        {isAuthenticated ? (
+                          <>
+                            <span className="font-heading text-base font-bold text-foreground">
+                              {item.preco_a_partir ? formatValorMetroQuadrado(item.preco_a_partir) : "Sob Consulta"}
+                              <span className="text-xs font-normal text-muted-foreground"> / m²</span>
+                            </span>
+                            {item.preco_a_partir ? (
+                              <span className="text-xs text-primary font-semibold block mt-0.5">
+                                Subtotal: R$ {subtotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                              </span>
+                            ) : null}
+                          </>
+                        ) : (
+                          <div onClick={openLoginModal} className="cursor-pointer">
+                            <span className="font-heading text-base font-bold text-muted-foreground blur-[4px] select-none">
+                              R$ 850,00 / m²
+                            </span>
+                            <span className="text-[11px] text-primary font-bold flex items-center gap-1 justify-start md:justify-end mt-0.5">
+                              <Lock className="size-3" /> Login para ver
+                            </span>
+                          </div>
+                        )}
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <a
-                          href={whatsAppHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-none bg-emerald-600 hover:bg-emerald-700 text-white transition-colors shadow-none"
-                          title="Falar no WhatsApp sobre este orçamento"
-                        >
-                          <MessageCircle className="size-3.5" />
-                          <span>WhatsApp</span>
-                        </a>
+                        {isAuthenticated ? (
+                          <a
+                            href={whatsAppHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-none bg-emerald-600 hover:bg-emerald-700 text-white transition-colors shadow-none"
+                            title="Falar no WhatsApp sobre este orçamento"
+                          >
+                            <MessageCircle className="size-3.5" />
+                            <span>WhatsApp</span>
+                          </a>
+                        ) : (
+                          <Button
+                            onClick={openLoginModal}
+                            className="inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-none bg-emerald-600 hover:bg-emerald-700 text-white transition-colors shadow-none h-auto"
+                            title="Fazer login para conversar no WhatsApp"
+                          >
+                            <MessageCircle className="size-3.5" />
+                            <span>WhatsApp</span>
+                          </Button>
+                        )}
 
                         <Button
                           variant="ghost"

@@ -1,9 +1,10 @@
 "use client"
 
 import React from "react"
-import { Heart, Check, Plus, Calculator } from "lucide-react"
+import { Heart, Check, Plus, Calculator, Lock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useCotacao } from "@/contexts/cotacao-context"
+import { useAuth } from "@/contexts/auth-context"
 import type { ObraWithConstrutora } from "@/types/obra"
 import { cn } from "@/lib/utils"
 
@@ -22,19 +23,26 @@ export function CotacaoToggleButton({
   className,
   showText = true,
 }: CotacaoToggleButtonProps) {
+  const { isAuthenticated, openLoginModal } = useAuth()
   const { isFavorito, toggleItem } = useCotacao()
   const isFav = isFavorito(obra.id)
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (!isAuthenticated) {
+      openLoginModal()
+      return
+    }
+    toggleItem(obra)
+  }
 
   return (
     <Button
       type="button"
       variant={isFav ? "default" : variant}
       size={size}
-      onClick={(e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        toggleItem(obra)
-      }}
+      onClick={handleClick}
       className={cn(
         "rounded-none transition-all shadow-none font-semibold",
         isFav

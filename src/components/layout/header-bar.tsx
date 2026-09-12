@@ -30,7 +30,7 @@ export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [openMobile, setOpenMobile] = useState(false)
-  const { isAuthenticated, login, logout } = useAuth()
+  const { isAuthenticated, logout, openLoginModal } = useAuth()
   const { itemCount } = useCotacao()
 
   const [busca, setBusca] = useState(searchParams.get("busca") ?? "")
@@ -192,7 +192,7 @@ export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades
               "rounded-none h-10 px-4 text-sm font-medium transition-colors shadow-none",
               isAuthenticated ? "border-primary/50 text-primary hover:bg-primary/10" : "hover:bg-secondary"
             )}
-            onClick={isAuthenticated ? logout : () => login()}
+            onClick={isAuthenticated ? logout : openLoginModal}
           >
             {isAuthenticated ? <LogOut className="size-4 mr-2" /> : <LogIn className="size-4 mr-2" />}
             {isAuthenticated ? "Sair" : "Entrar"}

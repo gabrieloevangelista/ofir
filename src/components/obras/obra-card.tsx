@@ -17,7 +17,7 @@ export function ObraCard({
   priority?: boolean
   modoExibicao?: "grid" | "lista"
 }) {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, openLoginModal } = useAuth()
   const { isFavorito, toggleItem } = useCotacao()
   const router = useRouter()
   const [contactOpen, setContactOpen] = useState(false)
@@ -41,6 +41,10 @@ export function ObraCard({
   const handleToggleFavorite = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
+    if (!isAuthenticated) {
+      openLoginModal()
+      return
+    }
     toggleItem(obra)
   }
 

@@ -98,16 +98,6 @@ export function SidebarFilters({
     [pathname, router, searchParams, startTransition]
   )
 
-  useEffect(() => {
-    if (debounceRef.current) clearTimeout(debounceRef.current)
-    debounceRef.current = setTimeout(() => {
-      updateParams({ busca: busca || null })
-    }, 350)
-    return () => {
-      if (debounceRef.current) clearTimeout(debounceRef.current)
-    }
-  }, [busca, updateParams])
-
   const cidade = searchParams.get("cidade") ?? ""
   const categoria = searchParams.get("categoria") ?? "todas"
   const padrao = searchParams.get("padrao") ?? "todos"
