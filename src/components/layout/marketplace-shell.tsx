@@ -30,12 +30,12 @@ export function MarketplaceShell({ cidades, children }: MarketplaceShellProps) {
   }
 
   return (
-    <div className="w-full px-4 py-6 sm:px-6 lg:px-8">
+    <div className="w-full px-4 py-6 sm:px-6 lg:px-8 print:p-0 print:m-0">
       <div className="flex flex-col lg:flex-row gap-8 items-start">
         {/* Desktop Collapsible Sidebar Container */}
         <div
           className={cn(
-            "hidden lg:block lg:sticky lg:top-6 self-start shrink-0 transition-all duration-300 ease-in-out",
+            "hidden lg:block lg:sticky lg:top-6 self-start shrink-0 transition-all duration-300 ease-in-out print:hidden",
             collapsed ? "w-[76px]" : "w-[300px]"
           )}
         >
@@ -51,7 +51,7 @@ export function MarketplaceShell({ cidades, children }: MarketplaceShellProps) {
         </div>
 
         {/* Main Content Area - dynamically expands when sidebar is collapsed */}
-        <main className="flex-1 min-w-0 w-full">
+        <main className="flex-1 min-w-0 w-full print:w-full print:p-0">
           <Suspense fallback={<div className="w-full h-96 animate-pulse bg-muted/20" />}>
             {children}
           </Suspense>

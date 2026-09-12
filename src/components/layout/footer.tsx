@@ -2,7 +2,7 @@ import { Building } from "lucide-react"
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/70 bg-card/60 mt-auto">
+    <footer className="border-t border-border/70 bg-card/60 mt-auto print:hidden">
       <div className="w-full flex flex-col gap-4 px-4 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
         <div className="flex items-center gap-2">
           <div className="flex size-6 items-center justify-center rounded-none bg-primary text-primary-foreground font-bold shadow-none">

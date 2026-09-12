@@ -19,6 +19,8 @@ export default async function HomePage({
 }) {
   const params = await searchParams
 
+  const modoExibicao = (toSingle(params.modoExibicao) as "grid" | "lista") || "grid"
+
   const filtros: ObraFiltros = {
     busca: toSingle(params.busca),
     categoria: toSingle(params.categoria) as ObraFiltros["categoria"],
@@ -27,7 +29,7 @@ export default async function HomePage({
     ordenar: toSingle(params.ordenar) as ObraFiltros["ordenar"],
     padrao: toSingle(params.padrao) as ObraFiltros["padrao"],
     pagina: Number(toSingle(params.pagina)) || 1,
-    modoExibicao: "grid",
+    modoExibicao,
   }
 
   const limit = Number(toSingle(params.limit)) || 10
@@ -43,12 +45,13 @@ export default async function HomePage({
         <HeaderBar 
           cidades={cidades} 
           totalResults={total} 
+          modoExibicao={modoExibicao}
           suggestions={Array.from(new Set([
             ...obras.map(o => o.construtoras?.nome).filter(Boolean),
             ...obras.map(o => o.nome).filter(Boolean)
           ])) as string[]}
         />
-        <ObraGrid obras={obras} />
+        <ObraGrid obras={obras} modoExibicao={modoExibicao} />
         <Pagination
           paginaAtual={paginaAtual}
           totalPaginas={totalPaginas}

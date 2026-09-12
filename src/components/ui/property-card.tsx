@@ -33,6 +33,8 @@ export interface PropertyCardProps extends React.HTMLAttributes<HTMLDivElement> 
   isFavorite?: boolean;
   /** Function to toggle favorite / quotation */
   onToggleFavorite?: (e: React.MouseEvent) => void;
+  /** View layout mode */
+  layout?: "grid" | "list";
 }
 
 const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
@@ -50,21 +52,30 @@ const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
       onActionClick,
       isFavorite = false,
       onToggleFavorite,
+      layout = "grid",
       ...props
     },
     ref
   ) => {
+    const isList = layout === "list";
+
     return (
       <div
         ref={ref}
         className={cn(
-          "flex w-full flex-col overflow-hidden rounded-none border border-border bg-card text-card-foreground shadow-none relative group",
+          "w-full overflow-hidden rounded-none border border-border bg-card text-card-foreground shadow-none relative group transition-all",
+          isList ? "flex flex-col sm:flex-row items-stretch" : "flex flex-col",
           className
         )}
         {...props}
       >
         {/* Property Image */}
-        <div className="aspect-[16/10] overflow-hidden relative">
+        <div
+          className={cn(
+            "overflow-hidden relative shrink-0",
+            isList ? "w-full sm:w-72 md:w-84 aspect-[16/10] sm:aspect-auto min-h-[200px]" : "aspect-[16/10] w-full"
+          )}
+        >
           <img
             src={imageUrl}
             alt={imageAlt || title}
@@ -102,29 +113,44 @@ const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
         </div>
 
         {/* Card Content */}
-        <div className="flex flex-1 flex-col p-4 sm:p-5">
+        <div className={cn("flex flex-1 flex-col p-4 sm:p-5", isList ? "justify-between" : "")}>
           <div className="flex-1">
-            <h3 className="text-lg sm:text-xl font-bold tracking-tight line-clamp-1">{title}</h3>
-            <p className="mt-1 text-base font-semibold text-foreground">
-              {price} {pricePeriod ? <span className="text-xs font-normal text-muted-foreground">{pricePeriod}</span> : null}
+            <div className={cn(isList ? "flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1" : "")}>
+              <h3 className="text-lg sm:text-xl font-bold tracking-tight line-clamp-1">{title}</h3>
+              <p className="text-base font-semibold text-foreground whitespace-nowrap">
+                {price} {pricePeriod ? <span className="text-xs font-normal text-muted-foreground">{pricePeriod}</span> : null}
+              </p>
+            </div>
+            <p className={cn("text-xs sm:text-sm text-muted-foreground leading-relaxed mt-2", isList ? "line-clamp-3" : "line-clamp-2")}>
+              {description}
             </p>
-            <p className="mt-2.5 text-xs sm:text-sm text-muted-foreground line-clamp-2 leading-relaxed">{description}</p>
           </div>
 
-          {/* Stats Section */}
-          <div className="my-4 grid grid-cols-2 gap-2 sm:gap-3">
-            {stats.map((stat, index) => (
-              <div key={index} className="rounded-none bg-muted/50 p-2.5 text-center flex flex-col justify-center border border-border/40">
-                <p className="text-[11px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider">{stat.label}</p>
-                <p className="text-sm sm:text-base font-bold text-foreground mt-0.5 line-clamp-1">{stat.value}</p>
-              </div>
-            ))}
-          </div>
+          {/* Stats & Action Section */}
+          <div className={cn(isList ? "mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-border/40 pt-3" : "mt-4")}>
+            {/* Stats Section */}
+            <div className={cn("grid gap-2 sm:gap-3", isList ? "grid-cols-2 sm:flex sm:flex-wrap" : "grid-cols-2 my-2")}>
+              {stats.map((stat, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    "rounded-none bg-muted/50 p-2 text-center flex flex-col justify-center border border-border/40",
+                    isList ? "sm:px-3 sm:py-1.5 sm:text-left" : ""
+                  )}
+                >
+                  <p className="text-[10px] sm:text-[11px] font-medium text-muted-foreground uppercase tracking-wider">{stat.label}</p>
+                  <p className="text-xs sm:text-sm font-bold text-foreground mt-0.5 line-clamp-1">{stat.value}</p>
+                </div>
+              ))}
+            </div>
 
-          {/* Action Button */}
-          <Button onClick={onActionClick} className="w-full rounded-none shadow-none">
-            {actionLabel}
-          </Button>
+            {/* Action Button */}
+            <div className={cn(isList ? "sm:w-44 shrink-0" : "w-full mt-2")}>
+              <Button onClick={onActionClick} className="w-full rounded-none shadow-none font-semibold">
+                {actionLabel}
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     );

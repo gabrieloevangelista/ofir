@@ -1,6 +1,7 @@
 import type { ObraWithConstrutora } from "@/types/obra"
+import { AREAS_OBRA } from "@/lib/areas-obra"
 
-export const FORNECEDORES_EMULADOS: ObraWithConstrutora[] = [
+const FORNECEDORES_BASE: ObraWithConstrutora[] = [
   {
     id: "mock-1-mpd",
     nome: "Residência Horizon Alphaville",
@@ -614,4 +615,64 @@ export const FORNECEDORES_EMULADOS: ObraWithConstrutora[] = [
       },
     ],
   },
+]
+
+const FORNECEDORES_45_AREAS: ObraWithConstrutora[] = AREAS_OBRA.map((area, idx) => {
+  const cidades = ["Barueri", "Santana de Parnaíba", "Itupeva", "Campinas", "Sorocaba", "São Paulo"]
+  const cidade = cidades[idx % cidades.length]
+  const score = Number((4.7 + (idx % 4) * 0.1).toFixed(1))
+
+  return {
+    id: `mock-area-${area.id}`,
+    nome: `${area.label} de Alto Padrão`,
+    slug: `especialista-${area.id.replace(/_/g, "-")}`,
+    cidade,
+    estado: "SP",
+    bairro: "Alphaville e Condomínios Fechados",
+    categoria: "residencial",
+    status: "em_obras",
+    construtora_id: `construtora-${area.id}`,
+    is_published: true,
+    created_at: "2024-03-01T10:00:00Z",
+    updated_at: "2024-03-01T10:00:00Z",
+    preco_a_partir: area.benchmarkPrecoM2,
+    unidades_disponiveis: 10 + (idx % 15),
+    descricao_curta: area.descricao,
+    descricao_longa: `${area.descricao}\n\nEspecialistas credenciados com ampla experiência em execução técnica, homologados para condomínios de alto padrão com suporte integral a projetos e ART.`,
+    cover_image_url: area.imageUrl,
+    gallery_urls: [area.imageUrl],
+    tags: [area.label, ...area.tags, area.grupo],
+    construtoras: {
+      id: `construtora-${area.id}`,
+      nome: `${area.label} Engenharia & Execução`,
+      logo_url: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2318181b'/><path d='M25 75L50 25L75 75Z' stroke='%23ea580c' stroke-width='6' fill='none'/></svg>",
+    },
+    supplier_rating: {
+      score,
+      count: 20 + (idx % 30),
+    },
+    contato: {
+      whatsapp: "5511998765432",
+      telefone: "(11) 4002-8922",
+      email: `contato@${area.id}.eng.br`,
+      responsavel: `Engenheiro Responsável (${area.label})`,
+      cidadeAtendimento: `${cidade} e Região Metropolitana`,
+    },
+    reviews: [
+      {
+        id: `rev-${area.id}`,
+        author: "Cliente Verificado",
+        role: "Proprietário Residencial",
+        content: `Execução excelente da etapa de ${area.label}. Cumprimento de cronograma e acabamento impecável.`,
+        rating: 5,
+        ratings: { tempo_execucao: 5, experiencia: 5, qualidade: 5, preco: 4 },
+        date: "Há 1 mês",
+      },
+    ],
+  }
+})
+
+export const FORNECEDORES_EMULADOS: ObraWithConstrutora[] = [
+  ...FORNECEDORES_BASE,
+  ...FORNECEDORES_45_AREAS,
 ]

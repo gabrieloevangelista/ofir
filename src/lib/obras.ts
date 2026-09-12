@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server"
 import type { ObraFiltros, ObraWithConstrutora } from "@/types/obra"
 import { getObraPadrao } from "@/lib/utils"
 import { FORNECEDORES_EMULADOS } from "@/lib/mock-fornecedores"
+import { getAreaById } from "@/lib/areas-obra"
 
 const OBRA_SELECT = "*, construtoras ( id, nome, logo_url )"
 
@@ -98,12 +99,19 @@ export async function getObras(filtros: ObraFiltros = {}): Promise<ObraWithConst
     if (["residencial", "comercial", "misto"].includes(cat)) {
       list = list.filter((o) => o.categoria === cat)
     } else {
-      const expectedTag = CATEGORY_TO_TAG_MAP[cat]
-      if (expectedTag) {
-        list = list.filter((o) =>
-          o.tags.some((t) => t.toLowerCase().includes(expectedTag.toLowerCase()))
-        )
-      }
+      const area = getAreaById(cat)
+      const expectedTag = CATEGORY_TO_TAG_MAP[cat] || (area ? area.label : cat.replace(/_/g, " "))
+      list = list.filter((o) => {
+        const matchesTag = o.tags.some((t) => {
+          const tLower = t.toLowerCase()
+          if (tLower.includes(expectedTag.toLowerCase())) return true
+          if (area && area.tags.some(at => tLower.includes(at.toLowerCase()))) return true
+          return false
+        })
+        const matchesName = o.nome.toLowerCase().includes(expectedTag.toLowerCase())
+        const matchesDesc = o.descricao_curta.toLowerCase().includes(expectedTag.toLowerCase())
+        return matchesTag || matchesName || matchesDesc
+      })
     }
   }
 

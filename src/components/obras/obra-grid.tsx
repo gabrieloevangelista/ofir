@@ -4,6 +4,7 @@ import type { ObraWithConstrutora } from "@/types/obra"
 
 export function ObraGrid({
   obras,
+  modoExibicao = "grid",
 }: {
   obras: ObraWithConstrutora[]
   modoExibicao?: "grid" | "lista"
@@ -24,15 +25,17 @@ export function ObraGrid({
     )
   }
 
+  const isLista = modoExibicao === "lista"
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+    <div className={isLista ? "flex flex-col gap-4" : "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"}>
       {obras.map((obra, index) => (
         <div
           key={obra.id}
           className="animate-in fade-in slide-in-from-bottom-2 fill-mode-backwards duration-300"
           style={{ animationDelay: `${Math.min(index, 6) * 50}ms` }}
         >
-          <ObraCard obra={obra} priority={index < 4} />
+          <ObraCard obra={obra} priority={index < 4} modoExibicao={modoExibicao} />
         </div>
       ))}
     </div>

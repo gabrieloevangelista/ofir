@@ -3,7 +3,18 @@
 import { useState, useEffect, useRef } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
-import { SlidersHorizontal, ArrowUpDown, LogIn, LogOut, Building2, Search, X, Calculator, Heart } from "lucide-react"
+import {
+  SquaresFour,
+  ListBullets,
+  Buildings,
+  MagnifyingGlass,
+  Calculator as CalcIcon,
+  SignIn,
+  SignOut,
+  SlidersHorizontal as SlidersIcon,
+  X as XIcon,
+  ArrowsDownUp,
+} from "@phosphor-icons/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
@@ -25,7 +36,17 @@ import {
 } from "@/components/ui/sheet"
 import { SidebarFilters } from "./sidebar-filters"
 
-export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades: string[]; totalResults: number; suggestions?: string[] }) {
+export function HeaderBar({
+  cidades,
+  totalResults,
+  suggestions = [],
+  modoExibicao = "grid",
+}: {
+  cidades: string[]
+  totalResults: number
+  suggestions?: string[]
+  modoExibicao?: "grid" | "lista"
+}) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -91,30 +112,41 @@ export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades
     router.replace(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  return (
-    <div className="flex flex-col gap-5 border-b border-border/70 pb-6 mb-8">
-      {/* Top row with Title and Mobile Trigger / Controls */}
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <div>
-          <div className="inline-flex items-center gap-2 rounded-none bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary mb-1.5 border border-primary/20 shadow-none">
-            <Building2 className="size-3.5" />
-            <span>{totalResults} {totalResults === 1 ? "empresa credenciada" : "empresas credenciadas"}</span>
-          </div>
-          <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            Encontre a mão de obra para construir seu sonho
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Empresas verificadas e orçamentos médios por m² para sua obra.
-          </p>
-        </div>
+  const handleViewModeChange = (mode: "grid" | "lista") => {
+    const params = new URLSearchParams(searchParams.toString())
+    if (mode === "grid") {
+      params.delete("modoExibicao")
+    } else {
+      params.set("modoExibicao", "lista")
+    }
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+  }
 
-        <div className="flex flex-wrap items-center gap-3">
-          {/* Mobile Filter Button */}
+  return (
+    <div className="flex flex-col gap-4 border-b border-border/70 pb-5 mb-8">
+      {/* 1. Row Título */}
+      <div className="flex flex-col gap-1.5">
+        <div className="inline-flex items-center gap-2 rounded-none bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary w-fit border border-primary/20 shadow-none">
+          <Buildings className="size-3.5" weight="bold" />
+          <span>{totalResults} {totalResults === 1 ? "empresa credenciada" : "empresas credenciadas"}</span>
+        </div>
+        <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+          Encontre a mão de obra para construir seu sonho
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          Empresas verificadas e orçamentos médios por m² para sua obra.
+        </p>
+      </div>
+
+      {/* 2. Row de Ações/Controles abaixo do título: elementos alinhados à direita em UMA linha única */}
+      <div className="flex items-center justify-between gap-3 w-full border-t border-border/40 pt-3">
+        {/* Mobile Filter Button (apenas telas pequenas) */}
+        <div className="lg:hidden">
           <Sheet open={openMobile} onOpenChange={setOpenMobile}>
             <SheetTrigger
               render={
-                <Button variant="outline" className="lg:hidden gap-2 rounded-none h-10 text-sm font-medium shadow-none">
-                  <SlidersHorizontal className="size-4 text-primary" />
+                <Button variant="outline" className="gap-2 rounded-none h-10 text-sm font-medium shadow-none">
+                  <SlidersIcon className="size-4 text-primary" weight="bold" />
                   <span>Filtros</span>
                 </Button>
               }
@@ -126,14 +158,47 @@ export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades
               <SidebarFilters cidades={cidades} onApplyMobile={() => setOpenMobile(false)} />
             </SheetContent>
           </Sheet>
+        </div>
+
+        {/* Todos os controles à direita em UMA LINHA só */}
+        <div className="flex items-center gap-2 sm:gap-2.5 justify-end ml-auto overflow-x-auto py-0.5 scrollbar-none">
+          {/* View Mode Switcher (Grid vs Lista) */}
+          <div className="flex items-center border border-border/80 bg-card p-0.5 rounded-none shrink-0">
+            <button
+              type="button"
+              onClick={() => handleViewModeChange("grid")}
+              title="Modo Grade (Grid)"
+              className={cn(
+                "flex size-9 items-center justify-center transition-all rounded-none",
+                modoExibicao === "grid"
+                  ? "bg-primary text-primary-foreground font-semibold shadow-none"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+              )}
+            >
+              <SquaresFour className="size-4" weight={modoExibicao === "grid" ? "bold" : "regular"} />
+            </button>
+            <button
+              type="button"
+              onClick={() => handleViewModeChange("lista")}
+              title="Modo Lista"
+              className={cn(
+                "flex size-9 items-center justify-center transition-all rounded-none",
+                modoExibicao === "lista"
+                  ? "bg-primary text-primary-foreground font-semibold shadow-none"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+              )}
+            >
+              <ListBullets className="size-4" weight={modoExibicao === "lista" ? "bold" : "regular"} />
+            </button>
+          </div>
 
           {/* Limit Dropdown */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 shrink-0">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider hidden sm:inline-flex">
               Exibir:
             </span>
             <Select value={limit} onValueChange={handleLimitChange}>
-              <SelectTrigger className="w-[4.8rem] rounded-none bg-card border-border/80 text-sm h-10 px-3 shadow-none">
+              <SelectTrigger className="w-[4.4rem] rounded-none bg-card border-border/80 text-sm h-10 px-2 shadow-none">
                 <SelectValue placeholder="10" />
               </SelectTrigger>
               <SelectContent className="rounded-none border-border shadow-none">
@@ -148,13 +213,13 @@ export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades
           </div>
 
           {/* Desktop Sort Dropdown */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider hidden md:inline-flex items-center gap-1.5">
-              <ArrowUpDown className="size-3.5 text-muted-foreground" />
+          <div className="flex items-center gap-1 shrink-0">
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider hidden md:inline-flex items-center gap-1">
+              <ArrowsDownUp className="size-3.5 text-muted-foreground" weight="bold" />
               Ordenar:
             </span>
             <Select value={ordenar} onValueChange={handleSortChange}>
-              <SelectTrigger className="w-[12rem] rounded-none bg-card border-border/80 text-sm h-10 shadow-none">
+              <SelectTrigger className="w-[11.2rem] rounded-none bg-card border-border/80 text-sm h-10 shadow-none">
                 <SelectValue placeholder="Ordenar por" />
               </SelectTrigger>
               <SelectContent className="rounded-none border-border shadow-none">
@@ -169,14 +234,14 @@ export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades
           <Link
             href="/cotacao"
             className={cn(
-              "inline-flex items-center gap-2 rounded-none h-10 px-3.5 text-sm font-semibold border transition-all shadow-none",
+              "inline-flex items-center gap-2 rounded-none h-10 px-3.5 text-sm font-semibold border transition-all shadow-none shrink-0",
               itemCount > 0
                 ? "bg-primary text-primary-foreground border-primary hover:bg-primary/90"
                 : "bg-card hover:bg-secondary/70 text-foreground border-border/80"
             )}
             title="Ver orçamento consolidado e fornecedores selecionados"
           >
-            <Calculator className="size-4" />
+            <CalcIcon className="size-4" weight="bold" />
             <span>Minha Cotação</span>
             {itemCount > 0 && (
               <span className="flex items-center justify-center size-5 text-[11px] font-bold bg-white text-primary rounded-none">
@@ -189,12 +254,12 @@ export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades
           <Button
             variant="outline"
             className={cn(
-              "rounded-none h-10 px-4 text-sm font-medium transition-colors shadow-none",
+              "rounded-none h-10 px-4 text-sm font-medium transition-colors shadow-none shrink-0",
               isAuthenticated ? "border-primary/50 text-primary hover:bg-primary/10" : "hover:bg-secondary"
             )}
             onClick={isAuthenticated ? logout : openLoginModal}
           >
-            {isAuthenticated ? <LogOut className="size-4 mr-2" /> : <LogIn className="size-4 mr-2" />}
+            {isAuthenticated ? <SignOut className="size-4 mr-2" weight="bold" /> : <SignIn className="size-4 mr-2" weight="bold" />}
             {isAuthenticated ? "Sair" : "Entrar"}
           </Button>
         </div>
@@ -210,7 +275,7 @@ export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades
             setIsOpen(false)
           }}
         >
-          <Search className="pointer-events-none absolute left-3.5 size-4 text-muted-foreground" />
+          <MagnifyingGlass className="pointer-events-none absolute left-3.5 size-4 text-muted-foreground" weight="bold" />
           <Input
             value={busca}
             onChange={(e) => {
@@ -233,7 +298,7 @@ export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades
               className="absolute right-3 text-muted-foreground hover:text-foreground transition-colors p-1"
               title="Limpar busca"
             >
-              <X className="size-4" />
+              <XIcon className="size-4" weight="bold" />
             </button>
           )}
         </form>
@@ -250,7 +315,7 @@ export function HeaderBar({ cidades, totalResults, suggestions = [] }: { cidades
                   setIsOpen(false)
                 }}
               >
-                <Search className="inline-block size-3.5 mr-2 opacity-50" />
+                <MagnifyingGlass className="inline-block size-3.5 mr-2 opacity-50" weight="bold" />
                 {s}
               </div>
             ))}

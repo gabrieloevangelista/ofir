@@ -12,6 +12,7 @@ import { PropertyCard } from "@/components/ui/property-card"
 export function ObraCard({
   obra,
   priority = false,
+  modoExibicao = "grid",
 }: {
   obra: ObraWithConstrutora
   priority?: boolean
@@ -69,6 +70,7 @@ export function ObraCard({
     <>
       <div className="cursor-pointer h-full" onClick={navigateToDetails}>
         <PropertyCard
+          layout={modoExibicao === "lista" ? "list" : "grid"}
           className="h-full hover:border-primary/50 transition-colors"
           imageUrl={obra.cover_image_url || logoUrl}
           imageAlt={empresaNome}
