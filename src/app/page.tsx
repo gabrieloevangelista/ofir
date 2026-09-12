@@ -39,23 +39,15 @@ export default async function HomePage({
 
   return (
     <div className="w-full flex flex-col">
-      <HeroSearch
-        title="Encontre a melhor"
-        titleLine2="mão de obra qualificada."
-        description="Plataforma de alta relevância para contratação de empresas de engenharia e escritórios de arquitetura de alto padrão."
-        searchPlaceholder="Buscar obras por nome, cidade ou construtora..."
-        searchButtonText="Buscar"
-        heroImage=""
-        heroAlt=""
-        bottomTitle=""
-        animation="subtle"
-        suggestions={Array.from(new Set([
-          ...obras.map(o => o.construtoras?.nome).filter(Boolean),
-          ...obras.map(o => o.nome).filter(Boolean)
-        ])) as string[]}
-      />
       <MarketplaceShell cidades={cidades}>
-        <HeaderBar cidades={cidades} totalResults={total} />
+        <HeaderBar 
+          cidades={cidades} 
+          totalResults={total} 
+          suggestions={Array.from(new Set([
+            ...obras.map(o => o.construtoras?.nome).filter(Boolean),
+            ...obras.map(o => o.nome).filter(Boolean)
+          ])) as string[]}
+        />
         <ObraGrid obras={obras} />
         <Pagination
           paginaAtual={paginaAtual}
