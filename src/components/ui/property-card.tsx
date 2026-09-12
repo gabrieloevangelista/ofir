@@ -106,7 +106,7 @@ const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
           <div className="flex-1">
             <h3 className="text-lg sm:text-xl font-bold tracking-tight line-clamp-1">{title}</h3>
             <p className="mt-1 text-base font-semibold text-foreground">
-              {price} <span className="text-xs font-normal text-muted-foreground">{pricePeriod}</span>
+              {price} {pricePeriod ? <span className="text-xs font-normal text-muted-foreground">{pricePeriod}</span> : null}
             </p>
             <p className="mt-2.5 text-xs sm:text-sm text-muted-foreground line-clamp-2 leading-relaxed">{description}</p>
           </div>

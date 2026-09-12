@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { cn } from "@/lib/utils"
 import { SidebarFilters } from "@/components/layout/sidebar-filters"
 
@@ -40,17 +40,21 @@ export function MarketplaceShell({ cidades, children }: MarketplaceShellProps) {
           )}
         >
           <div className="rounded-2xl border-none bg-background shadow-sm transition-all duration-300">
-            <SidebarFilters
-              cidades={cidades}
-              collapsed={mounted ? collapsed : false}
-              onToggleCollapse={handleToggleCollapse}
-            />
+            <Suspense fallback={<div className="w-full h-96 animate-pulse bg-muted/20" />}>
+              <SidebarFilters
+                cidades={cidades}
+                collapsed={mounted ? collapsed : false}
+                onToggleCollapse={handleToggleCollapse}
+              />
+            </Suspense>
           </div>
         </div>
 
         {/* Main Content Area - dynamically expands when sidebar is collapsed */}
         <main className="flex-1 min-w-0 w-full">
-          {children}
+          <Suspense fallback={<div className="w-full h-96 animate-pulse bg-muted/20" />}>
+            {children}
+          </Suspense>
         </main>
       </div>
     </div>

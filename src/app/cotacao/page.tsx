@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Suspense } from "react"
 import { getCidadesDisponiveis } from "@/lib/obras"
 import { MarketplaceShell } from "@/components/layout/marketplace-shell"
 import { CotacaoView } from "./cotacao-view"
@@ -14,7 +15,9 @@ export default async function CotacaoPage() {
   return (
     <div className="w-full flex flex-col">
       <MarketplaceShell cidades={cidades}>
-        <CotacaoView />
+        <Suspense fallback={<div className="w-full h-96 animate-pulse bg-muted/20" />}>
+          <CotacaoView />
+        </Suspense>
       </MarketplaceShell>
     </div>
   )

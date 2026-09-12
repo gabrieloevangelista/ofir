@@ -1,8 +1,9 @@
 "use client"
-
+ 
 import React, { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { useSearchParams } from "next/navigation"
 import {
   Calculator,
   Trash2,
@@ -22,7 +23,8 @@ import {
   Lock,
   LogIn,
   UserCheck,
-  ShieldAlert
+  ShieldAlert,
+  Filter
 } from "lucide-react"
 import { useCotacao, CotacaoItem } from "@/contexts/cotacao-context"
 import { useAuth } from "@/contexts/auth-context"
@@ -38,6 +40,16 @@ export function CotacaoView() {
   const { items, removeItem, clearCotacao, totalPrecoM2, itemCount, calcularOrcamentoTotal } = useCotacao()
   const [areaM2, setAreaM2] = useState<number>(200)
   const [copied, setCopied] = useState(false)
+  const searchParams = useSearchParams()
+
+  const categoriaFiltro = searchParams.get("categoria")
+  const cidadeFiltro = searchParams.get("cidade")
+
+  const displayedItems = items.filter((it) => {
+    if (categoriaFiltro && categoriaFiltro !== "todas" && it.categoria !== categoriaFiltro) return false
+    if (cidadeFiltro && cidadeFiltro !== "todas-cidades" && it.cidade !== cidadeFiltro) return false
+    return true
+  })
 
   const orcamentoTotal = calcularOrcamentoTotal(areaM2)
 
@@ -330,95 +342,109 @@ export function CotacaoView() {
 
       {/* Items Breakdown List */}
       <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <h2 className="font-heading text-xl font-bold text-foreground">
-            Detalhamento por Fornecedor ({itemCount})
-          </h2>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <h2 className="font-heading text-xl font-bold text-foreground">
+              Detalhamento por Fornecedor ({displayedItems.length}{displayedItems.length !== items.length ? ` de ${items.length}` : ""})
+            </h2>
+            {(categoriaFiltro || cidadeFiltro) && (
+              <Badge variant="secondary" className="rounded-none text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                <Filter className="size-3 mr-1" />
+                Filtro Ativo: {categoriaFiltro ? formatCategoriaLabel(categoriaFiltro) : ""} {cidadeFiltro ? `• ${cidadeFiltro}` : ""}
+              </Badge>
+            )}
+          </div>
           <span className="text-xs text-muted-foreground">
             Subtotais baseados em {areaM2} m²
           </span>
         </div>
 
         <div className="grid grid-cols-1 gap-4">
-          {items.map((item) => {
-            const subtotal = (item.preco_a_partir || 0) * areaM2
-            const cleanPhone = (item.whatsapp || item.telefone || "5511998765432").replace(/\D/g, "")
-            const whatsAppHref = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(
-              `Olá! Selecionei a empresa ${item.empresaNome} na cotação da plataforma OFIR para minha obra em ${item.cidade}. Meu projeto tem aproximadamente ${areaM2}m² e gostaria de formalizar um orçamento.`
-            )}`
+          {displayedItems.length === 0 ? (
+            <div className="p-8 text-center border border-dashed border-border bg-card">
+              <p className="text-sm text-muted-foreground">
+                Nenhum fornecedor cotado encontrado para o filtro selecionado.
+              </p>
+            </div>
+          ) : (
+            displayedItems.map((item) => {
+              const subtotal = (item.preco_a_partir || 0) * areaM2
+              const cleanPhone = (item.whatsapp || item.telefone || "5511998765432").replace(/\D/g, "")
+              const whatsAppHref = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(
+                `Olá! Selecionei a empresa ${item.empresaNome} na cotação da plataforma OFIR para minha obra em ${item.cidade}. Meu projeto tem aproximadamente ${areaM2}m² e gostaria de formalizar um orçamento.`
+              )}`
 
-            return (
-              <Card
-                key={item.id}
-                className="rounded-none border-border shadow-none bg-card hover:border-primary/40 transition-colors"
-              >
-                <CardContent className="p-4 sm:p-5">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
-                    {/* Left: Image & Info */}
-                    <div className="flex items-start gap-4 min-w-0">
-                      <div className="relative size-16 sm:size-20 shrink-0 overflow-hidden border border-border bg-muted">
-                        <Image
-                          src={item.cover_image_url || "/icon.svg"}
-                          alt={item.empresaNome}
-                          fill
-                          sizes="80px"
-                          className="object-cover"
-                        />
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap items-center gap-2 mb-1">
-                          <Badge variant="outline" className="rounded-none text-[11px] font-medium px-2 py-0.5">
-                            {formatCategoriaLabel(item.categoria)}
-                          </Badge>
-                          <span className="text-xs text-muted-foreground flex items-center gap-1">
-                            <MapPin className="size-3 text-primary" />
-                            {formatLocalizacao(item.cidade, item.estado)}
-                          </span>
+              return (
+                <Card
+                  key={item.id}
+                  className="rounded-none border-border shadow-none bg-card hover:border-primary/40 transition-colors"
+                >
+                  <CardContent className="p-4 sm:p-5">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
+                      {/* Left: Image & Info */}
+                      <div className="flex items-start gap-4 min-w-0">
+                        <div className="relative size-16 sm:size-20 shrink-0 overflow-hidden border border-border bg-muted">
+                          <Image
+                            src={item.cover_image_url || "/icon.svg"}
+                            alt={item.empresaNome}
+                            fill
+                            sizes="80px"
+                            className="object-cover"
+                          />
                         </div>
 
-                        <Link
-                          href={`/sup/${item.slug}`}
-                          className="font-heading text-lg font-bold text-foreground hover:text-primary transition-colors flex items-center gap-1.5 group"
-                        >
-                          <span className="truncate">{item.empresaNome}</span>
-                          <ExternalLink className="size-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-primary shrink-0" />
-                        </Link>
-                        <p className="text-xs text-muted-foreground mt-0.5 truncate">
-                          {item.nome}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Right: Values & Actions */}
-                    <div className="flex flex-wrap items-center justify-between md:justify-end gap-6 border-t md:border-t-0 pt-3 md:pt-0 border-border/60">
-                      <div className="text-left md:text-right">
-                        <span className="text-[11px] uppercase tracking-wider text-muted-foreground block font-semibold">
-                          Taxa Estimada
-                        </span>
-                        {isAuthenticated ? (
-                          <>
-                            <span className="font-heading text-base font-bold text-foreground">
-                              {item.preco_a_partir ? formatValorMetroQuadrado(item.preco_a_partir) : "Sob Consulta"}
-                              <span className="text-xs font-normal text-muted-foreground"> / m²</span>
-                            </span>
-                            {item.preco_a_partir ? (
-                              <span className="text-xs text-primary font-semibold block mt-0.5">
-                                Subtotal: R$ {subtotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-                              </span>
-                            ) : null}
-                          </>
-                        ) : (
-                          <div onClick={openLoginModal} className="cursor-pointer">
-                            <span className="font-heading text-base font-bold text-muted-foreground blur-[4px] select-none">
-                              R$ 850,00 / m²
-                            </span>
-                            <span className="text-[11px] text-primary font-bold flex items-center gap-1 justify-start md:justify-end mt-0.5">
-                              <Lock className="size-3" /> Login para ver
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-2 mb-1">
+                            <Badge variant="outline" className="rounded-none text-[11px] font-medium px-2 py-0.5">
+                              {formatCategoriaLabel(item.categoria)}
+                            </Badge>
+                            <span className="text-xs text-muted-foreground flex items-center gap-1">
+                              <MapPin className="size-3 text-primary" />
+                              {formatLocalizacao(item.cidade, item.estado)}
                             </span>
                           </div>
-                        )}
+
+                          <Link
+                            href={`/sup/${item.slug}`}
+                            className="font-heading text-lg font-bold text-foreground hover:text-primary transition-colors flex items-center gap-1.5 group"
+                          >
+                            <span className="truncate">{item.empresaNome}</span>
+                            <ExternalLink className="size-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-primary shrink-0" />
+                          </Link>
+                          <p className="text-xs text-muted-foreground mt-0.5 truncate">
+                            {item.nome}
+                          </p>
+                        </div>
                       </div>
+
+                      {/* Right: Values & Actions */}
+                      <div className="flex flex-wrap items-center justify-between md:justify-end gap-6 border-t md:border-t-0 pt-3 md:pt-0 border-border/60">
+                        <div className="text-left md:text-right">
+                          <span className="text-[11px] uppercase tracking-wider text-muted-foreground block font-semibold">
+                            Taxa Estimada
+                          </span>
+                          {isAuthenticated ? (
+                            <>
+                              <span className="font-heading text-base font-bold text-foreground">
+                                {item.preco_a_partir ? formatValorMetroQuadrado(item.preco_a_partir) : "Sob Consulta"}
+                              </span>
+                              {item.preco_a_partir ? (
+                                <span className="text-xs text-primary font-semibold block mt-0.5">
+                                  Subtotal: R$ {subtotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                                </span>
+                              ) : null}
+                            </>
+                          ) : (
+                            <div onClick={openLoginModal} className="cursor-pointer">
+                              <span className="font-heading text-base font-bold text-muted-foreground blur-[4px] select-none">
+                                R$ 850,00 / m²
+                              </span>
+                              <span className="text-[11px] text-primary font-bold flex items-center gap-1 justify-start md:justify-end mt-0.5">
+                                <Lock className="size-3" /> Login para ver
+                              </span>
+                            </div>
+                          )}
+                        </div>
 
                       <div className="flex items-center gap-2">
                         {isAuthenticated ? (

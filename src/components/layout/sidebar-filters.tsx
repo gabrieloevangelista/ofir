@@ -91,7 +91,7 @@ export function SidebarFilters({
         }
       }
       startTransition(() => {
-        const targetPath = pathname === "/" ? pathname : "/"
+        const targetPath = pathname.startsWith("/sup") ? "/" : pathname
         router.push(`${targetPath}?${params.toString()}`)
       })
     },
@@ -111,7 +111,8 @@ export function SidebarFilters({
   const handleReset = () => {
     setBusca("")
     startTransition(() => {
-      router.push("/")
+      const targetPath = pathname.startsWith("/sup") ? "/" : pathname
+      router.push(targetPath)
     })
     if (onApplyMobile) onApplyMobile()
   }

@@ -63,7 +63,7 @@ export function ObraCard({
   const priceValue = isAuthenticated 
     ? (obra.preco_a_partir ? formatValorMetroQuadrado(obra.preco_a_partir) : "Sob Consulta")
     : "🔒"
-  const pricePeriod = isAuthenticated ? "/ m²" : "Login para ver"
+  const pricePeriod = isAuthenticated ? "" : "Login para ver"
 
   return (
     <>
