@@ -484,7 +484,7 @@ export function CotacaoView() {
                 </CardContent>
               </Card>
             )
-          })}
+          }))}
         </div>
       </div>
 
