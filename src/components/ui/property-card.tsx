@@ -73,7 +73,7 @@ const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
         <div
           className={cn(
             "overflow-hidden relative shrink-0",
-            isList ? "w-full sm:w-72 md:w-84 aspect-[16/10] sm:aspect-auto min-h-[200px]" : "aspect-[16/10] w-full"
+            isList ? "w-full sm:w-72 md:w-80 aspect-[16/10] sm:aspect-auto min-h-[200px]" : "aspect-[16/10] w-full"
           )}
         >
           <img
