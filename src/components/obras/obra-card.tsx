@@ -8,6 +8,7 @@ import { useAuth } from "@/contexts/auth-context"
 import { useCotacao } from "@/contexts/cotacao-context"
 import { ContactDialog } from "./contact-dialog"
 import { PropertyCard } from "@/components/ui/property-card"
+import { Lock } from "@phosphor-icons/react"
 
 export function ObraCard({
   obra,
@@ -63,7 +64,7 @@ export function ObraCard({
 
   const priceValue = isAuthenticated 
     ? (obra.preco_a_partir ? formatValorMetroQuadrado(obra.preco_a_partir) : "Sob Consulta")
-    : "🔒"
+    : <span className="flex items-center justify-center text-primary"><Lock className="size-4" weight="thin" /></span>
   const pricePeriod = isAuthenticated ? "" : "Login para ver"
 
   return (

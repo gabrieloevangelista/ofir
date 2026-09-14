@@ -295,19 +295,19 @@ export function SidebarFilters({
         <div className="w-8 border-b border-border my-1" />
 
         {/* Top 12 quick area icons in rail */}
-        <div className="flex flex-col items-center gap-1.5 w-full overflow-y-auto max-h-[460px] scrollbar-none">
+        <div className="flex flex-col items-center gap-2 w-full overflow-y-auto max-h-[460px] scrollbar-none">
           <button
             type="button"
             onClick={() => updateParams({ categoria: "todas" })}
             title="Todas as 45 Etapas"
             className={cn(
-              "flex size-10 items-center justify-center rounded-none transition-all shadow-none",
+              "flex size-12 items-center justify-center rounded-none transition-all shadow-none",
               categoria === "todas" || !categoria
                 ? "bg-primary text-primary-foreground font-semibold"
                 : "text-muted-foreground hover:text-foreground hover:bg-secondary/70"
             )}
           >
-            <Stack className="size-4.5 shrink-0" weight="bold" />
+            <Stack className="size-6 shrink-0" weight="thin" />
           </button>
 
           {AREAS_OBRA.slice(0, 15).map((area) => {
@@ -320,13 +320,13 @@ export function SidebarFilters({
                 onClick={() => updateParams({ categoria: area.id })}
                 title={`${area.label} (R$ ${area.benchmarkPrecoM2}/m²)`}
                 className={cn(
-                  "flex size-10 items-center justify-center rounded-none transition-all shadow-none relative",
+                  "flex size-12 items-center justify-center rounded-none transition-all shadow-none relative",
                   isSelected
                     ? "bg-primary text-primary-foreground font-semibold"
                     : "text-muted-foreground hover:text-foreground hover:bg-secondary/70"
                 )}
               >
-                <IconComp className="size-4.5 shrink-0" weight={isSelected ? "bold" : "regular"} />
+                <IconComp className="size-6 shrink-0" weight={isSelected ? "regular" : "thin"} />
               </button>
             )
           })}
@@ -533,21 +533,21 @@ export function SidebarFilters({
           type="button"
           onClick={() => updateParams({ categoria: "todas" })}
           className={cn(
-            "w-full flex items-center justify-between border px-3 py-2 text-xs transition-all text-left rounded-none shadow-none font-semibold",
+            "w-full flex items-center justify-between border px-3 py-3 text-sm transition-all text-left rounded-none shadow-none font-semibold",
             categoria === "todas" || !categoria
               ? "border-primary bg-primary/10 text-primary"
               : "border-border/60 bg-card hover:bg-secondary/70 text-foreground"
           )}
         >
           <div className="flex items-center gap-2">
-            <Stack className="size-3.5" weight="bold" />
+            <Stack className="size-4" weight="bold" />
             <span>Todas as Especialidades</span>
           </div>
-          {(categoria === "todas" || !categoria) && <Check className="size-3.5 text-primary shrink-0" weight="bold" />}
+          {(categoria === "todas" || !categoria) && <Check className="size-4 text-primary shrink-0" weight="bold" />}
         </button>
 
         {/* List of 45 areas with benchmark price & icons */}
-        <div className="flex flex-col gap-1 max-h-[360px] overflow-y-auto pr-1 scrollbar-thin">
+        <div className="flex flex-col gap-2 max-h-[calc(100vh-320px)] overflow-y-auto pr-1 [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: "none" }}>
           {filteredAreas.map((area) => {
             const IconComp = getIconForArea(area.id)
             const isSelected = categoria === area.id
@@ -557,21 +557,21 @@ export function SidebarFilters({
                 type="button"
                 onClick={() => updateParams({ categoria: area.id })}
                 className={cn(
-                  "flex items-center justify-between border px-2.5 py-2 text-xs transition-all text-left rounded-none shadow-none group",
+                  "flex items-center justify-between border px-2.5 py-3 text-sm transition-all text-left rounded-none shadow-none group",
                   isSelected
                     ? "border-primary bg-primary/10 text-primary font-semibold"
                     : "border-border/60 bg-card hover:bg-secondary/70 text-foreground"
                 )}
               >
                 <div className="flex items-center gap-2 min-w-0">
-                  <IconComp className={cn("size-3.5 shrink-0", isSelected ? "text-primary" : "text-muted-foreground group-hover:text-foreground")} weight={isSelected ? "bold" : "regular"} />
+                  <IconComp className={cn("size-4 shrink-0", isSelected ? "text-primary" : "text-muted-foreground group-hover:text-foreground")} weight={isSelected ? "regular" : "thin"} />
                   <span className="truncate font-medium">{area.label}</span>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0 ml-1">
-                  <span className="text-[10px] text-muted-foreground font-mono">
+                  <span className="text-xs text-muted-foreground font-mono">
                     R$ {area.benchmarkPrecoM2}/m²
                   </span>
-                  {isSelected && <Check className="size-3 text-primary shrink-0" weight="bold" />}
+                  {isSelected && <Check className="size-3.5 text-primary shrink-0" weight="bold" />}
                 </div>
               </button>
             )

@@ -18,7 +18,7 @@ export interface PropertyCardProps extends React.HTMLAttributes<HTMLDivElement> 
   /** The main title or name of the property. */
   title: string;
   /** The price of the property. */
-  price: number | string;
+  price: React.ReactNode;
   /** The pricing period, e.g., "per night". */
   pricePeriod?: string;
   /** A short description of the property. */
