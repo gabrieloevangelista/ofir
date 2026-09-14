@@ -301,7 +301,7 @@ export function SidebarFilters({
             onClick={() => updateParams({ categoria: "todas" })}
             title="Todas as 45 Etapas"
             className={cn(
-              "flex size-12 items-center justify-center rounded-none transition-all shadow-none",
+              "flex w-12 h-12 items-center justify-center rounded-md transition-all shadow-none shrink-0",
               categoria === "todas" || !categoria
                 ? "bg-primary text-primary-foreground font-semibold"
                 : "text-muted-foreground hover:text-foreground hover:bg-secondary/70"
@@ -320,7 +320,7 @@ export function SidebarFilters({
                 onClick={() => updateParams({ categoria: area.id })}
                 title={`${area.label} (R$ ${area.benchmarkPrecoM2}/m²)`}
                 className={cn(
-                  "flex size-12 items-center justify-center rounded-none transition-all shadow-none relative",
+                  "flex w-12 h-12 items-center justify-center rounded-md transition-all shadow-none relative shrink-0",
                   isSelected
                     ? "bg-primary text-primary-foreground font-semibold"
                     : "text-muted-foreground hover:text-foreground hover:bg-secondary/70"
