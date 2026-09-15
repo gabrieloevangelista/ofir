@@ -112,6 +112,8 @@ export function HeaderBar({
     router.replace(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
+  const currentModoExibicao = (searchParams.get("modoExibicao") as "grid" | "lista") || modoExibicao || "grid"
+
   const handleViewModeChange = (mode: "grid" | "lista") => {
     const params = new URLSearchParams(searchParams.toString())
     if (mode === "grid") {
@@ -119,7 +121,8 @@ export function HeaderBar({
     } else {
       params.set("modoExibicao", "lista")
     }
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+    const qs = params.toString()
+    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
   }
 
   return (
@@ -169,26 +172,26 @@ export function HeaderBar({
               onClick={() => handleViewModeChange("grid")}
               title="Modo Grade (Grid)"
               className={cn(
-                "flex size-9 items-center justify-center transition-all rounded-none",
-                modoExibicao === "grid"
+                "flex size-9 items-center justify-center transition-all rounded-none outline-none focus-visible:ring-1 focus-visible:ring-primary",
+                currentModoExibicao === "grid"
                   ? "bg-primary text-primary-foreground font-semibold shadow-none"
                   : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
               )}
             >
-              <SquaresFour className="size-4" weight={modoExibicao === "grid" ? "bold" : "regular"} />
+              <SquaresFour className="size-4" weight={currentModoExibicao === "grid" ? "bold" : "regular"} />
             </button>
             <button
               type="button"
               onClick={() => handleViewModeChange("lista")}
               title="Modo Lista"
               className={cn(
-                "flex size-9 items-center justify-center transition-all rounded-none",
-                modoExibicao === "lista"
+                "flex size-9 items-center justify-center transition-all rounded-none outline-none focus-visible:ring-1 focus-visible:ring-primary",
+                currentModoExibicao === "lista"
                   ? "bg-primary text-primary-foreground font-semibold shadow-none"
                   : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
               )}
             >
-              <ListBullets className="size-4" weight={modoExibicao === "lista" ? "bold" : "regular"} />
+              <ListBullets className="size-4" weight={currentModoExibicao === "lista" ? "bold" : "regular"} />
             </button>
           </div>
 

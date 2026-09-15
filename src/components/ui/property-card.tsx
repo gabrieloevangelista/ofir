@@ -6,7 +6,7 @@ import { Heart } from "lucide-react";
 // Define the structure for each stat to be displayed
 export interface Stat {
   label: string;
-  value: string | number;
+  value: React.ReactNode;
 }
 
 // Define the props for the PropertyCard component
@@ -19,7 +19,7 @@ export interface PropertyCardProps extends React.HTMLAttributes<HTMLDivElement> 
   title: string;
   /** The price of the property. */
   price: React.ReactNode;
-  /** The pricing period, e.g., "per night". */
+  /** The pricing period, e.g., "/m²" (optional). */
   pricePeriod?: string;
   /** A short description of the property. */
   description: string;
@@ -45,7 +45,7 @@ const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
       imageAlt,
       title,
       price,
-      pricePeriod = "per night",
+      pricePeriod,
       description,
       stats,
       actionLabel,
@@ -115,11 +115,11 @@ const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
         {/* Card Content */}
         <div className={cn("flex flex-1 flex-col p-4 sm:p-5", isList ? "justify-between" : "")}>
           <div className="flex-1">
-            <div className={cn(isList ? "flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1" : "")}>
+            <div className={cn(isList ? "flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1" : "flex flex-col gap-1")}>
               <h3 className="text-lg sm:text-xl font-bold tracking-tight line-clamp-1">{title}</h3>
-              <p className="text-base font-semibold text-foreground whitespace-nowrap">
-                {price} {pricePeriod ? <span className="text-xs font-normal text-muted-foreground">{pricePeriod}</span> : null}
-              </p>
+              <div className="flex items-center text-base font-semibold text-foreground whitespace-nowrap">
+                {price} {pricePeriod ? <span className="text-xs font-normal text-muted-foreground ml-1.5">{pricePeriod}</span> : null}
+              </div>
             </div>
             <p className={cn("text-xs sm:text-sm text-muted-foreground leading-relaxed mt-2", isList ? "line-clamp-3" : "line-clamp-2")}>
               {description}
@@ -139,7 +139,7 @@ const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
                   )}
                 >
                   <p className="text-[10px] sm:text-[11px] font-medium text-muted-foreground uppercase tracking-wider">{stat.label}</p>
-                  <p className="text-xs sm:text-sm font-bold text-foreground mt-0.5 line-clamp-1">{stat.value}</p>
+                  <div className={cn("text-xs sm:text-sm font-bold text-foreground mt-0.5 line-clamp-1 flex items-center justify-center", isList && "sm:justify-start")}>{stat.value}</div>
                 </div>
               ))}
             </div>

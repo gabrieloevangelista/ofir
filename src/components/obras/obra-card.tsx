@@ -8,7 +8,7 @@ import { useAuth } from "@/contexts/auth-context"
 import { useCotacao } from "@/contexts/cotacao-context"
 import { ContactDialog } from "./contact-dialog"
 import { PropertyCard } from "@/components/ui/property-card"
-import { Lock } from "@phosphor-icons/react"
+import { Lock, Star, MapPin } from "@phosphor-icons/react"
 
 export function ObraCard({
   obra,
@@ -55,17 +55,38 @@ export function ObraCard({
   }
 
   const stats = [
-    { label: "Local", value: formatLocalizacao(obra.cidade, obra.estado) }
+    {
+      label: "Local",
+      value: (
+        <span className="inline-flex items-center gap-1 max-w-full">
+          <MapPin className="size-3.5 text-primary shrink-0" weight="fill" />
+          <span className="truncate">{formatLocalizacao(obra.cidade, obra.estado)}</span>
+        </span>
+      ),
+    },
   ]
   
   if (obra.supplier_rating) {
-    stats.push({ label: "Avaliação", value: obra.supplier_rating.score.toFixed(1) })
+    stats.push({
+      label: "Avaliação",
+      value: (
+        <span className="inline-flex items-center gap-1">
+          <Star className="size-3.5 fill-amber-500 text-amber-500 shrink-0" weight="fill" />
+          <span>{obra.supplier_rating.score.toFixed(1)}</span>
+        </span>
+      ),
+    })
   }
 
   const priceValue = isAuthenticated 
     ? (obra.preco_a_partir ? formatValorMetroQuadrado(obra.preco_a_partir) : "Sob Consulta")
-    : <span className="flex items-center justify-center text-primary"><Lock className="size-4" weight="thin" /></span>
-  const pricePeriod = isAuthenticated ? "" : "Login para ver"
+    : (
+      <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-muted-foreground">
+        <Lock className="size-3.5 text-primary shrink-0" weight="bold" />
+        <span>Login para ver</span>
+      </span>
+    )
+  const pricePeriod = isAuthenticated ? "" : undefined
 
   return (
     <>

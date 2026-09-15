@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowLeft, Building2, LayoutGrid, MapPin, Star, MessageCircle, Phone, Calculator } from "lucide-react"
@@ -14,6 +13,7 @@ import { formatCategoriaLabel, getObraPadrao, formatPadraoLabel, formatLocalizac
 import { InteresseForm } from "./interesse-form"
 import { ReviewForm } from "@/components/obras/review-form"
 import { PricingDisplay } from "@/components/obras/pricing-display"
+import { ObraGalleryLightbox } from "@/components/obras/obra-gallery-lightbox"
 
 export async function generateMetadata({
   params,
@@ -93,31 +93,9 @@ export default async function ObraDetailPage({
             </div>
           </div>
 
-          {galeria.length > 0 ? (
-            <div className="mb-8 grid grid-cols-1 gap-2 overflow-hidden rounded-none h-[260px] sm:h-[360px] sm:grid-cols-4 sm:grid-rows-2 shadow-none border border-border">
-              <div className="relative h-full w-full overflow-hidden sm:col-span-2 sm:row-span-2 rounded-none">
-                <Image
-                  src={galeria[0]}
-                  alt={obra.nome}
-                  fill
-                  priority
-                  sizes="(min-width: 640px) 50vw, 100vw"
-                  className="object-cover rounded-none"
-                />
-              </div>
-              {galeria.slice(1, 3).map((url, i) => (
-                <div key={url} className="relative h-full w-full overflow-hidden hidden sm:block sm:col-span-2 rounded-none">
-                  <Image
-                    src={url}
-                    alt={`${obra.nome} - foto ${i + 2}`}
-                    fill
-                    sizes="50vw"
-                    className="object-cover rounded-none"
-                  />
-                </div>
-              ))}
-            </div>
-          ) : null}
+          {galeria.length > 0 && (
+            <ObraGalleryLightbox images={galeria} title={obra.nome} />
+          )}
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             <div className="flex flex-col gap-6 lg:col-span-2">
