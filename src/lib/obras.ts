@@ -320,6 +320,13 @@ export const LOCAIS_AGRUPADOS = [
       "Riviera de São Lourenço (Módulos 1 ao 30)",
     ],
   },
+  {
+    regiao: "Águas de Santa Bárbara & Região",
+    locais: [
+      "Santa Bárbara Resort Residence (Águas de Santa Bárbara)",
+      "Águas de Santa Bárbara",
+    ],
+  },
 ]
 
 export async function getCidadesDisponiveis() {

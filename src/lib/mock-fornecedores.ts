@@ -1,5 +1,6 @@
 import type { ObraWithConstrutora } from "@/types/obra"
 import { AREAS_OBRA } from "@/lib/areas-obra"
+import { FORNECEDORES_SANTA_BARBARA } from "@/lib/fornecedores-santa-barbara"
 
 const FORNECEDORES_BASE: ObraWithConstrutora[] = [
   {
@@ -673,6 +674,7 @@ const FORNECEDORES_45_AREAS: ObraWithConstrutora[] = AREAS_OBRA.map((area, idx) 
 })
 
 export const FORNECEDORES_EMULADOS: ObraWithConstrutora[] = [
+  ...FORNECEDORES_SANTA_BARBARA,
   ...FORNECEDORES_BASE,
   ...FORNECEDORES_45_AREAS,
 ]
