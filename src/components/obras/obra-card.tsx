@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { formatValorMetroQuadrado, formatLocalizacao, getObraPadrao, formatPadraoLabel } from "@/lib/utils"
 import type { ObraWithConstrutora } from "@/types/obra"
 import { useAuth } from "@/contexts/auth-context"
@@ -21,7 +21,6 @@ export function ObraCard({
 }) {
   const { isAuthenticated, openLoginModal } = useAuth()
   const { isFavorito, toggleItem } = useCotacao()
-  const router = useRouter()
   const [contactOpen, setContactOpen] = useState(false)
 
   const logoUrl =
@@ -48,10 +47,6 @@ export function ObraCard({
       return
     }
     toggleItem(obra)
-  }
-
-  const navigateToDetails = () => {
-    router.push(`/sup/${obra.slug}`)
   }
 
   const stats = [
@@ -90,10 +85,10 @@ export function ObraCard({
 
   return (
     <>
-      <div className="cursor-pointer h-full" onClick={navigateToDetails}>
+      <Link href={`/sup/${obra.slug}`} className="block h-full">
         <PropertyCard
           layout={modoExibicao === "lista" ? "list" : "grid"}
-          className="h-full hover:border-primary/50 transition-colors"
+          className="h-full hover:border-primary/50 transition-colors cursor-pointer"
           imageUrl={obra.cover_image_url || logoUrl}
           imageAlt={empresaNome}
           title={empresaNome}
@@ -106,7 +101,7 @@ export function ObraCard({
           isFavorite={isFav}
           onToggleFavorite={handleToggleFavorite}
         />
-      </div>
+      </Link>
 
       <ContactDialog
         obra={obra}
