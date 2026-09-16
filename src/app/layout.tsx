@@ -16,6 +16,7 @@ const archivo = Archivo({
 
 import { AuthProvider } from "@/contexts/auth-context"
 import { CotacaoProvider } from "@/contexts/cotacao-context"
+import { ViewModeProvider } from "@/contexts/view-mode-context"
 
 export const metadata: Metadata = {
   title: "OFIR | Marketplace de Construtoras, Engenharia & Arquitetura",
@@ -36,8 +37,10 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <AuthProvider>
           <CotacaoProvider>
-            {children}
-            <Footer />
+            <ViewModeProvider>
+              {children}
+              <Footer />
+            </ViewModeProvider>
           </CotacaoProvider>
         </AuthProvider>
       </body>

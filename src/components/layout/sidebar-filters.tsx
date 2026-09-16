@@ -164,8 +164,15 @@ export function SidebarFilters({
         }
       }
       startTransition(() => {
-        const targetPath = pathname.startsWith("/sup") ? "/" : pathname
-        router.push(`${targetPath}?${params.toString()}`)
+        const isDetails = pathname.startsWith("/sup") || pathname.startsWith("/cotacao")
+        const targetPath = isDetails ? "/" : pathname
+        const queryString = params.toString()
+        const targetUrl = queryString ? `${targetPath}?${queryString}` : targetPath
+        if (isDetails) {
+          router.push(targetUrl)
+        } else {
+          router.replace(targetUrl, { scroll: false })
+        }
       })
     },
     [pathname, router, searchParams, startTransition]
@@ -183,8 +190,13 @@ export function SidebarFilters({
     setPesquisaArea("")
     setGrupoSelecionado("todos")
     startTransition(() => {
-      const targetPath = pathname.startsWith("/sup") ? "/" : pathname
-      router.push(targetPath)
+      const isDetails = pathname.startsWith("/sup") || pathname.startsWith("/cotacao")
+      const targetPath = isDetails ? "/" : pathname
+      if (isDetails) {
+        router.push(targetPath)
+      } else {
+        router.replace(targetPath, { scroll: false })
+      }
     })
     if (onApplyMobile) onApplyMobile()
   }
@@ -213,6 +225,7 @@ export function SidebarFilters({
         <div className="flex flex-col items-center gap-3 w-full border-b border-border pb-3">
           <Link
             href="/"
+            prefetch={true}
             title="Página Inicial OFIR"
             className="flex size-10 items-center justify-center rounded-none bg-primary text-primary-foreground font-bold shadow-none hover:opacity-90 transition-opacity"
           >
@@ -356,7 +369,7 @@ export function SidebarFilters({
     <aside className={cn("flex flex-col gap-5 w-full text-foreground p-5 rounded-none shadow-none", className)}>
       {/* Brand & Collapse Header */}
       <div className="flex items-center justify-between border-b border-border pb-4">
-        <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
+        <Link href="/" prefetch={true} className="flex items-center gap-3 hover:opacity-90 transition-opacity">
           <div className="flex size-9 items-center justify-center rounded-none bg-primary text-primary-foreground font-bold shadow-none">
             <Buildings className="size-5" weight="bold" />
           </div>

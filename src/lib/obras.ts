@@ -21,7 +21,16 @@ const CATEGORY_TO_TAG_MAP: Record<string, string> = {
   reformas: "Reformas & Ampliações",
 }
 
-export async function getObras(filtros: ObraFiltros = {}): Promise<ObraWithConstrutora[]> {
+// In-memory cache for obras to prevent redundant Supabase queries and ensure instant app-like navigation
+let cachedRawObras: { data: ObraWithConstrutora[]; timestamp: number } | null = null
+const CACHE_TTL_MS = 1000 * 60 * 15 // 15 minutes cache
+
+export async function getRawObras(forceRefresh = false): Promise<ObraWithConstrutora[]> {
+  const now = Date.now()
+  if (!forceRefresh && cachedRawObras && now - cachedRawObras.timestamp < CACHE_TTL_MS) {
+    return cachedRawObras.data
+  }
+
   let list: ObraWithConstrutora[] = []
 
   try {
@@ -32,11 +41,9 @@ export async function getObras(filtros: ObraFiltros = {}): Promise<ObraWithConst
       .eq("is_published", true)
 
     if (!error && data && data.length > 0) {
-      // If database has records, enrich them
       list = (data as ObraWithConstrutora[])
     }
   } catch (err) {
-    // If Supabase connection fails or is not ready, gracefully fall back to emulated suppliers
     console.warn("Supabase fetch failed, utilizing emulated suppliers dataset.", err)
   }
 
@@ -52,6 +59,18 @@ export async function getObras(filtros: ObraFiltros = {}): Promise<ObraWithConst
       }
     }
   }
+
+  cachedRawObras = { data: list, timestamp: now }
+  return list
+}
+
+export function invalidateObrasCache() {
+  cachedRawObras = null
+}
+
+export async function getObras(filtros: ObraFiltros = {}): Promise<ObraWithConstrutora[]> {
+  const raw = await getRawObras()
+  let list: ObraWithConstrutora[] = [...raw]
 
   // 1. Text search filter
   if (filtros.busca) {
@@ -151,10 +170,11 @@ export async function getObrasPaginadas(filtros: ObraFiltros = {}, pageSize = 9)
 }
 
 export async function getObraBySlug(slug: string): Promise<ObraWithConstrutora | null> {
-  // First check in emulated suppliers
-  const emulado = FORNECEDORES_EMULADOS.find((o) => o.slug === slug)
-  if (emulado) {
-    return emulado
+  // Check cached obras first for instant 0ms retrieval
+  const raw = await getRawObras()
+  const found = raw.find((o) => o.slug === slug)
+  if (found) {
+    return found
   }
 
   try {

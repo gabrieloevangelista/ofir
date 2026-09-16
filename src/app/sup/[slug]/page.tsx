@@ -75,6 +75,7 @@ export default async function ObraDetailPage({
           <div className="flex items-center justify-between mb-6">
             <Link
               href="/"
+              prefetch={true}
               className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               <ArrowLeft className="size-4" />
@@ -85,6 +86,7 @@ export default async function ObraDetailPage({
               <CotacaoToggleButton obra={obra} size="sm" />
               <Link
                 href="/cotacao"
+                prefetch={true}
                 className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 border border-border bg-card hover:bg-secondary/70 transition-colors text-foreground"
               >
                 <Calculator className="size-3.5 text-primary" />

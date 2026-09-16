@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/contexts/auth-context"
 import { useCotacao } from "@/contexts/cotacao-context"
+import { useViewMode } from "@/contexts/view-mode-context"
 import {
   Select,
   SelectContent,
@@ -112,17 +113,10 @@ export function HeaderBar({
     router.replace(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  const currentModoExibicao = (searchParams.get("modoExibicao") as "grid" | "lista") || modoExibicao || "grid"
+  const { modoExibicao: currentModoExibicao, setModoExibicao } = useViewMode()
 
   const handleViewModeChange = (mode: "grid" | "lista") => {
-    const params = new URLSearchParams(searchParams.toString())
-    if (mode === "grid") {
-      params.delete("modoExibicao")
-    } else {
-      params.set("modoExibicao", "lista")
-    }
-    const qs = params.toString()
-    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
+    setModoExibicao(mode)
   }
 
   return (
@@ -236,6 +230,7 @@ export function HeaderBar({
           {/* Minha Cotação Button */}
           <Link
             href="/cotacao"
+            prefetch={true}
             className={cn(
               "inline-flex items-center gap-2 rounded-none h-10 px-3.5 text-sm font-semibold border transition-all shadow-none shrink-0",
               itemCount > 0

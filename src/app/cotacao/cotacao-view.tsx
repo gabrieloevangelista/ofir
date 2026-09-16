@@ -117,7 +117,7 @@ export function CotacaoView() {
           Nenhum fornecedor adicionado ainda. Navegue pelas etapas da obra no marketplace e clique no botão <span className="font-semibold text-foreground">“Cotar”</span> nos fornecedores desejados para somar seus orçamentos automaticamente.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <Link href="/">
+          <Link href="/" prefetch={true}>
             <Button className="rounded-none font-semibold px-6 h-11 shadow-none">
               <Buildings className="size-4 mr-2" weight="bold" />
               Explorar Fornecedores
@@ -135,6 +135,7 @@ export function CotacaoView() {
         <div>
           <Link
             href="/"
+            prefetch={true}
             className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground mb-2"
           >
             <ArrowLeft className="size-4" weight="bold" />
@@ -566,6 +567,7 @@ export function CotacaoView() {
 
                           <Link
                             href={`/sup/${item.slug}`}
+                            prefetch={true}
                             className="font-heading text-lg font-bold text-foreground hover:text-primary transition-colors flex items-center gap-1.5 group"
                           >
                             <span className="truncate">{item.empresaNome}</span>
@@ -659,7 +661,7 @@ export function CotacaoView() {
             Entre em contato diretamente via WhatsApp com cada fornecedor acima para agendar visitas técnicas e formalizar propostas.
           </p>
         </div>
-        <Link href="/">
+        <Link href="/" prefetch={true}>
           <Button variant="outline" className="rounded-none border-border shadow-none text-xs font-semibold whitespace-nowrap">
             Adicionar Mais Fornecedores
           </Button>

@@ -85,7 +85,7 @@ export function ObraCard({
 
   return (
     <>
-      <Link href={`/sup/${obra.slug}`} className="block h-full">
+      <Link href={`/sup/${obra.slug}`} prefetch={true} className="block h-full">
         <PropertyCard
           layout={modoExibicao === "lista" ? "list" : "grid"}
           className="h-full hover:border-primary/50 transition-colors cursor-pointer"

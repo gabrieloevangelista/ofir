@@ -1,19 +1,19 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
 import { SearchX } from "lucide-react"
 import { ObraCard } from "@/components/obras/obra-card"
 import type { ObraWithConstrutora } from "@/types/obra"
+import { useViewMode } from "@/contexts/view-mode-context"
 
 export function ObraGrid({
   obras,
-  modoExibicao: propModoExibicao = "grid",
+  modoExibicao: propModoExibicao,
 }: {
   obras: ObraWithConstrutora[]
   modoExibicao?: "grid" | "lista"
 }) {
-  const searchParams = useSearchParams()
-  const modoExibicao = (searchParams.get("modoExibicao") as "grid" | "lista") || propModoExibicao || "grid"
+  const { modoExibicao: contextModoExibicao } = useViewMode()
+  const modoExibicao = contextModoExibicao || propModoExibicao || "grid"
   if (obras.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center gap-3 rounded-none border border-dashed border-border py-20 px-4 text-center bg-card/50 shadow-none">
