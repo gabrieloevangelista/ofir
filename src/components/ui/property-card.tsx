@@ -64,22 +64,24 @@ const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
         ref={ref}
         className={cn(
           "w-full overflow-hidden rounded-none border border-border bg-card text-card-foreground shadow-none relative group transition-all",
-          isList ? "flex flex-col sm:flex-row items-stretch" : "flex flex-col",
+          isList ? "flex flex-col sm:flex-row sm:h-[210px] items-stretch" : "flex flex-col h-full",
           className
         )}
         {...props}
       >
-        {/* Property Image */}
+        {/* Property Image with standardized dimensions */}
         <div
           className={cn(
-            "overflow-hidden relative shrink-0",
-            isList ? "w-full sm:w-72 md:w-80 aspect-[16/10] sm:aspect-auto min-h-[200px]" : "aspect-[16/10] w-full"
+            "overflow-hidden relative shrink-0 bg-muted/30",
+            isList
+              ? "w-full aspect-[16/10] sm:aspect-auto sm:w-72 md:w-80 sm:h-full"
+              : "w-full aspect-[16/10]"
           )}
         >
           <img
             src={imageUrl}
             alt={imageAlt || title}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
 
           {/* Favorite / Add to Quotation Badge Button */}
@@ -113,21 +115,21 @@ const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
         </div>
 
         {/* Card Content */}
-        <div className={cn("flex flex-1 flex-col p-4 sm:p-5", isList ? "justify-between" : "")}>
-          <div className="flex-1">
+        <div className={cn("flex flex-1 flex-col p-4 sm:p-5 min-w-0", isList ? "justify-between" : "")}>
+          <div className="flex-1 min-w-0">
             <div className={cn(isList ? "flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1" : "flex flex-col gap-1")}>
-              <h3 className="text-lg sm:text-xl font-bold tracking-tight line-clamp-1">{title}</h3>
-              <div className="flex items-center text-base font-semibold text-foreground whitespace-nowrap">
+              <h3 className="text-lg sm:text-xl font-bold tracking-tight truncate">{title}</h3>
+              <div className="flex items-center text-sm sm:text-base font-semibold text-foreground whitespace-nowrap shrink-0">
                 {price} {pricePeriod ? <span className="text-xs font-normal text-muted-foreground ml-1.5">{pricePeriod}</span> : null}
               </div>
             </div>
-            <p className={cn("text-xs sm:text-sm text-muted-foreground leading-relaxed mt-2", isList ? "line-clamp-3" : "line-clamp-2")}>
+            <p className={cn("text-xs sm:text-sm text-muted-foreground leading-relaxed mt-1.5", isList ? "line-clamp-2" : "line-clamp-2")}>
               {description}
             </p>
           </div>
 
           {/* Stats & Action Section */}
-          <div className={cn(isList ? "mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-border/40 pt-3" : "mt-4")}>
+          <div className={cn(isList ? "mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-border/40 pt-3" : "mt-4")}>
             {/* Stats Section */}
             <div className={cn("grid gap-2 sm:gap-3", isList ? "grid-cols-2 sm:flex sm:flex-wrap" : "grid-cols-2 my-2")}>
               {stats.map((stat, index) => (
@@ -138,7 +140,7 @@ const PropertyCard = React.forwardRef<HTMLDivElement, PropertyCardProps>(
                     isList ? "sm:px-3 sm:py-1.5 sm:text-left" : ""
                   )}
                 >
-                  <p className="text-[10px] sm:text-[11px] font-medium text-muted-foreground uppercase tracking-wider">{stat.label}</p>
+                  <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">{stat.label}</p>
                   <div className={cn("text-xs sm:text-sm font-bold text-foreground mt-0.5 line-clamp-1 flex items-center justify-center", isList && "sm:justify-start")}>{stat.value}</div>
                 </div>
               ))}
