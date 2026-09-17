@@ -397,7 +397,7 @@ export function CotacaoView() {
               </div>
               <div className="w-full bg-secondary h-1.5 mb-3 rounded-none overflow-hidden">
                 <div
-                  className="bg-primary h-full transition-all duration-500"
+                  className="bg-primary h-full transition-[color,background-color,border-color,box-shadow,transform] duration-500"
                   style={{ width: `${analise.custoBeneficio.score}%` }}
                 />
               </div>
@@ -425,7 +425,7 @@ export function CotacaoView() {
               </div>
               <div className="w-full bg-secondary h-1.5 mb-3 rounded-none overflow-hidden">
                 <div
-                  className="bg-emerald-600 h-full transition-all duration-500"
+                  className="bg-emerald-600 h-full transition-[color,background-color,border-color,box-shadow,transform] duration-500"
                   style={{ width: `${analise.qualidade.score}%` }}
                 />
               </div>
@@ -453,7 +453,7 @@ export function CotacaoView() {
               </div>
               <div className="w-full bg-secondary h-1.5 mb-3 rounded-none overflow-hidden">
                 <div
-                  className="bg-amber-500 h-full transition-all duration-500"
+                  className="bg-amber-500 h-full transition-[color,background-color,border-color,box-shadow,transform] duration-500"
                   style={{ width: `${analise.velocidade.score}%` }}
                 />
               </div>
