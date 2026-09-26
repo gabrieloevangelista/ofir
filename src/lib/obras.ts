@@ -139,6 +139,14 @@ export async function getObras(filtros: ObraFiltros = {}): Promise<ObraWithConst
     list = list.filter((o) => o.status === filtros.status)
   }
 
+  // 6. Preço / Valor por m² Range filter (Dual Thumb Range Slider)
+  if (typeof filtros.precoMin === "number" && !isNaN(filtros.precoMin) && filtros.precoMin > 0) {
+    list = list.filter((o) => (o.preco_a_partir ?? 0) >= filtros.precoMin!)
+  }
+  if (typeof filtros.precoMax === "number" && !isNaN(filtros.precoMax) && filtros.precoMax < 10000) {
+    list = list.filter((o) => (o.preco_a_partir ?? 0) <= filtros.precoMax!)
+  }
+
   // 6. Ordering / Sorting
   if (filtros.ordenar === "menor_preco") {
     list.sort((a, b) => (a.preco_a_partir ?? 0) - (b.preco_a_partir ?? 0))

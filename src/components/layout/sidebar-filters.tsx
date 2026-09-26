@@ -66,6 +66,8 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { cn } from "@/lib/utils"
 import { LOCAIS_AGRUPADOS } from "@/lib/obras"
 import { AREAS_OBRA, AreaObra } from "@/lib/areas-obra"
+import { OfirLogo } from "@/components/ui/ofir-logo"
+import { RangeSlider } from "@/components/ui/range-slider"
 
 interface SidebarFiltersProps {
   cidades: string[]
@@ -180,15 +182,46 @@ export function SidebarFilters({
 
   const cidade = searchParams.get("cidade") ?? ""
   const categoria = searchParams.get("categoria") ?? "todas"
+  const precoMinParam = searchParams.get("precoMin")
+  const precoMaxParam = searchParams.get("precoMax")
+
+  const [sliderValue, setSliderValue] = useState<[number, number]>([
+    precoMinParam ? Number(precoMinParam) : 0,
+    precoMaxParam ? Number(precoMaxParam) : 6000,
+  ])
+
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+  useEffect(() => {
+    setSliderValue([
+      precoMinParam ? Number(precoMinParam) : 0,
+      precoMaxParam ? Number(precoMaxParam) : 6000,
+    ])
+  }, [precoMinParam, precoMaxParam])
+
+  const handleRangeChange = (val: [number, number]) => {
+    setSliderValue(val)
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current)
+    debounceTimerRef.current = setTimeout(() => {
+      updateParams({
+        precoMin: val[0] > 0 ? String(val[0]) : null,
+        precoMax: val[1] < 6000 ? String(val[1]) : null,
+      })
+    }, 300)
+  }
 
   const hasActiveFilters = Boolean(
     cidade ||
-    (categoria && categoria !== "todas")
+    (categoria && categoria !== "todas") ||
+    precoMinParam ||
+    precoMaxParam
   )
 
   const handleReset = () => {
     setPesquisaArea("")
     setGrupoSelecionado("todos")
+    setSliderValue([0, 6000])
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current)
     startTransition(() => {
       const isDetails = pathname.startsWith("/sup") || pathname.startsWith("/cotacao")
       const targetPath = isDetails ? "/" : pathname
@@ -227,9 +260,13 @@ export function SidebarFilters({
             href="/"
             prefetch={true}
             title="Página Inicial OFIR"
-            className="flex size-10 items-center justify-center rounded-none bg-primary text-primary-foreground font-bold shadow-none hover:opacity-90 transition-opacity"
+            className="flex items-center justify-center p-1 hover:opacity-85 transition-opacity group"
           >
-            <Buildings className="size-5" weight="bold" />
+            <img
+              src="/logomini.svg"
+              alt="OFIR"
+              className="size-11 object-contain transition-transform group-hover:scale-110"
+            />
           </Link>
 
           {onToggleCollapse && (
@@ -304,6 +341,43 @@ export function SidebarFilters({
           </PopoverContent>
         </Popover>
 
+        {/* Price Filter Popover in Rail */}
+        <Popover>
+          <PopoverTrigger
+            render={
+              <Button
+                variant="ghost"
+                size="icon"
+                title={
+                  precoMinParam || precoMaxParam
+                    ? `Preço: R$ ${sliderValue[0]} - R$ ${sliderValue[1]}/m²`
+                    : "Filtrar por Faixa de Preço"
+                }
+                className={cn(
+                  "relative size-10 rounded-none transition-colors shadow-none",
+                  precoMinParam || precoMaxParam
+                    ? "bg-primary/15 text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/70"
+                )}
+              />
+            }
+          >
+            <SlidersHorizontal className="size-4.5" weight="bold" />
+            {(precoMinParam || precoMaxParam) && <span className="absolute top-2 right-2 size-2 rounded-none bg-primary" />}
+          </PopoverTrigger>
+          <PopoverContent side="right" align="start" className="w-80 p-4 rounded-none shadow-none border-border bg-card">
+            <RangeSlider
+              min={0}
+              max={6000}
+              step={50}
+              value={sliderValue}
+              onValueChange={handleRangeChange}
+              label="Preço por m² (R$)"
+              formatValue={(v) => `R$ ${v.toLocaleString("pt-BR")}`}
+            />
+          </PopoverContent>
+        </Popover>
+
         {/* Separator */}
         <div className="w-8 border-b border-border my-1" />
 
@@ -369,18 +443,12 @@ export function SidebarFilters({
     <aside className={cn("flex flex-col gap-5 w-full text-foreground p-5 rounded-none shadow-none", className)}>
       {/* Brand & Collapse Header */}
       <div className="flex items-center justify-between border-b border-border pb-4">
-        <Link href="/" prefetch={true} className="flex items-center gap-3 hover:opacity-90 transition-opacity">
-          <div className="flex size-9 items-center justify-center rounded-none bg-primary text-primary-foreground font-bold shadow-none">
-            <Buildings className="size-5" weight="bold" />
-          </div>
-          <div>
-            <span className="font-heading text-xl font-bold tracking-tight text-foreground block leading-none">
-              OFIR
-            </span>
-            <span className="text-[11px] font-medium text-muted-foreground tracking-wide block mt-1">
-              Marketplace de Obras
-            </span>
-          </div>
+        <Link href="/" prefetch={true} className="flex items-center hover:opacity-90 transition-opacity group py-1">
+          <img
+            src="/ofir-horizontal.svg"
+            alt="OFIR"
+            className="h-12 sm:h-14 w-auto max-w-[220px] object-contain transition-transform group-hover:scale-105"
+          />
         </Link>
 
         <div className="flex items-center gap-1">
@@ -490,7 +558,36 @@ export function SidebarFilters({
         </div>
       )}
 
-      {/* 2. 45 Etapas & Especialidades da Obra */}
+      {/* 2. Filtro Range Slider 2 Pontos (Min e Max de Preço por m²) */}
+      <div className="space-y-3 border-b border-border pb-5">
+        <RangeSlider
+          min={0}
+          max={6000}
+          step={50}
+          value={sliderValue}
+          onValueChange={handleRangeChange}
+          label="Preço por m² (R$)"
+          formatValue={(v) => `R$ ${v.toLocaleString("pt-BR")}`}
+        />
+        {(precoMinParam || precoMaxParam) && (
+          <div className="flex items-center justify-between text-[11px] pt-0.5">
+            <span className="text-muted-foreground">Filtro aplicado</span>
+            <button
+              type="button"
+              onClick={() => {
+                setSliderValue([0, 6000])
+                if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current)
+                updateParams({ precoMin: null, precoMax: null })
+              }}
+              className="text-primary hover:underline font-medium cursor-pointer"
+            >
+              Limpar faixa
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* 3. 45 Etapas & Especialidades da Obra */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">

@@ -22,6 +22,11 @@ export const metadata: Metadata = {
   title: "OFIR | Marketplace de Construtoras, Engenharia & Arquitetura",
   description:
     "Plataforma de alta relevância para contratação de construtoras, empresas de engenharia e escritórios de arquitetura de alto padrão com custo por m².",
+  icons: {
+    icon: "/logomini.svg",
+    shortcut: "/logomini.svg",
+    apple: "/logomini.svg",
+  },
 };
 
 export default function RootLayout({

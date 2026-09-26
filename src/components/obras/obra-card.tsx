@@ -25,7 +25,7 @@ export function ObraCard({
 
   const logoUrl =
     obra.construtoras?.logo_url ||
-    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231e293b'/><path d='M30 70V30H50C61 30 61 50 50 50H30M50 50L70 70' stroke='%23ea580c' stroke-width='8' fill='none'/></svg>"
+    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23111111'/><circle cx='50' cy='50' r='30' stroke='%23C5A059' stroke-width='4' fill='none'/><line x1='50' y1='20' x2='50' y2='80' stroke='%23111111' stroke-width='6'/></svg>"
   const empresaNome = obra.construtoras?.nome || obra.nome
   const padrao = getObraPadrao(obra.preco_a_partir)
 

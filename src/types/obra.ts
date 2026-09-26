@@ -46,6 +46,8 @@ export type ObraFiltros = {
   status?: Obra["status"] | "todos"
   ordenar?: "recentes" | "menor_preco" | "maior_preco"
   padrao?: StandardTier | "todos"
+  precoMin?: number
+  precoMax?: number
   pagina?: number
   modoExibicao?: "grid" | "lista"
 }

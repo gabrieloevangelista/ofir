@@ -41,7 +41,7 @@ import { analisarCotacao } from "@/lib/cotacao-analise"
 export function CotacaoView() {
   const { isAuthenticated, openLoginModal } = useAuth()
   const { items, removeItem, clearCotacao, totalPrecoM2, itemCount, calcularOrcamentoTotal } = useCotacao()
-  const [areaM2, setAreaM2] = useState<number>(200)
+  const [areaM2, setAreaM2] = useState<number>(450)
   const [copied, setCopied] = useState(false)
   const [dataEmissao, setDataEmissao] = useState<string>("")
   const searchParams = useSearchParams()
@@ -325,9 +325,9 @@ export function CotacaoView() {
               <div className="relative w-28">
                 <Input
                   type="number"
-                  min={10}
-                  max={5000}
-                  step={10}
+                  min={250}
+                  max={10000}
+                  step={25}
                   value={areaM2}
                   onChange={(e) => setAreaM2(Number(e.target.value) || 0)}
                   className="rounded-none text-right pr-8 font-bold h-10 border-border bg-background shadow-none"
@@ -338,19 +338,19 @@ export function CotacaoView() {
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5">
-              {[100, 150, 200, 300, 450].map((preset) => (
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {[250, 350, 500, 750, 1000].map((preset) => (
                 <button
                   key={preset}
                   type="button"
                   onClick={() => setAreaM2(preset)}
                   className={`text-xs px-2.5 py-1.5 border transition-colors font-medium rounded-none ${
                     areaM2 === preset
-                      ? "bg-primary text-primary-foreground border-primary"
+                      ? "bg-primary text-primary-foreground border-primary shadow-xs"
                       : "bg-background hover:bg-secondary border-border text-muted-foreground"
                   }`}
                 >
-                  {preset}m²
+                  {preset.toLocaleString("pt-BR")}m²
                 </button>
               ))}
             </div>

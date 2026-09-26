@@ -28,6 +28,8 @@ export default async function HomePage({
     cidade: toSingle(params.cidade),
     ordenar: toSingle(params.ordenar) as ObraFiltros["ordenar"],
     padrao: toSingle(params.padrao) as ObraFiltros["padrao"],
+    precoMin: params.precoMin ? Number(toSingle(params.precoMin)) : undefined,
+    precoMax: params.precoMax ? Number(toSingle(params.precoMax)) : undefined,
     pagina: Number(toSingle(params.pagina)) || 1,
     modoExibicao,
   }
