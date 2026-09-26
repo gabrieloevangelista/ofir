@@ -499,7 +499,7 @@ export const AREAS_OBRA: AreaObra[] = [
     id: "combate_incendio",
     label: "Prevenção e Combate a Incêndio",
     grupo: "Instalações & Engenharia",
-    imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1584483766114-2cea6facdf57?auto=format&fit=crop&w=1200&q=80",
     descricao: "Tubulação de ferro ranhurado vermelha, bicos de sprinkler automáticos, hidrantes e emissão de AVCB do Corpo de Bombeiros.",
     benchmarkPrecoM2: 195,
     velocidadeTier: "Alta Precisão",

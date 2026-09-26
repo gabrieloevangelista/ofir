@@ -183,9 +183,10 @@ const FORNECEDORES_BASE: ObraWithConstrutora[] = [
     unidades_disponiveis: 15,
     descricao_curta: "Construção a seco industrializada em Light Steel Frame com entrega até 3x mais rápida.",
     descricao_longa: "A SteelCorp é pioneira em obras estruturadas em aço leve galvanizado (Light Steel Frame). Projetos executados com precisão milimétrica, isolamento termoacústico superior e obra 100% limpa com zero desperdício.",
-    cover_image_url: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "/images/areas/steel_frame.jpg",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+      "/images/areas/steel_frame.jpg",
+      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Steel Frame", "Projetos & Arquitetura", "Instalações"],
     construtoras: {
@@ -233,9 +234,10 @@ const FORNECEDORES_BASE: ObraWithConstrutora[] = [
     unidades_disponiveis: 12,
     descricao_curta: "Construção em Painéis Monolíticos de EPS com alta eficiência térmica e economia estrutural.",
     descricao_longa: "A Monolítico Engenharia entrega obras com o moderno sistema construtivo de painéis monolíticos de EPS com argamassa armada. Casas mais frescas no verão e aquecidas no inverno, com redução de até 30% no tempo de levantamento da alvenaria.",
-    cover_image_url: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "/images/areas/sistema_monolitico.jpg",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80",
+      "/images/areas/sistema_monolitico.jpg",
+      "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Painel Monolítico (EPS)", "Alvenaria", "Instalações"],
     construtoras: {
@@ -283,9 +285,11 @@ const FORNECEDORES_BASE: ObraWithConstrutora[] = [
     unidades_disponiveis: 40,
     descricao_curta: "Terraplenagem de precisão a laser, topografia planialtimétrica cadastral e fundações profundas.",
     descricao_longa: "Frota própria de escavadeiras, pás carregadeiras e rolos compactadores para grandes movimentações de terra em condomínios fechados. Serviços de contenção de encostas, muros de arrimo em gabião e estacas hélice contínua.",
-    cover_image_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "/images/areas/terraplanagem.jpg",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
+      "/images/areas/terraplanagem.jpg",
+      "/images/areas/fundacao.jpg",
+      "https://images.unsplash.com/photo-1579847188804-ecba0e2ea330?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Topografia", "Preparação do Solo", "Terraplenagem", "Fundações"],
     construtoras: {
@@ -333,8 +337,9 @@ const FORNECEDORES_BASE: ObraWithConstrutora[] = [
     unidades_disponiveis: 8,
     descricao_curta: "Ateliê de engenharia e construção com acabamentos nobres, automação Lutron e pisos aquecidos.",
     descricao_longa: "Construímos residências exclusivas para clientes exigentes nos mais nobres residenciais de São Paulo e interior. Gestão total da obra através de plataforma digital com relatórios diários de obra (RDO).",
-    cover_image_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
+      "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Projetos & Arquitetura", "Acabamento Fino", "Gerenciamento"],
@@ -383,9 +388,10 @@ const FORNECEDORES_BASE: ObraWithConstrutora[] = [
     unidades_disponiveis: 25,
     descricao_curta: "Especialistas em reformas completas, ampliações de residências e modernização de instalações.",
     descricao_longa: "Atuamos com reformas civis residenciais e comerciais, demolição controlada com laudos estruturais, reforço de vigas com perfis metálicos, substituição de telhados e repaginação completa de ambientes.",
-    cover_image_url: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "/images/areas/reformas.jpg",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+      "/images/areas/reformas.jpg",
+      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Reformas & Ampliações", "Instalações", "Alvenaria"],
     construtoras: {
@@ -433,9 +439,10 @@ const FORNECEDORES_BASE: ObraWithConstrutora[] = [
     unidades_disponiveis: 14,
     descricao_curta: "Casas de campo em estilo toscano e contemporâneo nos principais condomínios de Indaiatuba.",
     descricao_longa: "A Helvetia Construções alia tradição construtiva e moderna gestão de engenharia. Atendemos o Helvetia Country, Maison Du Parc e Dona Lucilla com projetos personalizados.",
-    cover_image_url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Projetos & Arquitetura", "Fundações", "Acabamento Fino"],
     construtoras: {
@@ -483,8 +490,9 @@ const FORNECEDORES_BASE: ObraWithConstrutora[] = [
     unidades_disponiveis: 16,
     descricao_curta: "Gerenciamento e execução de obras comerciais, clínicas e escritórios corporativos modernos.",
     descricao_longa: "A Apex Engenharia foca em obras comerciais ágeis com método BIM 5D para compatibilização de projetos hidráulicos, elétricos e de climatização.",
-    cover_image_url: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Gerenciamento", "Projetos & Arquitetura", "Instalações"],
@@ -533,9 +541,10 @@ const FORNECEDORES_BASE: ObraWithConstrutora[] = [
     unidades_disponiveis: 30,
     descricao_curta: "Mão de obra especializada em alvenaria estrutural, blocos de concreto e lajes treliçadas.",
     descricao_longa: "A Aliança Construtora oferece fornecimento de mão de obra e empreitada global para estruturas brutas com prumo rigoroso e produtividade acelerada.",
-    cover_image_url: "https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "/images/areas/alvenaria.jpg",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
+      "/images/areas/alvenaria.jpg",
+      "/images/areas/estrutura.jpg",
     ],
     tags: ["Alvenaria", "Fundações", "Preparação do Solo"],
     construtoras: {
@@ -583,9 +592,10 @@ const FORNECEDORES_BASE: ObraWithConstrutora[] = [
     unidades_disponiveis: 10,
     descricao_curta: "Mestres em assentamento de grandes formatos, porcelanatos calacata, iluminação embutida e forros.",
     descricao_longa: "A Arte & Acabamento é a equipe procurada por decoradores e especificadores para etapas críticas de entrega. Cortes em meia esquadria em 45º, nichos esculpidos e pintura eletrostática de alta fidelidade.",
-    cover_image_url: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80",
+      "/images/areas/acabamentos.jpg",
     ],
     tags: ["Acabamento Fino", "Projetos & Arquitetura", "Reformas & Ampliações"],
     construtoras: {
@@ -641,7 +651,10 @@ const FORNECEDORES_45_AREAS: ObraWithConstrutora[] = AREAS_OBRA.map((area, idx) 
     descricao_curta: area.descricao,
     descricao_longa: `${area.descricao}\n\nEspecialistas credenciados com ampla experiência em execução técnica, homologados para condomínios de alto padrão com suporte integral a projetos e ART.`,
     cover_image_url: area.imageUrl,
-    gallery_urls: [area.imageUrl],
+    gallery_urls: [
+      area.imageUrl,
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    ],
     tags: [area.label, ...area.tags, area.grupo],
     construtoras: {
       id: `construtora-${area.id}`,

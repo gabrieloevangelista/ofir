@@ -20,8 +20,8 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     descricao_longa: "O Grupo 7 é especialista em projetos residenciais e gestão de obras no condomínio Santa Bárbara Resort Residence. Com foco na qualidade construtiva, cumprimento rigoroso de prazos e excelência no acabamento, garantimos que seu imóvel seja construído com máxima segurança e valorização patrimonial.",
     cover_image_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Projetos & Arquitetura", "Alvenaria", "Fundações", "Gerenciamento"],
     construtoras: {
@@ -69,10 +69,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 14,
     descricao_curta: "Engenharia civil de precisão, projetos arquitetônicos e construção residencial completa no resort.",
     descricao_longa: "A EA3 Engenharia atua no desenvolvimento de projetos e execução de obras de alto padrão, combinando planejamento detalhado, controle de custos e tecnologias modernas para residências no Santa Bárbara Resort Residence.",
-    cover_image_url: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Projetos & Arquitetura", "Fundações", "Acabamento Fino", "Gerenciamento"],
     construtoras: {
@@ -120,10 +120,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 18,
     descricao_curta: "Projetos arquitetônicos e construção completa com Viviane e Luan (CREA-SP 5070231028).",
     descricao_longa: "A LV Engeo Engenharia e Arquitetura, liderada pelos especialistas Viviane e Luan, possui destacada atuação no Santa Bárbara Resort Residence com avaliação máxima de clientes. Integramos projeto arquitetônico contemporâneo com rigor técnico de engenharia.",
-    cover_image_url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Projetos & Arquitetura", "Alvenaria", "Acabamento Fino", "Gerenciamento"],
     construtoras: {
@@ -171,9 +171,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 10,
     descricao_curta: "Construção civil especializada em residências de campo e lazer com alto padrão de execução.",
     descricao_longa: "André Cobois Construções oferece mão de obra especializada e administração de obras com experiência comprovada no Santa Bárbara Resort Residence. Qualidade estrutural e cumprimento de cronograma com pontualidade.",
-    cover_image_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Alvenaria", "Fundações", "Reformas & Ampliações", "Acabamento Fino"],
     construtoras: {
@@ -210,9 +211,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 15,
     descricao_curta: "Engenharia e execução estrutural para casas de campo e lazer com garantia e solidez.",
     descricao_longa: "A OJN Engenharia e Construções entrega soluções construtivas completas com supervisão técnica contínua e equipe treinada para projetos arquitetônicos modernos no Santa Bárbara Resort Residence.",
-    cover_image_url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Projetos & Arquitetura", "Fundações", "Alvenaria", "Gerenciamento"],
     construtoras: {
@@ -249,9 +251,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 16,
     descricao_curta: "Construção de alto padrão, projetos modernos e acabamento diferenciado no Santa Bárbara Resort.",
     descricao_longa: "A Ômega Construtora é amplamente reconhecida no condomínio pela pontualidade, atendimento personalizado e alta qualidade construtiva, contando com mais de 14 avaliações 5 estrelas.",
-    cover_image_url: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Projetos & Arquitetura", "Alvenaria", "Acabamento Fino", "Gerenciamento"],
     construtoras: {
@@ -288,9 +291,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 12,
     descricao_curta: "Qualidade, agilidade e confiança na construção da sua residência no resort.",
     descricao_longa: "A RPR Construções executa projetos completos no Santa Bárbara Resort Residence com foco em solidez estrutural, cumprimento das normas do condomínio e fidelidade ao projeto do cliente.",
-    cover_image_url: "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Alvenaria", "Fundações", "Gerenciamento"],
     construtoras: {
@@ -327,9 +331,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 10,
     descricao_curta: "Execução de obras residenciais completas, da fundação à entrega das chaves.",
     descricao_longa: "Audeir Construções atua no Santa Bárbara Resort Residence com dedicação em todas as etapas construtivas, garantindo segurança na estrutura e beleza nos acabamentos.",
-    cover_image_url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Fundações", "Alvenaria", "Acabamento Fino"],
     construtoras: {
@@ -366,9 +371,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 11,
     descricao_curta: "Soluções integradas de engenharia e arquitetura para residências de alto padrão.",
     descricao_longa: "A WAS Construtora une arquitetura sofisticada, cálculos de engenharia precisos e gestão completa para casas no Santa Bárbara Resort Residence.",
-    cover_image_url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Projetos & Arquitetura", "Alvenaria", "Gerenciamento"],
     construtoras: {
@@ -405,9 +411,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 12,
     descricao_curta: "Projetos, cálculo estrutural e construção de qualidade no Santa Bárbara Resort.",
     descricao_longa: "A MR Engenharia & Construtora oferece suporte integral desde a aprovação de projetos na prefeitura e condomínio até a entrega das chaves da sua residência.",
-    cover_image_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Projetos & Arquitetura", "Fundações", "Alvenaria"],
     construtoras: {
@@ -444,9 +451,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 10,
     descricao_curta: "Gestão executiva e engenharia de alto nível para residências contemporâneas.",
     descricao_longa: "A JLBC Engenharia atua com seriedade e eficiência, executando projetos residenciais no Santa Bárbara Resort Residence com gestão completa de insumos e mão de obra.",
-    cover_image_url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Projetos & Arquitetura", "Gerenciamento", "Fundações"],
     construtoras: {
@@ -483,9 +491,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 14,
     descricao_curta: "Mão de obra especializada e acompanhamento direto na construção civil residencial.",
     descricao_longa: "Edvan Construções em Geral proporciona segurança e economia na execução da sua residência no resort, com equipe experiente e dedicada a acabamentos finos.",
-    cover_image_url: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Alvenaria", "Fundações", "Acabamento Fino"],
     construtoras: {
@@ -522,9 +531,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 15,
     descricao_curta: "Construção completa, reformas e manutenções com equipes dedicadas e ágeis.",
     descricao_longa: "A Construtora TCC Multiserviços oferece soluções completas para proprietários no Santa Bárbara Resort Residence, desde construções novas até reformas estruturais e ampliações.",
-    cover_image_url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Alvenaria", "Reformas & Ampliações", "Instalações"],
     construtoras: {
@@ -561,9 +571,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 12,
     descricao_curta: "Especializada em fundações, estruturas de concreto e alvenaria de alta performance.",
     descricao_longa: "A Simperiofer alia engenharia rigorosa e materiais de qualidade superior para garantir durabilidade e conforto térmico e acústico em construções no resort.",
-    cover_image_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Fundações", "Alvenaria", "Gerenciamento"],
     construtoras: {
@@ -600,9 +611,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 16,
     descricao_curta: "Gestão completa de obras, controle financeiro transparente e entrega com padrão superior.",
     descricao_longa: "A Facilita Gestão Construtiva traz ao Santa Bárbara Resort Residence um modelo de gerenciamento inteligente, fornecendo relatórios periódicos, otimização de compras e controle fino de acabamento.",
-    cover_image_url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600607687644-c7171b42498f?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Gerenciamento", "Projetos & Arquitetura", "Acabamento Fino"],
     construtoras: {
@@ -639,9 +651,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 8,
     descricao_curta: "Execução ágil de obras civis e reformas em geral no condomínio Santa Bárbara.",
     descricao_longa: "A JD Construções realiza serviços de fundação, alvenaria, reboco e reformas residenciais no Santa Bárbara Resort Residence com compromisso e responsabilidade técnica.",
-    cover_image_url: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600607687644-c7171b42498f?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600607687644-c7171b42498f?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Alvenaria", "Fundações", "Reformas & Ampliações"],
     construtoras: {
@@ -678,9 +691,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 11,
     descricao_curta: "Construção de casas térreas e sobrados com ótimo custo-benefício e fino acabamento.",
     descricao_longa: "A Construtora JR tem ampla vivência em obras residenciais unifamiliares, oferecendo transparência nos custos, controle de cronograma e acabamento primoroso.",
-    cover_image_url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600585152915-d208bec867a1?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Alvenaria", "Acabamento Fino", "Gerenciamento"],
     construtoras: {
@@ -717,8 +731,9 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 13,
     descricao_curta: "Tradição em construção civil residencial, fundação sólida e acabamentos de qualidade.",
     descricao_longa: "A Construtora Irmãos Gomes atende clientes no Santa Bárbara Resort Residence com experiência familiar e técnica, assegurando solidez em cada etapa da obra.",
-    cover_image_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600585152915-d208bec867a1?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
+      "https://images.unsplash.com/photo-1600585152915-d208bec867a1?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Alvenaria", "Fundações", "Acabamento Fino"],
@@ -756,9 +771,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 10,
     descricao_curta: "Equipe especializada em alvenaria estrutural, projetos e gerenciamento com foco em prazos.",
     descricao_longa: "A Construtora Equipe A une planejamento, velocidade construtiva e rigor no atendimento aos padrões arquitetônicos exigidos pelo Santa Bárbara Resort.",
-    cover_image_url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Alvenaria", "Gerenciamento", "Projetos & Arquitetura"],
     construtoras: {
@@ -795,9 +811,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 14,
     descricao_curta: "Engenharia moderna e execução de residências com alto padrão estético e funcional.",
     descricao_longa: "A Avior Construtora executa residências unifamiliares de luxo no Santa Bárbara Resort Residence, prezando pela inovação de métodos construtivos e satisfação total.",
-    cover_image_url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Projetos & Arquitetura", "Alvenaria", "Acabamento Fino"],
     construtoras: {
@@ -834,9 +851,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 10,
     descricao_curta: "Construção de casas no campo com foco em durabilidade, beleza e economia de recursos.",
     descricao_longa: "Ramon R4 Construtor traz dedicação presencial na obra, garantindo alinhamento perfeito com o proprietário e execução com zelo em cada detalhe construtivo.",
-    cover_image_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Alvenaria", "Fundações", "Reformas & Ampliações"],
     construtoras: {
@@ -873,9 +891,10 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 9,
     descricao_curta: "Serviços de construção, fundações e alvenaria para lotes no Santa Bárbara Resort.",
     descricao_longa: "A MG Construção realiza serviços civis gerais com equipe prática, atuando na infraestrutura básica, fundação e alvenaria de residências.",
-    cover_image_url: "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
-      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Alvenaria", "Fundações", "Instalações"],
     construtoras: {
@@ -912,8 +931,9 @@ export const FORNECEDORES_SANTA_BARBARA: ObraWithConstrutora[] = [
     unidades_disponiveis: 12,
     descricao_curta: "Experiência prática e excelência no acompanhamento e construção no Santa Bárbara Resort.",
     descricao_longa: "Rodrigo Feitosa é construtor com comprovada experiência no Santa Bárbara Resort Residence, reconhecido por clientes pela dedicação, honestidade e entrega pontual de casas de campo.",
-    cover_image_url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    cover_image_url: "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80",
     gallery_urls: [
+      "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
     ],
     tags: ["Alvenaria", "Acabamento Fino", "Gerenciamento"],
